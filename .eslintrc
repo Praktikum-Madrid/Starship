@@ -1,0 +1,29 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": "airbnb-base",
+  "parser": "@typescript-eslint/parser", // Для TS
+  "plugins": ["@typescript-eslint"],  // Для TS
+  "rules": {
+    "max-len": "off",
+    "indent": ["error", 2],
+    "object-curly-newline": "off",
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "import/newline-after-import": "off",
+    "no-console": "off",
+    "no-useless-escape": "off",
+    "no-unused-vars": "off",
+    "max-classes-per-file": "off",
+    "consistent-return": "off",
+    "no-use-before-define": "off",
+    "no-param-reassign": "off",
+    "prefer-destructuring": "off",
+    "no-shadow": "off",
+    "eol-last": "error"
+  }
+}
