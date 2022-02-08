@@ -5,7 +5,7 @@
   },
   "extends": "airbnb-base",
   "parser": "@typescript-eslint/parser", // Для TS
-  "plugins": ["@typescript-eslint"],  // Для TS
+  "plugins": ["@typescript-eslint"], // Для TS
   "rules": {
     "max-len": "off",
     "indent": ["error", 2],
@@ -24,6 +24,7 @@
     "no-param-reassign": "off",
     "prefer-destructuring": "off",
     "no-shadow": "off",
-    "eol-last": "error"
+    "eol-last": "error",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   }
 }

@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
+    "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir": "build",
+    "outDir": "dist",
     "target": "ES6",
     "declaration": false,
     "module": "commonjs",
@@ -18,6 +19,6 @@
       "es2016.array.include",
       "es2020",
       "dom"
-    ],
+    ]
   }
 }
