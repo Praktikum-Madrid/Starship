@@ -10,6 +10,8 @@
     "target": "ES6",
     "declaration": false,
     "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "strictNullChecks": true,
     "sourceMap": true,
     "lib": [
@@ -19,6 +21,7 @@
       "es2016.array.include",
       "es2020",
       "dom"
-    ]
+    ],
+    "jsx": "react"
   }
 }
