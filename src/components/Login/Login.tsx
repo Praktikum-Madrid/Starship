@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 import './Login.css';
 
 const validationSchema = yup.object({
@@ -30,27 +31,31 @@ const Login = () => {
   return (
     <div>
       <form className='login' onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id='login'
-          name='login'
-          label='Login'
-          value={formik.values.login}
-          onChange={formik.handleChange}
-          error={formik.touched.login && Boolean(formik.errors.login)}
-          helperText={formik.touched.login && formik.errors.login}
-        />
-        <TextField
-          fullWidth
-          id='password'
-          name='password'
-          label='Password'
-          type='password'
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            id='login'
+            name='login'
+            label='Login'
+            value={formik.values.login}
+            onChange={formik.handleChange}
+            error={formik.touched.login && Boolean(formik.errors.login)}
+            helperText={formik.touched.login && formik.errors.login}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            id='password'
+            name='password'
+            label='Password'
+            type='password'
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+          />
+        </Box>
         <Button color='primary' variant='contained' fullWidth type='submit'>
           Login
         </Button>
