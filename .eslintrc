@@ -25,7 +25,6 @@
     "prefer-destructuring": "off",
     "no-shadow": "off",
     "eol-last": "error",
-    "linebreak-style": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   }
 }
