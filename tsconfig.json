@@ -1,26 +1,24 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "es2017"],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "target": "es5",
-    "jsx": "react",
-    "importHelpers": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
     "noUnusedLocals": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "allowSyntheticDefaultImports": true,
+    "noUnusedParameters": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "dist",
+    "target": "ES6",
     "declaration": false,
-    "sourceMap": false,
-    "baseUrl": ".",
-    "outDir": "./dist",
-    "paths": {
-      "*": ["./src/*"]
-    },
-    "typeRoots": ["typings/**/*.d.ts", "node_modules/@types"]
-  },
-  "include": ["src", "typings/**/*.d.ts", "./node_modules/@types"],
-  "exclude": ["**/*.js"]
+    "module": "commonjs",
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "lib": [
+      "es5",
+      "es6",
+      "es2015.promise",
+      "es2016.array.include",
+      "es2020",
+      "dom"
+    ]
+  }
 }
