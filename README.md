@@ -19,7 +19,7 @@
 ## Code style
 В проекте используем [Руководство по стилю кода от Airbnb](https://leonidlebedev.github.io/javascript-airbnb/) при написании JS/TS.
 
-Для именования элементов страниц и селекторов в CSS используем [методоголию БЭМ / BEM](https://yoksel.github.io/easy-markup/bem-rules/).
+Для именования элементов страниц и селекторов в CSS используем [методологию БЭМ / BEM](https://yoksel.github.io/easy-markup/bem-rules/).
 
 ## Файловая структура проекта
 В проекте решено использовать следующую файловую структуру:
