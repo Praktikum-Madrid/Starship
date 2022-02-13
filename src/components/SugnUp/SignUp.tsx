@@ -41,7 +41,7 @@ const SignUp = () => {
     <div>
       <Header />
       <div>Регистрация</div>
-      <form className='login' onSubmit={formik.handleSubmit}>
+      <form className='signup' onSubmit={formik.handleSubmit}>
         <Box mb={2}>
           <TextField
             fullWidth

@@ -33,7 +33,7 @@ const SignIn = () => {
     <div>
       <Header />
       <div>Логин</div>
-      <form className='login' onSubmit={formik.handleSubmit}>
+      <form className='signin' onSubmit={formik.handleSubmit}>
         <Box mb={2}>
           <TextField
             fullWidth
