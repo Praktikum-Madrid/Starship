@@ -3,43 +3,39 @@
 
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import { Tab, Tabs } from '@mui/material';
 
-const pages = ['Game', 'Forum'];
-const settings = ['Profile', 'Game', 'Leaderboard', 'Login'];
+export default function Header() {
+  const [value, setValue] = React.useState(0);
 
-const Header = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  React.useEffect(() => {
+    if (window.location.pathname === '/' && value !== 0) {
+      setValue(0);
+    }
+    if (window.location.pathname === '/game' && value !== 1) {
+      setValue(1);
+    }
+    if (window.location.pathname === '/leaderboard' && value !== 2) {
+      setValue(2);
+    }
+    if (window.location.pathname === '/forum' && value !== 3) {
+      setValue(3);
+    }
+    if (window.location.pathname === '/profile' && value !== 4) {
+      setValue(4);
+    }
+    if (window.location.pathname === '/signin' && value !== 5) {
+      setValue(5);
+    }
+  }, [value]);
 
   return (
     <AppBar position='static' color='primary'>
@@ -52,90 +48,51 @@ const Header = () => {
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
             STARSHIP
           </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'>
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}>
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <Typography
-            variant='h6'
-            noWrap
-            component='div'
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            STARSHIP
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}>
-                {page}
-              </Button>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt='StarShip' src='' />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id='menu-appbar'
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}>
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign='center'>{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          <Tabs
+            onChange={handleChange}
+            sx={{ marginLeft: 'auto' }}
+            indicatorColor='primary'
+            textColor='inherit'
+            value={value}>
+            <Tab
+              sx={{ textTransform: 'none', color: 'white' }}
+              label='Home'
+              component={Link}
+              to='/'
+            />
+            <Tab
+              sx={{ textTransform: 'none', color: 'white' }}
+              label='Game'
+              component={Link}
+              to='/game'
+            />
+            <Tab
+              sx={{ textTransform: 'none', color: 'white' }}
+              label='Leaderboard'
+              component={Link}
+              to='/leaderboard'
+            />
+            <Tab
+              sx={{ textTransform: 'none', color: 'white' }}
+              label='Forum'
+              component={Link}
+              to='/forum'
+            />
+            <Tab
+              sx={{ textTransform: 'none', color: 'white' }}
+              label='Profile'
+              component={Link}
+              to='/profile'
+            />
+            <Tab
+              sx={{ textTransform: 'none', color: 'white' }}
+              label='SignIn'
+              component={Link}
+              to='/signin'
+            />
+          </Tabs>
         </Toolbar>
       </Container>
     </AppBar>
   );
-};
-export default Header;
+}

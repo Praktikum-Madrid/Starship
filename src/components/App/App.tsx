@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Link, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../config/Theme';
 import SignIn from '../SignIn/SignIn';
@@ -37,39 +37,6 @@ function Layout() {
     <div>
       {/* A "layout route" is a good place to put markup you want to
         share across all the pages on your site, like navigation. */}
-      <nav>
-        <ul>
-          <li>
-            <Link to='/'>Home</Link>
-          </li>
-          <li>
-            <Link to='/signin'>Страница авторизации</Link>
-          </li>
-          <li>
-            <Link to='/signup'>Страница регистрации</Link>
-          </li>
-          <li>
-            <Link to='/profile'>Страница профиля</Link>
-          </li>
-          <li>
-            <Link to='/game'>Страница с игрой</Link>
-          </li>
-          <li>
-            <Link to='/leaderboard'>Страница с таблицей лидеров</Link>
-          </li>
-          <li>
-            <Link to='/forum'>Страница форума</Link>
-          </li>
-          <li>
-            <Link to='/nothing-here'>Страница 404</Link>
-          </li>
-          <li>
-            <Link to='/server-error'>Страница 500</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <hr />
 
       {/* An <Outlet> renders whatever child route is currently active,
           so you can think about this <Outlet> as a placeholder for

@@ -3,6 +3,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -62,6 +63,7 @@ const SignIn = () => {
         <Button color='primary' variant='contained' fullWidth type='submit'>
           Login
         </Button>
+        <Link to='/signup'>Нет аккаунта?</Link>
       </form>
     </div>
   );
