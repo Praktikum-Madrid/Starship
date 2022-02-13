@@ -6,7 +6,8 @@ import * as yup from 'yup';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import './Login.css';
+import './SignIn.css';
+import Header from '../Header/Header';
 
 const validationSchema = yup.object({
   login: yup.string().required('Login is required'),
@@ -16,7 +17,7 @@ const validationSchema = yup.object({
     .required('Password is required'),
 });
 
-const Login = () => {
+const SignIn = () => {
   const formik = useFormik({
     initialValues: {
       login: '',
@@ -30,6 +31,8 @@ const Login = () => {
 
   return (
     <div>
+      <Header />
+      <div>Логин</div>
       <form className='login' onSubmit={formik.handleSubmit}>
         <Box mb={2}>
           <TextField
@@ -63,4 +66,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default SignIn;

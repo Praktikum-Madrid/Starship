@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 // Header
 
 import * as React from 'react';
@@ -15,14 +16,14 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 const pages = ['Game', 'Forum'];
-const settings = ['Profile', 'Game', 'Leaderboard', 'Logout'];
+const settings = ['Profile', 'Game', 'Leaderboard', 'Login'];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null,
+    null
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null,
+    null
   );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -41,7 +42,7 @@ const Header = () => {
   };
 
   return (
-    <AppBar position='static'>
+    <AppBar position='static' color='primary'>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography
