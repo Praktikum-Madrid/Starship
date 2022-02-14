@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import './SignIn.css';
-import Header from '../Header/Header';
 
 const validationSchema = yup.object({
   login: yup.string().required('Login is required'),
@@ -32,7 +31,6 @@ const SignIn = () => {
 
   return (
     <div>
-      <Header />
       <div>Логин</div>
       <form className='signin' onSubmit={formik.handleSubmit}>
         <Box mb={2}>

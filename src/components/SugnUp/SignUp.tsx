@@ -4,11 +4,8 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
+import { Button, TextField, Box } from '@mui/material';
 import './SignUp.css';
-import Header from '../Header/Header';
 
 const validationSchema = yup.object({
   first_name: yup.string().required('First_name is required'),
@@ -40,7 +37,6 @@ const SignUp = () => {
 
   return (
     <div>
-      <Header />
       <div>Регистрация</div>
       <form className='signup' onSubmit={formik.handleSubmit}>
         <Box mb={2}>
