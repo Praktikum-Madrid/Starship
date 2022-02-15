@@ -4,15 +4,16 @@ import { ThemeProvider } from '@mui/material/styles';
 import { TCredintials } from 'types';
 import Auth from 'api/Auth';
 import theme from 'config/Theme';
-import SignIn from '../SignIn/SignIn';
-import SignUp from '../SugnUp/SignUp';
-import Home from '../Home/Home';
-import Profile from '../Profile/Profile';
-import Game from '../Game/Game';
-import Leaderboard from '../Leaderboard/Leaderboard';
-import Forum from '../Forum/Forum';
-import Page404 from '../Page404/Page404';
-import Page500 from '../Page500/Page500';
+import Layout from '../Layout';
+import SignIn from '../SignIn';
+import SignUp from '../SugnUp';
+import Home from '../Home';
+import Profile from '../Profile';
+import Game from '../Game';
+import Leaderboard from '../Leaderboard';
+import Forum from '../Forum';
+import Page404 from '../Page404';
+import Page500 from '../Page500';
 
 export default function App() {
   // Стейт для хранения настроек юзера
@@ -114,19 +115,5 @@ export default function App() {
         </Route>
       </Routes>
     </ThemeProvider>
-  );
-}
-
-function Layout() {
-  return (
-    <div>
-      {/* A "layout route" is a good place to put markup you want to
-        share across all the pages on your site, like navigation. */}
-
-      {/* An <Outlet> renders whatever child route is currently active,
-          so you can think about this <Outlet> as a placeholder for
-          the child routes we defined above. */}
-      <Outlet />
-    </div>
   );
 }

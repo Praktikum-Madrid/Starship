@@ -7,6 +7,7 @@ import './SignUp.css';
 import { TCredintials } from 'types';
 import { loginValidator, nameValidator, passwordValidator, phoneValidator } from 'config/validators';
 
+
 const validationSchema = yup.object({
   first_name: yup.string()
     .matches(nameValidator, 'Разрешены буквы, подчеркивания и дефисы')
@@ -55,6 +56,7 @@ const SignUp: FC<IProps> = ({ handleSignUp, signUpState }) => {
 
   return (
     <>
+
       <form className='signup' onSubmit={formik.handleSubmit}>
         <Stack sx={{ mt: 2, textAlign: 'center', gap: 2 }}>
           <Typography variant="h4" gutterBottom component="h1">

@@ -26,6 +26,7 @@
     "no-shadow": "off",
     "eol-last": "error",
     "quote-props": "off",
+    "no-restricted-exports": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   }
 }

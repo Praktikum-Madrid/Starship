@@ -12,6 +12,7 @@ interface IProps {
   signInState: TCredintials
 }
 
+
 const validationSchema = yup.object({
   login: yup.string().required('Пожалуйста, введите имя пользователя'),
   password: yup
@@ -35,6 +36,7 @@ const SignIn: FC<IProps> = ({ handleLogin, userSettings, signInState }) => {
   return (
     <div>
       {userSettings.first_name && <p>{userSettings.first_name}</p>}
+
       <form className='signin' onSubmit={formik.handleSubmit}>
         <Stack sx={{ mt: 2, textAlign: 'center', gap: 2 }}>
           <Typography variant="h4" gutterBottom component="h1">
