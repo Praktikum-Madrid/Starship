@@ -1,24 +1,26 @@
-// Login
-
-import React from 'react';
+import React, { FC } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
+import { Link as RouterLink } from 'react-router-dom';
+import { Alert, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import './SignIn.css';
-import Header from '../Header/Header';
+import { TCredintials } from 'types';
+
+interface IProps {
+  handleLogin: Function,
+  userSettings: TCredintials,
+  signInState: TCredintials
+}
 
 const validationSchema = yup.object({
-  login: yup.string().required('Login is required'),
+  login: yup.string().required('Пожалуйста, введите имя пользователя'),
   password: yup
     .string()
-    .min(8, 'Password should be of minimum 8 characters length')
-    .required('Password is required'),
+    .min(8, 'Минимальная длина пароля - 8 символов')
+    .required('Пожалуйста, введите пароль'),
 });
 
-const SignIn = () => {
+const SignIn: FC<IProps> = ({ handleLogin, userSettings, signInState }) => {
   const formik = useFormik({
     initialValues: {
       login: '',
@@ -26,44 +28,55 @@ const SignIn = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
+      handleLogin(values);
     },
   });
 
   return (
     <div>
-      <Header />
-      <div>Логин</div>
+      {userSettings.first_name && <p>{userSettings.first_name}</p>}
       <form className='signin' onSubmit={formik.handleSubmit}>
-        <Box mb={2}>
+        <Stack sx={{ mt: 2, textAlign: 'center', gap: 2 }}>
+          <Typography variant="h4" gutterBottom component="h1">
+            Авторизация
+          </Typography>
           <TextField
             fullWidth
             id='login'
             name='login'
-            label='Login'
+            label='Имя пользователя'
+            variant='standard'
             value={formik.values.login}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             error={formik.touched.login && Boolean(formik.errors.login)}
             helperText={formik.touched.login && formik.errors.login}
           />
-        </Box>
-        <Box mb={2}>
+
           <TextField
             fullWidth
             id='password'
             name='password'
-            label='Password'
+            label='Пароль'
             type='password'
+            variant='standard'
             value={formik.values.password}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-        </Box>
-        <Button color='primary' variant='contained' fullWidth type='submit'>
-          Login
-        </Button>
-        <Link to='/signup'>Нет аккаунта?</Link>
+
+          {signInState.error && <Alert severity="warning">{signInState.error}</Alert>}
+
+          <Button color='primary' variant='contained' fullWidth type='submit'>
+            Войти
+          </Button>
+
+          <Link component={RouterLink} sx={{ fontFamily: 'Roboto' }} to="/signup" >
+            Нет аккаунта? Зарегистрируйтесь!
+          </Link>
+        </Stack>
       </form>
     </div>
   );
