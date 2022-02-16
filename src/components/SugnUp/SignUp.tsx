@@ -31,6 +31,7 @@ const validationSchema = yup.object({
     .required('Укажите номер телефона'),
 });
 
+
 interface IProps {
   handleSignUp: Function,
   signUpState: Record<string, boolean>
@@ -161,5 +162,5 @@ const SignUp: FC<IProps> = ({ handleSignUp, signUpState }) => {
       </form>
     </>
   );
-};
+}
 export default SignUp;

@@ -1,4 +1,3 @@
-/* eslint-disable comma-dangle */
 // Header
 
 import * as React from 'react';
@@ -45,7 +44,8 @@ export default function Header() {
             variant='h6'
             noWrap
             component='div'
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+          >
             STARSHIP
           </Typography>
           <Tabs
@@ -53,7 +53,8 @@ export default function Header() {
             sx={{ marginLeft: 'auto' }}
             indicatorColor='primary'
             textColor='inherit'
-            value={value}>
+            value={value}
+          >
             <Tab
               sx={{ textTransform: 'none', color: 'white' }}
               label='Home'
