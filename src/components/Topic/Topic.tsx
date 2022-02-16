@@ -44,7 +44,7 @@ const validationSchema = yup.object({
     .required('Пожалуйста, введите текст сообщения'),
 });
 
-export default function Forum() {
+export default function Topic() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -80,10 +80,10 @@ export default function Forum() {
     <>
       <Box component={'div'} sx={{ m: 2, mt: 6, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h4" gutterBottom component="h1">
-          Форум
+          Можно грабить корованы
         </Typography>
         <Button variant="outlined" onClick={handleClickOpen}>
-          Создать тему
+          Ответить в тему
         </Button>
       </Box>
 
@@ -150,6 +150,7 @@ export default function Forum() {
           </DialogActions>
         </form>
       </Dialog>
+      <p>hey</p>
     </>
   );
 }
