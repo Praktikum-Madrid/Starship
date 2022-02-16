@@ -62,6 +62,7 @@ export default function Topic() {
 
   const handleClose = () => {
     setOpen(false);
+    setQuote('');
   };
 
   const formik = useFormik({
@@ -84,7 +85,7 @@ export default function Topic() {
       themesExampleData.push(newMessage);
       resetForm();
       setQuote('');
-      handleClose();
+      setOpen(false);
     },
   });
 

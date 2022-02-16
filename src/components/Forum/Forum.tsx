@@ -65,7 +65,7 @@ export default function Forum() {
       // TODO: После создания темы редиректить юзера на её страницу
       themesExampleData.push({ title, message, repliesCount: 0 });
       resetForm();
-      handleClose();
+      setOpen(false);
     },
   });
 
