@@ -21,6 +21,7 @@ import beautifyTime from 'utils/beautifyTime';
 import Blockquote from 'components/Blockquote';
 
 type TForumTopic = {
+  id: number,
   date: number,
   author: string,
   message: string,
@@ -30,16 +31,19 @@ type TForumTopic = {
 // Данные для рендера
 const themesExampleData: TForumTopic[] = [
   {
+    id: 1,
     date: Date.now(),
     author: 'UserName',
     message: 'Здраствуйте. Я, Кирилл. Хотел бы чтобы вы сделали игру, 3Д-экшон суть такова... Пользователь может играть лесными эльфами, охраной дворца и злодеем. И если пользователь играет эльфами то эльфы в лесу, домики деревяные набигают солдаты дворца и злодеи. Можно грабить корованы... И эльфу раз лесные то сделать так что там густой лес... А движок можно поставить так что вдали деревья картинкой,',
   },
   {
+    id: 2,
     date: Date.now(),
     author: 'Anonymous',
     message: 'Текст сообщения внутри темы, немного другой',
   },
   {
+    id: 3,
     date: Date.now(),
     author: 'Nomad',
     message: 'Очин дорого, зделойте дешевле!',
@@ -106,29 +110,29 @@ export default function Topic() {
 
   return (
     <>
-      <Breadcrumbs aria-label="breadcrumb" sx={{ m: 2, mt: 6, mb: 1, p: 0 }}>
-        <Link underline="hover" color="inherit" component={RouterLink} to={'/'}>
+      <Breadcrumbs aria-label='breadcrumb' sx={{ m: 2, mt: 6, mb: 1, p: 0 }}>
+        <Link underline='hover' color='inherit' component={RouterLink} to='/'>
           Starship
         </Link>
-        <Link underline="hover" color="inherit" component={RouterLink} to={'/forum'}>
+        <Link underline='hover' color='inherit' component={RouterLink} to='/forum'>
           Форум
         </Link>
-        <Typography color="text.primary">Можно грабить корованы</Typography>
+        <Typography color='text.primary'>Можно грабить корованы</Typography>
       </Breadcrumbs>
 
-      <Box component={'div'} sx={{ m: 2, mt: 2, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h4" gutterBottom component="h1">
+      <Box component='div' sx={{ m: 2, mt: 2, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant='h4' gutterBottom component='h1'>
           Можно грабить корованы
         </Typography>
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button variant='outlined' onClick={handleClickOpen}>
           Ответить в тему
         </Button>
       </Box>
 
-      <Box component={'div'} sx={{ m: 2 }}>
+      <Box component='div' sx={{ m: 2 }}>
         <Stack sx={{ gap: 2 }}>
-          {themesExampleData.map(({ message, date, author, quote = '' }, key) => (
-            <Box key={key} sx={{ p: 2, pl: 0, borderRadius: '5px', border: '1px solid #ddd', display: 'grid', gridTemplateColumns: '140px 1fr', gridColumnGap: '35px' }}>
+          {themesExampleData.map(({ id, message, date, author, quote = '' }) => (
+            <Box key={id} sx={{ p: 2, pl: 0, borderRadius: '5px', border: '1px solid #ddd', display: 'grid', gridTemplateColumns: '140px 1fr', gridColumnGap: '35px' }}>
 
               <Box sx={{
                 display: 'flex',
@@ -136,53 +140,54 @@ export default function Topic() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 borderRight: '1px solid #ddd',
-              }}>
+              }}
+              >
                 <Avatar
-                  alt="Remy Sharp"
-                  src="https://via.placeholder.com/80x80?text=Аватар"
+                  alt='Remy Sharp'
+                  src='https://via.placeholder.com/80x80?text=Аватар'
                   sx={{ width: 80, height: 80 }}
                 />
 
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>
+                <Typography variant='subtitle2' sx={{ mt: 2 }}>
                   {author}
                 </Typography>
               </Box>
 
-              <Box >
-                <Typography variant="caption" sx={{ color: '#777', pb: 1 }}>
+              <Box>
+                <Typography variant='caption' sx={{ color: '#777', pb: 1 }}>
                   {beautifyTime(date)}
                 </Typography>
 
                 { quote && <Blockquote text={quote} /> }
 
-                <Typography variant="body2" sx={{ pt: 2, pb: 3, mb: 2, borderBottom: '1px solid #ddd' }}>
+                <Typography variant='body2' sx={{ pt: 2, pb: 3, mb: 2, borderBottom: '1px solid #ddd' }}>
                   {message}
                 </Typography>
-                <Button size="small" variant="outlined" onClick={() => handleReply(message)}>Ответить</Button>
+                <Button size='small' variant='outlined' onClick={() => handleReply(message)}>Ответить</Button>
               </Box>
             </Box>
           ))}
         </Stack>
       </Box>
 
-      <Box component={'div'} sx={{ m: 2, p: 0, display: 'flex', alignItems: 'center' }}>
-        <Pagination variant="outlined" shape="rounded" count={10} page={page} onChange={handlePageChange} />
+      <Box component='div' sx={{ m: 2, p: 0, display: 'flex', alignItems: 'center' }}>
+        <Pagination variant='outlined' shape='rounded' count={10} page={page} onChange={handlePageChange} />
       </Box>
 
-      <Dialog fullWidth maxWidth={'md'} open={open} onClose={handleClose}>
+      <Dialog fullWidth maxWidth='md' open={open} onClose={handleClose}>
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle>Ответ в тему</DialogTitle>
           <DialogContent>
             { quote && <Blockquote text={quote} /> }
             <TextField
               autoFocus
-              margin="dense"
-              id="message"
+              margin='dense'
+              id='message'
               multiline
-              label="Текст сообщения"
-              type="text"
+              label='Текст сообщения'
+              type='text'
               fullWidth
-              variant="standard"
+              variant='standard'
               maxRows={6}
               value={formik.values.message}
               onChange={formik.handleChange}
@@ -193,7 +198,7 @@ export default function Topic() {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Отмена</Button>
-            <Button type={'submit'}>Опубликовать ответ</Button>
+            <Button type='submit'>Опубликовать ответ</Button>
           </DialogActions>
         </form>
       </Dialog>
