@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link as RouterLink } from 'react-router-dom';
 import { Alert, Button, Link, Stack, TextField, Typography } from '@mui/material';
-import './SignIn.css';
 import { TCredintials } from 'types';
 
 interface IProps {
@@ -11,7 +10,6 @@ interface IProps {
   userSettings: TCredintials,
   signInState: TCredintials
 }
-
 
 const validationSchema = yup.object({
   login: yup.string().required('Пожалуйста, введите имя пользователя'),
@@ -37,8 +35,8 @@ const SignIn: FC<IProps> = ({ handleLogin, userSettings, signInState }) => {
     <div>
       {userSettings.first_name && <p>{userSettings.first_name}</p>}
 
-      <form className='signin' onSubmit={formik.handleSubmit}>
-        <Stack sx={{ mt: 2, textAlign: 'center', gap: 2 }}>
+      <form onSubmit={formik.handleSubmit}>
+        <Stack sx={{ mt: 6, textAlign: 'center', gap: 2, marginLeft: 'auto', marginRight: 'auto', maxWidth: '400px' }}>
           <Typography variant="h4" gutterBottom component="h1">
             Авторизация
           </Typography>

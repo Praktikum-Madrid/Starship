@@ -3,10 +3,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link as RouterLink } from 'react-router-dom';
 import { Alert, Button, Link, Stack, TextField, Typography } from '@mui/material';
-import './SignUp.css';
 import { TCredintials } from 'types';
 import { loginValidator, nameValidator, passwordValidator, phoneValidator } from 'config/validators';
-
 
 const validationSchema = yup.object({
   first_name: yup.string()
@@ -57,8 +55,8 @@ const SignUp: FC<IProps> = ({ handleSignUp, signUpState }) => {
   return (
     <>
 
-      <form className='signup' onSubmit={formik.handleSubmit}>
-        <Stack sx={{ mt: 2, textAlign: 'center', gap: 2 }}>
+      <form onSubmit={formik.handleSubmit}>
+        <Stack sx={{ mt: 6, textAlign: 'center', gap: 2, marginLeft: 'auto', marginRight: 'auto', maxWidth: '400px' }}>
           <Typography variant="h4" gutterBottom component="h1">
             Регистрация
           </Typography>
