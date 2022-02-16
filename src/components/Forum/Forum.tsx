@@ -69,7 +69,7 @@ export default function Forum() {
     validationSchema,
     onSubmit: ({ title, message }, { resetForm }) => {
       // TODO: После создания темы редиректить юзера на её страницу
-      themesExampleData.push({ title, message, repliesCount: 0 });
+      themesExampleData.push({ title, message, repliesCount: 0, id: Date.now() });
       resetForm();
       setOpen(false);
     },

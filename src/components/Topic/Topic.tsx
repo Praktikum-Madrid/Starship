@@ -79,6 +79,7 @@ export default function Topic() {
     validationSchema,
     onSubmit: ({ message }, { resetForm }) => {
       const newMessage: TForumTopic = {
+        id: Date.now(),
         message,
         date: Date.now(),
         author: 'Текущий юзер',
