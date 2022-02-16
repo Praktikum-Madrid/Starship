@@ -37,8 +37,8 @@ export default class StarshipGame {
   }
 
   private render() {
-    this._ctx.drawImage(this.sprites.background, 0, 0);
-    this._ctx.drawImage(this.sprites.spaceship, 0, 0);
+    this._ctx.drawImage(this.sprites.background, 0, 0, 900, 700);
+    this._ctx.drawImage(this.sprites.spaceship, 300, 400, 300, 300);
   }
 
   start() {

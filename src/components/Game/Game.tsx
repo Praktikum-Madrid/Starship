@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import Container from '@mui/material/Container';
 import StarshipGame from './utils/game';
 
 export default function Game() {
@@ -12,9 +13,8 @@ export default function Game() {
     }
   }, []);
   return (
-    <>
-      <div>Страница с игрой</div>
-      <canvas ref={ref} width={640} height={360} />
-    </>
+    <Container sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+      <canvas ref={ref} width={900} height={700} />
+    </Container>
   );
 }
