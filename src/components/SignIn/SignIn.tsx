@@ -21,6 +21,9 @@ const validationSchema = yup.object({
     .required('Пожалуйста, введите пароль'),
 });
 
+
+
+
 const SignIn: FC<IProps> = ({ handleLogin, userSettings, signInState }) => {
   const formik = useFormik({
     initialValues: {
@@ -82,5 +85,5 @@ const SignIn: FC<IProps> = ({ handleLogin, userSettings, signInState }) => {
       </form>
     </div>
   );
-};
+}
 export default SignIn;
