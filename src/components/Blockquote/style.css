@@ -1,0 +1,10 @@
+.blockquote {
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  font-style: oblique;
+  color: #222;
+  padding: 0 25px;
+  margin: 15px 0;
+  border-left: 1px solid #ddd;
+  line-height: 150%;
+}

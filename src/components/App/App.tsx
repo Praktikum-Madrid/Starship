@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { TCredintials } from 'types';
 import Auth from 'api/Auth';
 import theme from 'config/Theme';
-import Layout from '../Layout';
-import SignIn from '../SignIn';
-import SignUp from '../SugnUp';
-import Home from '../Home';
-import Profile from '../Profile';
-import Game from '../Game';
-import Leaderboard from '../Leaderboard';
-import Forum from '../Forum';
-import Page404 from '../Page404';
-import Page500 from '../Page500';
+import Topic from 'components/Topic';
+import Layout from 'components/Layout';
+import SignIn from 'components/SignIn';
+import SignUp from 'components/SugnUp';
+import Home from 'components/Home';
+import Profile from 'components/Profile';
+import Game from 'components/Game';
+import Leaderboard from 'components/Leaderboard';
+import Forum from 'components/Forum';
+import Page404 from 'components/Page404';
+import Page500 from 'components/Page500';
 
 export default function App() {
   // Стейт для хранения настроек юзера
@@ -109,7 +110,9 @@ export default function App() {
           <Route path='profile' element={<Profile />} />
           <Route path='game' element={<Game />} />
           <Route path='leaderboard' element={<Leaderboard />} />
-          <Route path='forum' element={<Forum />} />
+          <Route path='forum' element={<Topic />}>
+            <Route path={':topicId'} element={<Forum />} />
+          </Route>
           <Route path='server-error' element={<Page500 />} />
           <Route path='*' element={<Page404 />} />
         </Route>

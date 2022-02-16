@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  Avatar,
   Box,
   Button,
   Dialog,
@@ -9,43 +10,51 @@ import {
   TextField,
   Typography,
   Stack,
-  Card,
-  CardActionArea,
-  CardContent,
   Pagination,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import beautifyTime from 'utils/beautifyTime';
+import Blockquote from 'components/Blockquote';
+
+type TForumTopic = {
+  date: number,
+  author: string,
+  message: string,
+  quote?: string,
+}
 
 // Данные для рендера
-const themesExampleData = [
+const themesExampleData: TForumTopic[] = [
   {
-    title: 'Можно грабить корованы',
+    date: Date.now(),
+    author: 'UserName',
     message: 'Здраствуйте. Я, Кирилл. Хотел бы чтобы вы сделали игру, 3Д-экшон суть такова... Пользователь может играть лесными эльфами, охраной дворца и злодеем. И если пользователь играет эльфами то эльфы в лесу, домики деревяные набигают солдаты дворца и злодеи. Можно грабить корованы... И эльфу раз лесные то сделать так что там густой лес... А движок можно поставить так что вдали деревья картинкой,',
-    repliesCount: 12,
   },
   {
-    title: 'Ещё какой-то заголовок темы',
+    date: Date.now(),
+    author: 'Anonymous',
     message: 'Текст сообщения внутри темы, немного другой',
-    repliesCount: 12,
   },
   {
-    title: 'Пачиму такие дорогие патроны???',
+    date: Date.now(),
+    author: 'Nomad',
     message: 'Очин дорого, зделойте дешевле!',
-    repliesCount: 12,
+    quote: 'Текст сообщения внутри темы, немного другой',
   },
 ];
 
 const validationSchema = yup.object({
-  title: yup.string().required('Пожалуйста, введите название темы'),
   message: yup
     .string()
     .min(15, 'Минимальная длина - 15 символов')
     .required('Пожалуйста, введите текст сообщения'),
 });
 
-export default function Forum() {
+export default function Topic() {
   const [open, setOpen] = React.useState(false);
+  const [page, setPage] = React.useState(1);
+  const [quote, setQuote] = React.useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,51 +66,87 @@ export default function Forum() {
 
   const formik = useFormik({
     initialValues: {
-      title: '',
       message: '',
     },
     validationSchema,
-    onSubmit: ({ title, message }, { setSubmitting, resetForm }) => {
+    onSubmit: ({ message }, { resetForm }) => {
+      const newMessage: TForumTopic = {
+        message,
+        date: Date.now(),
+        author: 'Текущий юзер',
+      };
+
+      if (quote) {
+        newMessage.quote = quote;
+      }
+
       // TODO: После создания темы редиректить юзера на её страницу
-      themesExampleData.push({ title, message, repliesCount: 0 });
+      themesExampleData.push(newMessage);
       resetForm();
+      setQuote('');
       handleClose();
     },
   });
 
-  const [page, setPage] = React.useState(1);
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     // TODO: реализовать переключение страниц форума
     setPage(value);
     console.log(`Страница ${page}`);
   };
 
+  const handleReply = (quoteText: string) => {
+    // FIXME: XSS, только для нужд верстки, заменить на метод апи
+    setQuote(quoteText);
+    setOpen(true);
+  };
+
   return (
     <>
       <Box component={'div'} sx={{ m: 2, mt: 6, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h4" gutterBottom component="h1">
-          Форум
+          Можно грабить корованы
         </Typography>
         <Button variant="outlined" onClick={handleClickOpen}>
-          Создать тему
+          Ответить в тему
         </Button>
       </Box>
 
-      <Box component={'div'} sx={{ m: 2, p: 2, border: '1px solid #ddd', borderRadius: '5px' }}>
+      <Box component={'div'} sx={{ m: 2 }}>
         <Stack sx={{ gap: 2 }}>
-          {themesExampleData.map(({ title, message }, key) => (
-            <Card key={key}>
-              <CardActionArea>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {message}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+          {themesExampleData.map(({ message, date, author, quote = '' }, key) => (
+            <Box key={key} sx={{ p: 2, pl: 0, borderRadius: '5px', border: '1px solid #ddd', display: 'grid', gridTemplateColumns: '140px 1fr', gridColumnGap: '35px' }}>
+
+              <Box sx={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                flexDirection: 'column',
+                alignItems: 'center',
+                borderRight: '1px solid #ddd',
+              }}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://via.placeholder.com/80x80?text=Аватар"
+                  sx={{ width: 80, height: 80 }}
+                />
+
+                <Typography variant="subtitle2" sx={{ mt: 2 }}>
+                  {author}
+                </Typography>
+              </Box>
+
+              <Box >
+                <Typography variant="caption" sx={{ color: '#777', pb: 1 }}>
+                  {beautifyTime(date)}
+                </Typography>
+
+                { quote && <Blockquote text={quote} /> }
+
+                <Typography variant="body2" sx={{ pt: 2, pb: 3, mb: 2, borderBottom: '1px solid #ddd' }}>
+                  {message}
+                </Typography>
+                <Button size="small" variant="outlined" onClick={() => handleReply(message)}>Ответить</Button>
+              </Box>
+            </Box>
           ))}
         </Stack>
       </Box>
@@ -112,23 +157,11 @@ export default function Forum() {
 
       <Dialog fullWidth maxWidth={'md'} open={open} onClose={handleClose}>
         <form onSubmit={formik.handleSubmit}>
-          <DialogTitle>Создание темы на форуме</DialogTitle>
+          <DialogTitle>Ответ в тему</DialogTitle>
           <DialogContent>
+            { quote && <Blockquote text={quote} /> }
             <TextField
               autoFocus
-              margin="dense"
-              id="title"
-              label="Заголовок темы"
-              type="text"
-              fullWidth
-              variant="standard"
-              value={formik.values.title}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.title && Boolean(formik.errors.title)}
-              helperText={formik.touched.title && formik.errors.title}
-            />
-            <TextField
               margin="dense"
               id="message"
               multiline
@@ -146,7 +179,7 @@ export default function Forum() {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Отмена</Button>
-            <Button type={'submit'}>Создать тему</Button>
+            <Button type={'submit'}>Опубликовать ответ</Button>
           </DialogActions>
         </form>
       </Dialog>
