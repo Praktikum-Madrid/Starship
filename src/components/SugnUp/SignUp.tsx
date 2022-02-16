@@ -19,7 +19,7 @@ const validationSchema = yup.object({
   phone: yup.string().required('Phone is required'),
 });
 
-const SignUp = () => {
+function SignUp() {
   const formik = useFormik({
     initialValues: {
       first_name: '',
@@ -123,5 +123,5 @@ const SignUp = () => {
       </form>
     </div>
   );
-};
+}
 export default SignUp;

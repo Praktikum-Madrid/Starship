@@ -17,7 +17,7 @@ const validationSchema = yup.object({
     .required('Password is required'),
 });
 
-const SignIn = () => {
+function SignIn() {
   const formik = useFormik({
     initialValues: {
       login: '',
@@ -65,5 +65,5 @@ const SignIn = () => {
       </form>
     </div>
   );
-};
+}
 export default SignIn;
