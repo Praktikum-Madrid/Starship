@@ -12,6 +12,13 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      api: path.resolve(__dirname, 'src/api/'),
+      components: path.resolve(__dirname, 'src/components/'),
+      config: path.resolve(__dirname, 'src/config/'),
+      types: path.resolve(__dirname, 'src/types/'),
+      utils: path.resolve(__dirname, 'src/utils/'),
+    },
   },
   module: {
     rules: [
@@ -22,7 +29,6 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
         use: [
           {
             loader: 'style-loader',
@@ -52,4 +58,5 @@ module.exports = {
       template: './www/index.html',
     }),
   ],
+
 };

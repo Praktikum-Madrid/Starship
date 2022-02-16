@@ -12,4 +12,14 @@ export default createTheme({
       main: arcOrange,
     },
   },
+  spacing: 8,
+  typography: {
+    fontFamily: [
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '-apple-system',
+    ].join(','),
+  },
 });
