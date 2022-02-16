@@ -12,10 +12,11 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Pagination,
+  Pagination, Breadcrumbs, Link,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 // Данные для рендера
 const themesExampleData = [
@@ -46,6 +47,8 @@ const validationSchema = yup.object({
 
 export default function Forum() {
   const [open, setOpen] = React.useState(false);
+
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,7 +81,14 @@ export default function Forum() {
 
   return (
     <>
-      <Box component={'div'} sx={{ m: 2, mt: 6, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Breadcrumbs aria-label="breadcrumb" sx={{ m: 2, mt: 6, mb: 1, p: 0 }}>
+        <Link underline="hover" color="inherit" component={RouterLink} to={'/'}>
+          Starship
+        </Link>
+        <Typography color="text.primary">Форум</Typography>
+      </Breadcrumbs>
+
+      <Box component={'div'} sx={{ m: 2, mt: 2, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h4" gutterBottom component="h1">
           Форум
         </Typography>
@@ -91,7 +101,7 @@ export default function Forum() {
         <Stack sx={{ gap: 2 }}>
           {themesExampleData.map(({ title, message }, key) => (
             <Card key={key}>
-              <CardActionArea>
+              <CardActionArea onClick={() => navigate('/forum/thread')}>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     {title}

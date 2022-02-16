@@ -11,8 +11,11 @@ import {
   Typography,
   Stack,
   Pagination,
+  Breadcrumbs,
+  Link,
 } from '@mui/material';
 import { useFormik } from 'formik';
+import { Link as RouterLink } from 'react-router-dom';
 import * as yup from 'yup';
 import beautifyTime from 'utils/beautifyTime';
 import Blockquote from 'components/Blockquote';
@@ -103,7 +106,17 @@ export default function Topic() {
 
   return (
     <>
-      <Box component={'div'} sx={{ m: 2, mt: 6, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Breadcrumbs aria-label="breadcrumb" sx={{ m: 2, mt: 6, mb: 1, p: 0 }}>
+        <Link underline="hover" color="inherit" component={RouterLink} to={'/'}>
+          Starship
+        </Link>
+        <Link underline="hover" color="inherit" component={RouterLink} to={'/forum'}>
+          Форум
+        </Link>
+        <Typography color="text.primary">Можно грабить корованы</Typography>
+      </Breadcrumbs>
+
+      <Box component={'div'} sx={{ m: 2, mt: 2, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h4" gutterBottom component="h1">
           Можно грабить корованы
         </Typography>
