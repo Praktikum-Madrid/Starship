@@ -110,9 +110,8 @@ export default function App() {
           <Route path='profile' element={<Profile />} />
           <Route path='game' element={<Game />} />
           <Route path='leaderboard' element={<Leaderboard />} />
-          <Route path='forum' element={<Topic />}>
-            <Route path={':topicId'} element={<Forum />} />
-          </Route>
+          <Route path='forum' element={<Forum />} />
+          <Route path='forum/:topicId' element={<Topic />} />
           <Route path='server-error' element={<Page500 />} />
           <Route path='*' element={<Page404 />} />
         </Route>
