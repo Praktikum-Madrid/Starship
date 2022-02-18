@@ -105,9 +105,9 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='signin' element={<SignIn handleLogin={handleLogin} signInState={signInState} userSettings={userSettings}/>} />
-          <Route path='signup' element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState}/>} />
-          <Route path='profile' element={<Profile />} />
+          <Route path='signin' element={<SignIn handleLogin={handleLogin} signInState={signInState} userSettings={userSettings} />} />
+          <Route path='signup' element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState} />} />
+          <Route path='profile' element={<Profile userSettings={userSettings} setUserSettings={setUserSettings} />} />
           <Route path='game' element={<Game />} />
           <Route path='leaderboard' element={<Leaderboard />} />
           <Route path='forum' element={<Forum />} />
