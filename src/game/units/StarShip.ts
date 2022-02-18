@@ -111,7 +111,6 @@ class StarShip extends Unit {
   // Скидываем скорость после того, как корабль не движется
   protected slowDown = () => {
     this.slowDownInterval = setTimeout(() => {
-      console.log('Разгон убран');
       this.resetSpeed();
     }, slowDownTime);
   };
