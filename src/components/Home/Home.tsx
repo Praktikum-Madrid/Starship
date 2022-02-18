@@ -1,44 +1,94 @@
-import React from 'react';
-import BuggyCounter from '../../utils/BuggyCounter';
-import ErrorBoundary from '../../utils/ErrorBoundary';
+import React, { FC } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { TCredintials } from 'types';
 
-export default function Home() {
-  return (
-    <>
-      <div>Главная страница</div>
-      <div>
-        <p>
-          <b>
-            This is an example of error boundaries in React 16.
-            <br />
-            <br />
-            Click on the numbers to increase the counters.
-            <br />
-            The counter is programmed to throw when it reaches 5. This simulates
-            a JavaScript error in a component.
-          </b>
-        </p>
-        <hr />
-        <ErrorBoundary>
-          <p>
-            These two counters are inside the same error boundary. If one
-            crashes, the error boundary will replace both of them.
-          </p>
-          <BuggyCounter />
-          <BuggyCounter />
-        </ErrorBoundary>
-        <hr />
-        <p>
-          These two counters are each inside of their own error boundary. So if
-          one crashes, the other is not affected.
-        </p>
-        <ErrorBoundary>
-          <BuggyCounter />
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <BuggyCounter />
-        </ErrorBoundary>
-      </div>
-    </>
-  );
+interface IProps {
+  userSettings: TCredintials
 }
+
+const Home: FC<IProps> = ({ userSettings }) => {
+  const navigate = useNavigate();
+  return (
+    <div style={{
+      position: 'absolute',
+      width: '100%',
+      top: '0',
+      zIndex: '-1',
+      display: 'flex',
+      justifyContent: 'center',
+    }}
+    >
+      <Box
+        component='img'
+        sx={{
+          width: '100%',
+          maxHeight: '100vh',
+          zIndex: '1',
+        }}
+        src='../images/background.png'
+      />
+      <div style={{
+        position: 'absolute',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+      >
+        <div style={{ zIndex: '3', textAlign: 'center', maxWidth: '460px' }}>
+          <Typography
+            variant='h1'
+            component='h1'
+            sx={{
+              fontWeight: '900',
+              color: '#0b72b9',
+              marginTop: '150px',
+            }}
+          >
+            STARSHIP
+          </Typography>
+          <Typography
+            variant='h6'
+            component='h6'
+            align='center'
+            sx={{
+              fontWeight: '700',
+              marginTop: '20px',
+              color: '#073657',
+            }}
+          >
+            STARSHIP - это игра, где тебе нужно обстреливать врагов и уворачиваться, чтобы сохранить свой корабль.
+          </Typography>
+
+          <Button
+            sx={{
+              width: '200px',
+              height: '80px',
+              marginTop: '50px',
+            }}
+            color='primary'
+            variant='contained'
+            onClick={() => {
+              navigate(userSettings.authorised ? '/game' : '/signin');
+            }}
+          >
+            К ИГРЕ
+          </Button>
+        </div>
+        <div style={{
+          position: 'absolute',
+          zIndex: '1',
+          backgroundColor: 'white',
+          borderRadius: '10px',
+          opacity: '50%',
+          width: '100%',
+          height: '100%',
+          padding: '30px',
+        }}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default Home;

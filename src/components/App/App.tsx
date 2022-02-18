@@ -31,7 +31,10 @@ export default function App() {
     const settings = localStorage.getItem('settings');
 
     if (settings) {
-      setUserSettings(JSON.parse(settings));
+      setUserSettings({
+        ...JSON.parse(settings),
+        authorised: true,
+      });
     }
   }, []);
 
@@ -104,9 +107,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path='signin' element={<SignIn handleLogin={handleLogin} signInState={signInState} userSettings={userSettings}/>} />
-          <Route path='signup' element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState}/>} />
+          <Route index element={<Home userSettings={userSettings} />} />
+          <Route path='signin' element={<SignIn handleLogin={handleLogin} signInState={signInState} userSettings={userSettings} />} />
+          <Route path='signup' element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState} />} />
           <Route path='profile' element={<Profile />} />
           <Route path='game' element={<Game />} />
           <Route path='leaderboard' element={<Leaderboard />} />
