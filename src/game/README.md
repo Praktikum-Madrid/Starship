@@ -5,3 +5,6 @@
 
 ## Юниты
 У нас есть объект "юнит", от которого наследуются все остальные юниты. Юнитами мы считаем все движущиеся объекты (игрок, враги, снаряды)
+
+## Бесконечный скролл канваса
+https://bdadam.com/blog/panning-and-scrolling-background-images-using-the-canvas-element.html

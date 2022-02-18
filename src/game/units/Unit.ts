@@ -1,15 +1,15 @@
 import { TCoordinate } from 'types';
 
 export default class Unit {
-  private _y: TCoordinate;
+  protected _y: TCoordinate;
 
-  private _x: TCoordinate;
+  protected _x: TCoordinate;
 
-  private _width: number;
+  private readonly _width: number;
 
-  private _height: number;
+  private readonly _height: number;
 
-  private _sprite: any;
+  private readonly _sprite: any;
 
   private _ctx: CanvasRenderingContext2D;
 
@@ -24,17 +24,19 @@ export default class Unit {
   }
 
   // Перемещает юнит по координатам (+/-)
-  public move = (x: TCoordinate, y: TCoordinate) => {
+  public move(x: TCoordinate, y: TCoordinate) {
+    // TODO: Использовать дебаунсер для ограничения скорости перемещения
     this._x += x;
     this._y += y;
-
     console.log(this._x, this._y);
-  };
+  }
 
+  // Рисует юнит на холсте
   public render = () => {
     this._ctx.drawImage(this._sprite, this._x, this._y, this._width, this._height);
   };
 
+  // Возвращает текущюю позицию юнита
   public getPosition = () => ({
     currentX: this._x,
     currentY: this._y,

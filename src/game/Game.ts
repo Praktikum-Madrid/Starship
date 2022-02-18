@@ -1,4 +1,7 @@
 import Unit from 'game/units/Unit';
+import Engine from 'game/Engine';
+import StarShip from 'game/units/StarShip';
+// import throttleInput from 'utils/throttleInput';
 
 interface ISprites {
   [key: string]: HTMLImageElement;
@@ -11,8 +14,18 @@ export default class Game {
 
   private starShip: Unit | undefined;
 
-  constructor(ctx: CanvasRenderingContext2D) {
+  private _canvasWidth: number;
+
+  private _canvasHeight: number;
+
+  private _engine: Engine;
+
+  constructor(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number) {
     this._ctx = ctx;
+    this._canvasWidth = canvasWidth;
+    this._canvasHeight = canvasHeight;
+
+    console.log(this._canvasWidth, this._canvasHeight);
 
     // TODO: считаю что стоит загрузку ресурсов вынести в отдельный файл
     this.sprites = {
@@ -20,118 +33,83 @@ export default class Game {
       background: new Image(),
       spaceship: new Image(),
     };
+
+    this._engine = new Engine(this.render, 500);
+
+    // TODO: Использовать эвент бас для инициализации
+    this._preload();
   }
 
-  private preload(callback: CallableFunction) {
+  // Загрузка спрайтов
+  protected _preload() {
     const required = Object.keys(this.sprites).length - 1;
 
     Object.keys(this.sprites).forEach((key, index) => {
       this.sprites[key].src = `../images/${key}.png`;
       this.sprites[key].addEventListener('load', () => {
         if (index >= required) {
-          callback();
+          // FIXME: Надо переписать изящнее при переносе в отдельный класс
+          this._init();
         }
       });
     });
-
-    // TODO: нужен какой-то фабричный инициализатор таких объектов
-    // Объявили корабль
-    this.starShip = new Unit(this.sprites.spaceship, 300, 400, 150, 150, this._ctx);
   }
 
-  private run() {
-    window.requestAnimationFrame(() => {
-      this.render();
-    });
+  // Инициализация
+  protected _init() {
+    this._createUnits();
+  }
 
+  // Объявление юнитов
+  protected _createUnits() {
+    // TODO: нужен какой-то фабричный инициализатор таких объектов
+    // Объявили корабль
+    this.starShip = new StarShip(this.sprites.spaceship, 300, 400, 150, 150, this._ctx);
+    this.setInputListeners();
+  }
+
+  // Вешаем листенеры
+  protected setInputListeners() {
     // Добавляем обработчик нажатий на кнопки и управление кораблем
     window.addEventListener('keydown', (event) => {
       event.preventDefault();
       event.stopPropagation();
 
-      // @ts-ignore
-      const moveObject = (action: any, [x, y]: number[], animationTime = 500) => {
-        const startTime = performance.now();
-
-        // @ts-ignore
-        const move = () => {
-          // Текущий тамйстамп анимации
-          const currentTime = performance.now();
-          // Смещение во времени (относительно прошлого рендера)
-          const shiftTime = currentTime - startTime;
-          // Коэффициент относительно прошедшего времени и заданного (до 1)
-          const multiply = shiftTime / animationTime;
-
-          // Пока заданное время не прошло, анимируем
-          if (multiply < 1) {
-            console.log(x, y);
-
-            if (this.starShip) {
-              const { currentX, currentY } = this.starShip.getPosition();
-              // FIXME: Переменные с размером холста надо переместить в свойства класса
-              if (currentX < -75) {
-                x = 1;
-              }
-
-              if (currentX > 825) {
-                x = -1;
-              }
-
-              if (currentY < -75) {
-                y = 1;
-              }
-
-              if (currentY > 625) {
-                y = -1;
-              }
-
-              action(x, y);
-            }
-
-            this.render();
-            requestAnimationFrame(move);
-          }
-        };
-
-        return move();
-      };
-
       // TODO: Реализовать перемещение по диагонали
       // keyCode 39
       if (event.key === 'ArrowRight') {
-        moveObject(this.starShip?.move, [2, 0]);
+        this.starShip!.move(1, 0);
       }
 
       // keyCode 37
       if (event.key === 'ArrowLeft') {
-        moveObject(this.starShip?.move, [-2, 0]);
+        // moveObject(this.starShip?.move, [-2, 0]);
+        this.starShip!.move(-1, 0);
       }
 
       // keyCode 38
       if (event.key === 'ArrowUp') {
-        moveObject(this.starShip?.move, [0, -2]);
+        this.starShip!.move(0, -1);
       }
 
       // keyCode 40
       if (event.key === 'ArrowDown') {
-        moveObject(this.starShip?.move, [0, 2]);
+        this.starShip!.move(0, 1);
       }
     });
   }
 
   protected _clearCanvas() {
-    this._ctx.clearRect(0, 0, 900, 700);
+    this._ctx.clearRect(0, 0, this._canvasWidth, this._canvasHeight);
   }
 
-  private render() {
+  private render = () => {
     this._clearCanvas();
     this._ctx.drawImage(this.sprites.background, 0, 0, 900, 700);
     this.starShip?.render();
-  }
+  };
 
   start() {
-    this.preload(() => {
-      this.run();
-    });
+    this._engine.start();
   }
 }
