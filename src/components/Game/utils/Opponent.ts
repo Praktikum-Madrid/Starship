@@ -1,13 +1,16 @@
 import Sprite from './Sprite';
 import { KEYS } from './types';
 
-export default class Spaceship extends Sprite {
-  constructor() {
+export default class Opponent extends Sprite {
+  active: boolean;
+
+  constructor(x: number, y: number) {
     super();
-    this.x = 300;
-    this.y = 400;
-    this.width = 300;
-    this.height = 300;
+    this.active = true;
+    this.x = x;
+    this.y = y;
+    this.width = 90;
+    this.height = 100;
   }
 
   start(direction: KEYS) {

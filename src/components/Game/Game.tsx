@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Container from '@mui/material/Container';
-import StarshipGame from './utils/starshipGame';
+import StarshipGame from './utils/StarshipGame';
 
 export default function Game() {
   const ref = useRef<HTMLCanvasElement>(null);

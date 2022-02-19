@@ -1,7 +1,8 @@
 // StarshipGame.ts
 
-import Background from './background';
-import Spaceship from './spaceship';
+import Background from './Background';
+import Opponent from './Opponent';
+import Spaceship from './Spaceship';
 import { ISprites, KEYS } from './types';
 
 export default class StarshipGame {
@@ -19,6 +20,12 @@ export default class StarshipGame {
 
   background: Background;
 
+  rows: number;
+
+  cols: number;
+
+  opponents: Opponent[];
+
   constructor(ctx: CanvasRenderingContext2D) {
     this._ctx = ctx;
     this.running = true;
@@ -26,9 +33,13 @@ export default class StarshipGame {
     this.height = 700;
     this.background = new Background();
     this.spaceship = new Spaceship();
+    this.opponents = [];
+    this.rows = 2;
+    this.cols = 8;
     this.sprites = {
       background: new Image(),
       spaceship: new Image(),
+      opponent: new Image(),
     };
   }
 
@@ -73,8 +84,13 @@ export default class StarshipGame {
     });
   }
 
+  // генерация противников
   private create() {
-    // вывод противников
+    for (let row = 0; row < this.rows; row += 1) {
+      for (let col = 0; col < this.cols; col += 1) {
+        this.opponents.push(new Opponent(100 * col + 50, 100 * row + 0));
+      }
+    }
   }
 
   private update() {
@@ -115,6 +131,20 @@ export default class StarshipGame {
       this.spaceship.width,
       this.spaceship.height,
     );
+
+    this.renderOpponents();
+  }
+
+  renderOpponents() {
+    this.opponents.forEach((opponent) => {
+      this._ctx.drawImage(
+        this.sprites.opponent,
+        opponent.x,
+        opponent.y,
+        opponent.width,
+        opponent.height,
+      );
+    });
   }
 
   start() {
