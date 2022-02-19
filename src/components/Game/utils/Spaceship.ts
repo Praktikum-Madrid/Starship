@@ -1,4 +1,4 @@
-import Sprite from './Sprite';
+import Sprite from './sprite';
 import { KEYS } from './types';
 
 export default class Spaceship extends Sprite {

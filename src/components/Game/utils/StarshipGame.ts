@@ -1,7 +1,7 @@
 // StarshipGame.ts
 
-import Background from './Background';
-import Spaceship from './Spaceship';
+import Background from './background';
+import Spaceship from './spaceship';
 import { ISprites, KEYS } from './types';
 
 export default class StarshipGame {

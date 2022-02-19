@@ -1,9 +1,9 @@
-import Sprite from './Sprite';
+import Sprite from './sprite';
 
 export default class Background extends Sprite {
   constructor() {
     super();
-    this.velocity = 2;
+    this.velocity = 1;
   }
 
   start() {
