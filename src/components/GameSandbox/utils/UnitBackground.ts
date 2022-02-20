@@ -1,6 +1,6 @@
-import Sprite from './Sprite';
+import Unit from './Unit';
 
-export default class Background extends Sprite {
+export default class Background extends Unit {
   constructor() {
     super();
     this.velocity = 1;

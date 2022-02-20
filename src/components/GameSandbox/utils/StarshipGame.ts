@@ -1,8 +1,8 @@
 // StarshipGame.ts
 
-import Background from './Background';
-import Opponent from './Opponent';
-import Spaceship from './Spaceship';
+import Background from './UnitBackground';
+import Opponent from './UnitOpponent';
+import Spaceship from './UnitSpaceship';
 import { ISprites, KEYS } from './types';
 
 export default class StarshipGame {
@@ -58,7 +58,9 @@ export default class StarshipGame {
       }
     });
     window.addEventListener('keyup', (e) => {
-      this.spaceship.stop();
+      if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.RIGHT) {
+        this.spaceship.stop();
+      }
     });
   }
 
@@ -84,7 +86,7 @@ export default class StarshipGame {
     });
   }
 
-  // генерация противников
+  // генерация противников на игровом поле
   private create() {
     for (let row = 0; row < this.rows; row += 1) {
       for (let col = 0; col < this.cols; col += 1) {

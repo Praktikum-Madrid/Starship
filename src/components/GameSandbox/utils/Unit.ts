@@ -1,4 +1,4 @@
-export default class StarshipGame {
+export default class Unit {
   width: number;
 
   height: number;

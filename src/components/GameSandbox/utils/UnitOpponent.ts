@@ -1,7 +1,7 @@
-import Sprite from './Sprite';
+import Unit from './Unit';
 import { KEYS } from './types';
 
-export default class Opponent extends Sprite {
+export default class Opponent extends Unit {
   active: boolean;
 
   constructor(x: number, y: number) {

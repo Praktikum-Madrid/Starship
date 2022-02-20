@@ -1,7 +1,7 @@
-import Sprite from './Sprite';
+import Unit from './Unit';
 import { KEYS } from './types';
 
-export default class Spaceship extends Sprite {
+export default class Spaceship extends Unit {
   constructor() {
     super();
     this.x = 300;
