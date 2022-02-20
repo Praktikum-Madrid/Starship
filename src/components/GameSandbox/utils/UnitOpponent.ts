@@ -1,11 +1,12 @@
+import { ISprites } from './types';
 import Unit from './Unit';
-import { KEYS } from './types';
 
 export default class Opponent extends Unit {
   active: boolean;
 
-  constructor(x: number, y: number) {
+  constructor(x: number, y: number, v: number) {
     super();
+    this.velocity = 0.5 + v;
     this.active = true;
     this.x = x;
     this.y = y;
@@ -13,15 +14,32 @@ export default class Opponent extends Unit {
     this.height = 100;
   }
 
-  start(direction: KEYS) {
-    if (direction === KEYS.LEFT) {
-      this.dx = -this.velocity;
-    } else if (direction === KEYS.RIGHT) {
-      this.dx = this.velocity;
+  start() {
+    this.dy = this.velocity;
+  }
+
+  move() {
+    if (this.dx) {
+      this.x += this.dx;
+    }
+    if (this.dy) {
+      this.y += this.dy;
     }
   }
 
   destroy() {
     this.active = false;
+  }
+
+  render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
+    if (this.active) {
+      ctx.drawImage(
+        sprites.opponent,
+        this.x,
+        this.y,
+        this.width,
+        this.height,
+      );
+    }
   }
 }

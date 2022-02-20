@@ -10,7 +10,7 @@ export default class Missile extends Unit {
     this.active = true;
     this.velocity = 4;
     this.x = 440;
-    this.y = 500;
+    this.y = 520;
     this.width = 30;
     this.height = 100;
   }
@@ -44,13 +44,13 @@ export default class Missile extends Unit {
   }
 
   destroy() {
+    this.active = false;
     this.y += this.dy;
-    this.active = true;
     this.dy = 0;
     setTimeout(() => {
-      this.x = 5;
-      this.y = 5;
-    }, 1);
+      this.x = -1000;
+      this.y = -1000;
+    }, 10);
   }
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {

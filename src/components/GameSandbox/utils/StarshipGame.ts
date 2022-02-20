@@ -25,7 +25,7 @@ export default class StarshipGame {
 
   cols: number;
 
-  opponents: Opponent[];
+  opponents: (Opponent | null)[];
 
   constructor(ctx: CanvasRenderingContext2D) {
     this._ctx = ctx;
@@ -35,10 +35,11 @@ export default class StarshipGame {
     this.background = new Background();
     this.spaceship = new Spaceship();
     this.opponents = []; // массив генерируемых противников
-    this.rows = 2;
+    this.rows = 10;
     this.cols = 8;
     this.sprites = {
-      background: new Image(), // + background_space: new Image(), - добавить новый фон
+      background: new Image(),
+      background_space: new Image(),
       spaceship: new Image(),
       opponent: new Image(),
       missile_1: new Image(),
@@ -105,15 +106,21 @@ export default class StarshipGame {
   private create() {
     for (let row = 0; row < this.rows; row += 1) {
       for (let col = 0; col < this.cols; col += 1) {
-        this.opponents.push(new Opponent(100 * col + 50, 100 * row + 0));
+        this.opponents.push(Math.random() < 0.125 ? new Opponent(100 * col + 50, 200 * -row + 0, Math.random() - 0.3) : null);
       }
     }
+    this.opponents.forEach((opponent) => {
+      if (opponent && opponent.active) {
+        opponent.start();
+        console.log('start opponent');
+      }
+    });
   }
 
   private collideOpponents(missiles: Missile[]) {
     missiles.forEach((missile) => {
       this.opponents.forEach((opponent) => {
-        if (opponent.active && missile.collide(opponent)) {
+        if (opponent && opponent.active && missile.collide(opponent)) {
           missile.destroy();
           opponent.destroy();
         }
@@ -123,6 +130,11 @@ export default class StarshipGame {
 
   private update() {
     this.background.move();
+    this.opponents.forEach((opponent) => {
+      if (opponent && opponent.active) {
+        opponent.move();
+      }
+    });
     this.collideOpponents(this.spaceship.move());
   }
 
@@ -146,14 +158,8 @@ export default class StarshipGame {
 
   renderOpponents() {
     this.opponents.forEach((opponent) => {
-      if (opponent.active) {
-        this._ctx.drawImage(
-          this.sprites.opponent,
-          opponent.x,
-          opponent.y,
-          opponent.width,
-          opponent.height,
-        );
+      if (opponent && opponent.active) {
+        opponent.render(this._ctx, this.sprites);
       }
     });
   }
