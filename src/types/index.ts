@@ -1,5 +1,5 @@
 export type TRrequestOptions = {
-  [key: string]: string | TRrequestOptions
+  [key: string]: string | TRrequestOptions | TRequestData
 };
 
 export type TRequestData = Record<string, any>;
