@@ -4,7 +4,6 @@ import { ISprites, KEYS } from './types';
 import Background from './UnitBackground';
 import Opponent from './UnitOpponent';
 import Spaceship from './UnitSpaceship';
-import Missile from './UnitMissile';
 
 export default class StarshipGame {
   _ctx: CanvasRenderingContext2D;
@@ -18,8 +17,6 @@ export default class StarshipGame {
   heightCanvas: number;
 
   spaceship: Spaceship;
-
-  missile: Missile;
 
   background: Background;
 
@@ -36,7 +33,6 @@ export default class StarshipGame {
     this.heightCanvas = 700;
     this.background = new Background();
     this.spaceship = new Spaceship();
-    this.missile = new Missile();
     this.opponents = []; // массив генерируемых противников
     this.rows = 2;
     this.cols = 8;
@@ -59,7 +55,7 @@ export default class StarshipGame {
   private setEvents() {
     window.addEventListener('keydown', (e) => {
       if (e.keyCode === KEYS.SPACE) {
-        this.spaceship.fire(this.missile);
+        this.spaceship.fire();
       }
       if (
         e.keyCode === KEYS.LEFT
@@ -116,7 +112,6 @@ export default class StarshipGame {
   private update() {
     this.background.move();
     this.spaceship.move();
-    this.missile.move();
   }
 
   private run() {
@@ -132,7 +127,6 @@ export default class StarshipGame {
   private render() {
     this._ctx.clearRect(0, 0, this.widthCanvas, this.heightCanvas);
     this.background.render(this._ctx, this.sprites);
-    this.missile.render(this._ctx, this.sprites);
     this.spaceship.render(this._ctx, this.sprites);
 
     this.renderOpponents();

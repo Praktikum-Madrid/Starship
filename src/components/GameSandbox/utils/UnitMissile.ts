@@ -5,7 +5,7 @@ export default class Missile extends Unit {
   constructor() {
     super();
     this.velocity = 2;
-    this.x = 400;
+    this.x = 440;
     this.y = 500;
     this.width = 30;
     this.height = 100;
