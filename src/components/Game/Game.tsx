@@ -11,7 +11,6 @@ export default function Game() {
   useEffect(() => {
     const ctx = ref.current?.getContext('2d');
 
-    // Установим фокус на игру, чтобы меню не перехватывало нажатие стрелок
     ref.current?.focus();
 
     if (ctx) {
