@@ -6,6 +6,11 @@ import Missile from './UnitMissile';
 import Opponent from './UnitOpponent';
 import Spaceship from './UnitSpaceship';
 
+const ROWS_OPPONENTS = 50;
+const COLS_OPPONENTS = 8;
+const WIDTH_CANWAS = 900;
+const HEIGT_CANWAS = 700;
+
 export default class StarshipGame {
   _ctx: CanvasRenderingContext2D;
 
@@ -30,13 +35,13 @@ export default class StarshipGame {
   constructor(ctx: CanvasRenderingContext2D) {
     this._ctx = ctx;
     this.running = true;
-    this.widthCanvas = 900;
-    this.heightCanvas = 700;
+    this.widthCanvas = WIDTH_CANWAS;
+    this.heightCanvas = HEIGT_CANWAS;
     this.background = new Background();
     this.spaceship = new Spaceship();
-    this.opponents = []; // массив генерируемых противников
-    this.rows = 10;
-    this.cols = 8;
+    this.opponents = [];
+    this.rows = ROWS_OPPONENTS;
+    this.cols = COLS_OPPONENTS;
     this.sprites = {
       background: new Image(),
       background_space: new Image(),
