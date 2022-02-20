@@ -2,6 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const arcBlue = '#0B72B9';
 const arcOrange = '#FFBA60';
+const green = '#679a00';
 
 export default createTheme({
   palette: {
@@ -10,6 +11,9 @@ export default createTheme({
     },
     secondary: {
       main: arcOrange,
+    },
+    success: {
+      main: green,
     },
   },
   spacing: 8,
