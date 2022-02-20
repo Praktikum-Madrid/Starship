@@ -20,4 +20,8 @@ export default class Opponent extends Unit {
       this.dx = this.velocity;
     }
   }
+
+  destroy() {
+    this.active = false;
+  }
 }

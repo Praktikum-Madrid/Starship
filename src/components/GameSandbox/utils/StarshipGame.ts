@@ -2,6 +2,7 @@
 
 import { ISprites, KEYS } from './types';
 import Background from './UnitBackground';
+import Missile from './UnitMissile';
 import Opponent from './UnitOpponent';
 import Spaceship from './UnitSpaceship';
 
@@ -109,9 +110,20 @@ export default class StarshipGame {
     }
   }
 
+  private collideOpponents(missiles: Missile[]) {
+    missiles.forEach((missile) => {
+      this.opponents.forEach((opponent) => {
+        if (opponent.active && missile.collide(opponent)) {
+          missile.destroy();
+          opponent.destroy();
+        }
+      });
+    });
+  }
+
   private update() {
     this.background.move();
-    this.spaceship.move();
+    this.collideOpponents(this.spaceship.move());
   }
 
   private run() {
@@ -134,13 +146,15 @@ export default class StarshipGame {
 
   renderOpponents() {
     this.opponents.forEach((opponent) => {
-      this._ctx.drawImage(
-        this.sprites.opponent,
-        opponent.x,
-        opponent.y,
-        opponent.width,
-        opponent.height,
-      );
+      if (opponent.active) {
+        this._ctx.drawImage(
+          this.sprites.opponent,
+          opponent.x,
+          opponent.y,
+          opponent.width,
+          opponent.height,
+        );
+      }
     });
   }
 

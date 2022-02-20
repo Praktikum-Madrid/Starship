@@ -70,6 +70,7 @@ export default class Spaceship extends Unit {
         }
       });
     }
+    return this.missiles;
   }
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
