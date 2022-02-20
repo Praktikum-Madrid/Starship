@@ -11,10 +11,7 @@ const Home: FC<IProps> = ({ userSettings }) => {
   const navigate = useNavigate();
   return (
     <div style={{
-      position: 'absolute',
       width: '100%',
-      top: '0',
-      zIndex: '-1',
       display: 'flex',
       justifyContent: 'center',
     }}
@@ -23,8 +20,7 @@ const Home: FC<IProps> = ({ userSettings }) => {
         component='img'
         sx={{
           width: '100%',
-          maxHeight: '100vh',
-          zIndex: '1',
+          maxHeight: 'calc(100vh - 64px)',
         }}
         src='../images/background.png'
       />
@@ -35,7 +31,7 @@ const Home: FC<IProps> = ({ userSettings }) => {
         alignItems: 'center',
       }}
       >
-        <div style={{ zIndex: '3', textAlign: 'center', maxWidth: '460px' }}>
+        <div style={{ textAlign: 'center', maxWidth: '460px', zIndex: '5' }}>
           <Typography
             variant='h1'
             component='h1'
@@ -69,7 +65,7 @@ const Home: FC<IProps> = ({ userSettings }) => {
             color='primary'
             variant='contained'
             onClick={() => {
-              navigate(userSettings.authorised ? '/game' : '/signin');
+              navigate(userSettings?.authorised ? '/game' : '/signin');
             }}
           >
             К ИГРЕ
@@ -77,7 +73,6 @@ const Home: FC<IProps> = ({ userSettings }) => {
         </div>
         <div style={{
           position: 'absolute',
-          zIndex: '1',
           backgroundColor: 'white',
           borderRadius: '10px',
           opacity: '50%',

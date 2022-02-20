@@ -28,13 +28,17 @@ export default function App() {
 
   // Если настройки юзера сохранены, используем их
   useEffect(() => {
-    const settings = localStorage.getItem('settings');
+    try {
+      const settings = localStorage.getItem('settings');
 
-    if (settings) {
-      setUserSettings({
-        ...JSON.parse(settings),
-        authorised: true,
-      });
+      if (settings) {
+        setUserSettings({
+          ...JSON.parse(settings),
+          authorised: true,
+        });
+      }
+    } catch (e) {
+      console.error(e);
     }
   }, []);
 
