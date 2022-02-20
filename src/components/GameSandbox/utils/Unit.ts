@@ -14,9 +14,9 @@ export default class Unit {
   y: number;
 
   constructor() {
-    this.width = 900;
-    this.height = 700;
-    this.velocity = 4;
+    this.width = 0;
+    this.height = 0;
+    this.velocity = 0;
     this.x = 0;
     this.y = 0;
     this.dx = 0;

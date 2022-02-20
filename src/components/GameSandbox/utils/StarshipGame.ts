@@ -12,9 +12,9 @@ export default class StarshipGame {
 
   running: boolean;
 
-  width: number;
+  widthCanvas: number;
 
-  height: number;
+  heightCanvas: number;
 
   spaceship: Spaceship;
 
@@ -29,15 +29,16 @@ export default class StarshipGame {
   constructor(ctx: CanvasRenderingContext2D) {
     this._ctx = ctx;
     this.running = true;
-    this.width = 900;
-    this.height = 700;
+    this.widthCanvas = 900;
+    this.heightCanvas = 700;
     this.background = new Background();
     this.spaceship = new Spaceship();
-    this.opponents = [];
+    this.opponents = []; // массив генерируемых противников
     this.rows = 2;
     this.cols = 8;
     this.sprites = {
       background: new Image(),
+      // background_space: new Image(),
       spaceship: new Image(),
       opponent: new Image(),
     };
@@ -53,12 +54,12 @@ export default class StarshipGame {
       if (e.keyCode === KEYS.SPACE) {
         // this.spaceship.fire();
       }
-      if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.RIGHT) {
+      if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.RIGHT || e.keyCode === KEYS.UP || e.keyCode === KEYS.DOWN) {
         this.spaceship.start(e.keyCode);
       }
     });
     window.addEventListener('keyup', (e) => {
-      if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.RIGHT) {
+      if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.RIGHT || e.keyCode === KEYS.UP || e.keyCode === KEYS.DOWN) {
         this.spaceship.stop();
       }
     });
@@ -80,7 +81,7 @@ export default class StarshipGame {
   }
 
   private preloadSprites(onResourceLoad: { (): void }) {
-    Object.keys(this.sprites).forEach((key, index) => {
+    Object.keys(this.sprites).forEach((key) => {
       this.sprites[key].src = `../images/${key}.png`;
       this.sprites[key].addEventListener('load', onResourceLoad);
     });
@@ -111,28 +112,9 @@ export default class StarshipGame {
   }
 
   private render() {
-    this._ctx.clearRect(0, 0, this.width, this.height);
-    this._ctx.drawImage(
-      this.sprites.background,
-      this.background.x,
-      this.background.y - this.background.height,
-      this.background.width,
-      this.background.height,
-    );
-    this._ctx.drawImage(
-      this.sprites.background,
-      this.background.x,
-      this.background.y,
-      this.background.width,
-      this.background.height,
-    );
-    this._ctx.drawImage(
-      this.sprites.spaceship,
-      this.spaceship.x,
-      this.spaceship.y,
-      this.spaceship.width,
-      this.spaceship.height,
-    );
+    this._ctx.clearRect(0, 0, this.widthCanvas, this.heightCanvas);
+    this.background.render(this._ctx, this.sprites);
+    this.spaceship.render(this._ctx, this.sprites);
 
     this.renderOpponents();
   }
