@@ -4,12 +4,13 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import { Tab, Tabs } from '@mui/material';
 
 export default function Header() {
   const [value, setValue] = React.useState(0);
+  const location = useLocation();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -34,7 +35,7 @@ export default function Header() {
     if (window.location.pathname === '/signin' && value !== 5) {
       setValue(5);
     }
-  }, [value]);
+  }, [value, location]);
 
   return (
     <AppBar position='static' color='primary'>

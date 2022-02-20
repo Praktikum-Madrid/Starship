@@ -28,10 +28,17 @@ export default function App() {
 
   // Если настройки юзера сохранены, используем их
   useEffect(() => {
-    const settings = localStorage.getItem('settings');
+    try {
+      const settings = localStorage.getItem('settings');
 
-    if (settings) {
-      setUserSettings(JSON.parse(settings));
+      if (settings) {
+        setUserSettings({
+          ...JSON.parse(settings),
+          authorised: true,
+        });
+      }
+    } catch (e) {
+      console.error(e);
     }
   }, []);
 
@@ -104,7 +111,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home userSettings={userSettings} />} />
           <Route path='signin' element={<SignIn handleLogin={handleLogin} signInState={signInState} userSettings={userSettings} />} />
           <Route path='signup' element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState} />} />
           <Route path='profile' element={<Profile userSettings={userSettings} setUserSettings={setUserSettings} />} />
