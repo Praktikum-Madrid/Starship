@@ -1,11 +1,12 @@
 import Unit from './Unit';
 import { KEYS, ISprites } from './types';
+import Missile from './UnitMissile';
 
 export default class Spaceship extends Unit {
   constructor() {
     super();
     this.velocity = 3;
-    this.x = 400;
+    this.x = 380;
     this.y = 500;
     this.width = 150;
     this.height = 150;
@@ -20,6 +21,13 @@ export default class Spaceship extends Unit {
       this.dy = -this.velocity;
     } else if (direction === KEYS.DOWN) {
       this.dy = this.velocity;
+    }
+  }
+
+  fire(missile: Missile | null) {
+    if (missile) {
+      missile.start();
+      missile = null;
     }
   }
 

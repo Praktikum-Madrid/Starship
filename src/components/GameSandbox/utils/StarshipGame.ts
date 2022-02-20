@@ -1,9 +1,10 @@
 // StarshipGame.ts
 
+import { ISprites, KEYS } from './types';
 import Background from './UnitBackground';
 import Opponent from './UnitOpponent';
 import Spaceship from './UnitSpaceship';
-import { ISprites, KEYS } from './types';
+import Missile from './UnitMissile';
 
 export default class StarshipGame {
   _ctx: CanvasRenderingContext2D;
@@ -17,6 +18,8 @@ export default class StarshipGame {
   heightCanvas: number;
 
   spaceship: Spaceship;
+
+  missile: Missile;
 
   background: Background;
 
@@ -33,14 +36,18 @@ export default class StarshipGame {
     this.heightCanvas = 700;
     this.background = new Background();
     this.spaceship = new Spaceship();
+    this.missile = new Missile();
     this.opponents = []; // массив генерируемых противников
     this.rows = 2;
     this.cols = 8;
     this.sprites = {
-      background: new Image(),
-      // background_space: new Image(),
+      background: new Image(), // + background_space: new Image(), - добавить новый фон
       spaceship: new Image(),
       opponent: new Image(),
+      missile_1: new Image(),
+      missile_2: new Image(),
+      missile_3: new Image(),
+      missile_4: new Image(),
     };
   }
 
@@ -52,14 +59,24 @@ export default class StarshipGame {
   private setEvents() {
     window.addEventListener('keydown', (e) => {
       if (e.keyCode === KEYS.SPACE) {
-        // this.spaceship.fire();
+        this.spaceship.fire(this.missile);
       }
-      if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.RIGHT || e.keyCode === KEYS.UP || e.keyCode === KEYS.DOWN) {
+      if (
+        e.keyCode === KEYS.LEFT
+        || e.keyCode === KEYS.RIGHT
+        || e.keyCode === KEYS.UP
+        || e.keyCode === KEYS.DOWN
+      ) {
         this.spaceship.start(e.keyCode);
       }
     });
     window.addEventListener('keyup', (e) => {
-      if (e.keyCode === KEYS.LEFT || e.keyCode === KEYS.RIGHT || e.keyCode === KEYS.UP || e.keyCode === KEYS.DOWN) {
+      if (
+        e.keyCode === KEYS.LEFT
+        || e.keyCode === KEYS.RIGHT
+        || e.keyCode === KEYS.UP
+        || e.keyCode === KEYS.DOWN
+      ) {
         this.spaceship.stop();
       }
     });
@@ -99,6 +116,7 @@ export default class StarshipGame {
   private update() {
     this.background.move();
     this.spaceship.move();
+    this.missile.move();
   }
 
   private run() {
@@ -114,6 +132,7 @@ export default class StarshipGame {
   private render() {
     this._ctx.clearRect(0, 0, this.widthCanvas, this.heightCanvas);
     this.background.render(this._ctx, this.sprites);
+    this.missile.render(this._ctx, this.sprites);
     this.spaceship.render(this._ctx, this.sprites);
 
     this.renderOpponents();
