@@ -134,9 +134,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
   });
 
   const closeFormProfile = () => {
-    formProfile.resetForm({ values: {
-      ...getInitialValuesFields(),
-    } });
+    formProfile.resetForm({ values: getInitialValuesFields() });
     setFormProfileEnable(false);
   };
 
@@ -185,8 +183,10 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
           type='file'
           onClick={() => setError('')}
           onChange={(e) => {
-            // @ts-ignore
-            saveAvatar(e.target?.files[0]);
+            const files = e.target?.files;
+            if (files?.length) {
+              saveAvatar(files[0]);
+            }
           }}
         />
       </Stack>

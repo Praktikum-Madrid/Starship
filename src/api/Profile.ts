@@ -3,7 +3,7 @@ import {
   savePassword,
   saveProfile,
 } from 'config/api';
-import Api from './Api';
+import Api from 'api/Api';
 
 type TIdUser = number | string;
 type TLoginUser = string;
@@ -47,7 +47,7 @@ class Profile extends Api {
   }
 
   saveAvatar(form: FormData) {
-    return this.put(this._saveAvatarURL, form, true);
+    return this.putFile(this._saveAvatarURL, form);
   }
 }
 

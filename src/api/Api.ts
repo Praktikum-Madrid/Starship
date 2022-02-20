@@ -8,20 +8,26 @@ class Api {
     this.apiUrl = apiURL;
   }
 
-  // Конструктор опций
-  private static _createOptions(method: string, data?: TRequestData, file = false): TRrequestOptions {
+  // Конструкторы опций
+  private static _createOptionsFile(method: string, data: TRequestData): TRrequestOptions {
+    return {
+      method,
+      credentials: 'include',
+      body: data,
+    };
+  }
+
+  private static _createOptions(method: string, data?: TRequestData): TRrequestOptions {
     const options: TRrequestOptions = {
       method,
       credentials: 'include',
-    };
-    if (!file) {
-      options.headers = {
+      headers: {
         'Content-Type': 'application/json',
-      };
-    }
+      },
+    };
 
     if (data) {
-      options.body = file ? data : JSON.stringify(data);
+      options.body = JSON.stringify(data);
     }
 
     return options;
@@ -44,8 +50,14 @@ class Api {
     return Api._makeRequest(url, options);
   }
 
-  protected put(url: string, data: TRequestData, file = false): Promise<Response> {
-    const options = Api._createOptions('PUT', data, file);
+  protected put(url: string, data: TRequestData): Promise<Response> {
+    const options = Api._createOptions('PUT', data);
+
+    return Api._makeRequest(url, options);
+  }
+
+  protected putFile(url: string, data: TRequestData): Promise<Response> {
+    const options = Api._createOptionsFile('PUT', data);
 
     return Api._makeRequest(url, options);
   }
