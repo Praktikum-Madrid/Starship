@@ -18,6 +18,7 @@ module.exports = {
       config: path.resolve(__dirname, 'src/config/'),
       types: path.resolve(__dirname, 'src/types/'),
       utils: path.resolve(__dirname, 'src/utils/'),
+      game: path.resolve(__dirname, 'src/game/'),
     },
   },
   module: {
