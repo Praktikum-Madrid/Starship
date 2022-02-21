@@ -2,6 +2,7 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -46,18 +47,26 @@ module.exports = {
         ],
       },
       {
-        test: /\.png/,
+        test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+        use: 'url-loader',
         type: 'asset/resource',
       },
     ],
   },
   devServer: {
     historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, './public'),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './www/index.html',
     }),
+    new CopyPlugin({
+      patterns: [
+        { from: 'public' },
+      ],
+    }),
   ],
-
 };
