@@ -10,12 +10,11 @@ import SignIn from 'components/SignIn';
 import SignUp from 'components/SugnUp';
 import Home from 'components/Home';
 import Profile from 'components/Profile';
-import Game from 'components/Game';
 import Leaderboard from 'components/Leaderboard';
 import Forum from 'components/Forum';
 import Page404 from 'components/Page404';
 import Page500 from 'components/Page500';
-import GameSandbox from 'components/GameSandbox';
+import GameStarship from 'components/GameStarship';
 
 export default function App() {
   // Стейт для хранения настроек юзера
@@ -116,8 +115,7 @@ export default function App() {
           <Route path='signin' element={<SignIn handleLogin={handleLogin} signInState={signInState} userSettings={userSettings} />} />
           <Route path='signup' element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState} />} />
           <Route path='profile' element={<Profile userSettings={userSettings} setUserSettings={setUserSettings} />} />
-          <Route path='game' element={<Game />} />
-          <Route path='gamesandbox' element={<GameSandbox />} />
+          <Route path='game' element={<GameStarship />} />
           <Route path='leaderboard' element={<Leaderboard />} />
           <Route path='forum' element={<Forum />} />
           <Route path='forum/:topicId' element={<Topic />} />

@@ -35,11 +35,7 @@ export default function Header() {
     if (window.location.pathname === '/signin' && value !== 5) {
       setValue(5);
     }
-    if (window.location.pathname === '/gamesandbox' && value !== 6) {
-      setValue(6);
-    }
   }, [value, location]);
-
 
   return (
     <AppBar position='static' color='primary'>
@@ -71,12 +67,6 @@ export default function Header() {
               label='Game'
               component={Link}
               to='/game'
-            />
-            <Tab
-              sx={{ textTransform: 'none', color: 'white' }}
-              label='GameSandbox'
-              component={Link}
-              to='/gamesandbox'
             />
             <Tab
               sx={{ textTransform: 'none', color: 'white' }}
