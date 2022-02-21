@@ -16,6 +16,9 @@
 
 [Доска в Miro](https://miro.com/app/board/uXjVOOg1bsg=/)
 
+[Ссылка на демо в хероку](https://my-game1222.herokuapp.com/)
+
+
 ## Code style
 В проекте используем [Руководство по стилю кода от Airbnb](https://leonidlebedev.github.io/javascript-airbnb/) при написании JS/TS.
 

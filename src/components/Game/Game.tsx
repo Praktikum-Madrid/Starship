@@ -1,17 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 import Container from '@mui/material/Container';
-import StarshipGame from 'game/game';
+import StarshipGame from 'game/Game';
 import { Button, IconButton } from '@mui/material';
 import EndGameScene from 'components/Game/components';
 
 export default function Game() {
   const ref = useRef<HTMLCanvasElement>(null);
 
-
   const [endGame, setEndGame] = useState(false);
   const [start, setStart] = useState(false);
-
 
   useEffect(() => {
     const ctx = ref.current?.getContext('2d');
@@ -30,7 +28,7 @@ export default function Game() {
   return (
 
     <Container sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px', position: 'relative' }}>
-      {!endGame && (
+      {!endGame && start && (
         <IconButton
           aria-label='quit'
           sx={{ position: 'absolute', right: '0px' }}
