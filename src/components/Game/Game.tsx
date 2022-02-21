@@ -13,9 +13,9 @@ export default function Game() {
 
     ref.current?.focus();
 
-    if (ctx) {
+    if (start && ctx) {
       const game = new StarshipGame(ctx, 900, 700);
-      if (start) game.start();
+      game.start();
     }
   }, [start]);
 
