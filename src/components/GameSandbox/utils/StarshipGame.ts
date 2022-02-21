@@ -10,13 +10,18 @@ const ROWS_OPPONENTS = 50;
 const COLS_OPPONENTS = 8;
 const WIDTH_CANWAS = 900;
 const HEIGT_CANWAS = 700;
+const FRAME_RATE = 5000;
 
 export default class StarshipGame {
-  _ctx: CanvasRenderingContext2D;
+  private _ctx: CanvasRenderingContext2D;
+
+  private _isLooping: boolean;
+
+  private _lastFrameTime: number | undefined;
+
+  private _frameRate: number;
 
   sprites: ISprites;
-
-  running: boolean;
 
   widthCanvas: number;
 
@@ -34,7 +39,10 @@ export default class StarshipGame {
 
   constructor(ctx: CanvasRenderingContext2D) {
     this._ctx = ctx;
-    this.running = true;
+
+    this._isLooping = false;
+    this._frameRate = 1000 / FRAME_RATE;
+
     this.widthCanvas = WIDTH_CANWAS;
     this.heightCanvas = HEIGT_CANWAS;
     this.background = new Background();
@@ -97,7 +105,6 @@ export default class StarshipGame {
     };
 
     this.preloadSprites(onResourceLoad);
-    // TODO: добавить загрузку аудио
   }
 
   private preloadSprites(onResourceLoad: { (): void }) {
@@ -107,7 +114,6 @@ export default class StarshipGame {
     });
   }
 
-  // генерация противников на игровом поле
   private create() {
     for (let row = 0; row < this.rows; row += 1) {
       for (let col = 0; col < this.cols; col += 1) {
@@ -144,12 +150,21 @@ export default class StarshipGame {
   }
 
   private run() {
-    if (this.running) {
-      window.requestAnimationFrame(() => {
-        this.update();
-        this.render();
-        this.run();
-      });
+    if (!this._isLooping) {
+      return;
+    }
+
+    const timeNow = performance.now();
+    const deltaSeconds = (timeNow - this._lastFrameTime!) / this._frameRate;
+    this._lastFrameTime = timeNow;
+
+    window.requestAnimationFrame(() => {
+      this.run();
+    });
+
+    if (deltaSeconds >= 1) {
+      this.update();
+      this.render();
     }
   }
 
@@ -170,6 +185,8 @@ export default class StarshipGame {
   }
 
   start() {
+    this._isLooping = true;
+    this._lastFrameTime = performance.now();
     this.init();
     this.preload(() => {
       this.create();
@@ -178,6 +195,6 @@ export default class StarshipGame {
   }
 
   end() {
-    this.running = false;
+    this._isLooping = false;
   }
 }
