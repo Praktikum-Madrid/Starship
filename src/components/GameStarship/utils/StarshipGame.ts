@@ -1,5 +1,6 @@
 // StarshipGame.ts
 
+import throttleInput from 'utils/throttleInput';
 import { ISprites, KEYS } from './types';
 import Background from './UnitBackground';
 import Missile from './UnitMissile';
@@ -60,9 +61,13 @@ export default class StarshipGame {
   }
 
   private setEvents() {
+    // Ограничиваем частоту срабатывания ввода
+    const limitInput = throttleInput(200);
+
     window.addEventListener('keydown', (e) => {
       if (e.keyCode === KEYS.SPACE) {
-        this.spaceship.fire();
+        // Ограничиваем частоту стрельбы
+        limitInput(this.spaceship.fire);
       }
       if (
         e.keyCode === KEYS.LEFT
@@ -111,7 +116,7 @@ export default class StarshipGame {
   private create() {
     for (let row = 0; row < this.rows; row += 1) {
       for (let col = 0; col < this.cols; col += 1) {
-        this.opponents.push(Math.random() < 0.125 ? new Opponent(100 * col + 50, 200 * -row + 0, Math.random() - 0.3) : null);
+        this.opponents.push(Math.random() < 0.125 ? new Opponent(100 * col + 50, 200 * -row, Math.random() - 0.3) : null);
       }
     }
     this.opponents.forEach((opponent) => {
