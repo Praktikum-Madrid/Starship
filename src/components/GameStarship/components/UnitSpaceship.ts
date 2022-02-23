@@ -1,6 +1,10 @@
 import Unit from './Unit';
 import { KEYS, ISprites } from '../config/types';
 import Missile from './UnitMissile';
+import {
+  WIDTH_CANWAS,
+  HEIGT_CANWAS,
+} from '../config/const';
 
 const NUM_MISSILES = 100;
 
@@ -71,6 +75,30 @@ export default class Spaceship extends Unit {
       });
     }
     return this.missiles;
+  }
+
+  collideBounds() {
+    const starshipLeft = this.x + this.dx;
+    const starshipTop = this.y + this.dy;
+    const starshipRight = starshipLeft + this.width;
+    const starshipDown = starshipTop + this.height;
+    const boundsLeft = 0;
+    const boundsTop = 0;
+    const boundsRight = WIDTH_CANWAS;
+    const boundsDown = HEIGT_CANWAS;
+
+    if (starshipLeft < boundsLeft) {
+      this.dx = this.velocity;
+    }
+    if (starshipRight > boundsRight) {
+      this.dx = -this.velocity;
+    }
+    if (starshipTop < boundsTop) {
+      this.dy = this.velocity;
+    }
+    if (starshipDown > boundsDown) {
+      this.dy = -this.velocity;
+    }
   }
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {

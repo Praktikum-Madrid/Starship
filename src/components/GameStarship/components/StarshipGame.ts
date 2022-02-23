@@ -1,17 +1,18 @@
 // StarshipGame.ts
 
-import { SPRITES } from '../config/const';
+import {
+  COLS_OPPONENTS,
+  HEIGT_CANWAS,
+  ROWS_OPPONENTS,
+  SPRITES,
+  WIDTH_CANWAS,
+} from '../config/const';
 import { ISprites, KEYS } from '../config/types';
 import createImg from '../utils/createImg';
 import Background from './UnitBackground';
 import Missile from './UnitMissile';
 import Opponent from './UnitOpponent';
 import Spaceship from './UnitSpaceship';
-
-const ROWS_OPPONENTS = 50;
-const COLS_OPPONENTS = 8;
-const WIDTH_CANWAS = 900;
-const HEIGT_CANWAS = 700;
 
 export default class StarshipGame {
   _ctx: CanvasRenderingContext2D;
@@ -104,7 +105,11 @@ export default class StarshipGame {
   private create() {
     for (let row = 0; row < this.rows; row += 1) {
       for (let col = 0; col < this.cols; col += 1) {
-        this.opponents.push(Math.random() < 0.125 ? new Opponent(100 * col + 50, 200 * -row + 0, Math.random() - 0.3) : null);
+        this.opponents.push(
+          Math.random() < 0.125
+            ? new Opponent(100 * col + 50, 200 * -row + 0, Math.random() - 0.3)
+            : null,
+        );
       }
     }
     this.opponents.forEach((opponent) => {
@@ -134,6 +139,7 @@ export default class StarshipGame {
       }
     });
     this.collideOpponents(this.spaceship.move());
+    this.spaceship.collideBounds();
   }
 
   private run() {
