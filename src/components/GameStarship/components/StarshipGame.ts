@@ -38,6 +38,8 @@ export default class StarshipGame {
 
   opponents: (Opponent | null)[];
 
+  score: number;
+
   constructor(ctx: CanvasRenderingContext2D) {
     this._ctx = ctx;
     this.running = true;
@@ -52,11 +54,18 @@ export default class StarshipGame {
     this.sounds = {
       bump: null,
     };
+    this.score = 0;
   }
 
   private init() {
     this.background.start();
+    this.setTextFont();
     this.setEvents();
+  }
+
+  private setTextFont() {
+    this._ctx.font = '20px Arial';
+    this._ctx.fillStyle = '#FFFFFF';
   }
 
   private setEvents() {
@@ -143,6 +152,7 @@ export default class StarshipGame {
           missile.destroy();
           opponent.destroy();
           this.sounds.bump?.play();
+          this.addScore();
         }
       });
     });
@@ -157,6 +167,10 @@ export default class StarshipGame {
     });
     this.collideOpponents(this.spaceship.move());
     this.spaceship.collideBounds();
+  }
+
+  private addScore() {
+    this.score += 1;
   }
 
   private run() {
@@ -175,6 +189,7 @@ export default class StarshipGame {
     this.spaceship.render(this._ctx, this.sprites);
 
     this.renderOpponents();
+    this._ctx.fillText(`Score: ${this.score}`, 20, 20);
   }
 
   renderOpponents() {
