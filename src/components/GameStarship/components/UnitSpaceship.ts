@@ -4,9 +4,8 @@ import Missile from './UnitMissile';
 import {
   WIDTH_CANWAS,
   HEIGT_CANWAS,
+  NUM_MISSILES,
 } from '../config/const';
-
-const NUM_MISSILES = 100;
 
 export default class Spaceship extends Unit {
   missiles: Missile[];

@@ -1,13 +1,14 @@
 // StarshipGame.ts
 
 import {
+  AUDIOS,
   COLS_OPPONENTS,
   HEIGT_CANWAS,
   ROWS_OPPONENTS,
   SPRITES,
   WIDTH_CANWAS,
 } from '../config/const';
-import { ISprites, KEYS } from '../config/types';
+import { IAudio, ISprites, KEYS } from '../config/types';
 import createImg from '../utils/createImg';
 import Background from './UnitBackground';
 import Missile from './UnitMissile';
@@ -18,6 +19,8 @@ export default class StarshipGame {
   _ctx: CanvasRenderingContext2D;
 
   sprites: ISprites;
+
+  sounds: IAudio;
 
   running: boolean;
 
@@ -46,6 +49,9 @@ export default class StarshipGame {
     this.rows = ROWS_OPPONENTS;
     this.cols = COLS_OPPONENTS;
     this.sprites = createImg();
+    this.sounds = {
+      bump: null,
+    };
   }
 
   private init() {
@@ -81,7 +87,9 @@ export default class StarshipGame {
 
   private preload(callback: CallableFunction) {
     let loaded = 0;
-    const required = Object.keys(this.sprites).length - 1;
+    let required = Object.keys(this.sprites).length - 1;
+    required += Object.keys(this.sounds).length;
+    console.log('required', required);
 
     const onResourceLoad = () => {
       loaded += 1;
@@ -91,7 +99,7 @@ export default class StarshipGame {
     };
 
     this.preloadSprites(onResourceLoad);
-    // TODO: добавить загрузку аудио
+    this.preloadAudios(onResourceLoad);
   }
 
   private preloadSprites(onResourceLoad: { (): void }) {
@@ -101,7 +109,15 @@ export default class StarshipGame {
     });
   }
 
-  // генерация противников на игровом поле
+  private preloadAudios(onResourceLoad: { (): void }) {
+    AUDIOS.forEach((key) => {
+      this.sounds[key] = new Audio(`../sounds/${key}.mp3`);
+      this.sounds[key]!.addEventListener('canplaythrough', onResourceLoad, {
+        once: true,
+      });
+    });
+  }
+
   private create() {
     for (let row = 0; row < this.rows; row += 1) {
       for (let col = 0; col < this.cols; col += 1) {
@@ -126,6 +142,7 @@ export default class StarshipGame {
         if (opponent && opponent.active && missile.collide(opponent)) {
           missile.destroy();
           opponent.destroy();
+          this.sounds.bump?.play();
         }
       });
     });

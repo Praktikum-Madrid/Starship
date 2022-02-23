@@ -3,6 +3,11 @@ export const ROWS_OPPONENTS = 50;
 export const COLS_OPPONENTS = 8;
 export const WIDTH_CANWAS = 900;
 export const HEIGT_CANWAS = 700;
+export const NUM_MISSILES = 100;
+
+export const AUDIOS: string[] = [
+  'bump',
+];
 export const SPRITES: string[] = [
   'background',
   'background_space',
