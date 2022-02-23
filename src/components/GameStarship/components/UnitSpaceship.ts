@@ -14,8 +14,11 @@ export default class Spaceship extends Unit {
 
   numShots: number;
 
+  active: boolean;
+
   constructor() {
     super();
+    this.active = true;
     this.velocity = 3;
     this.x = 380;
     this.y = 500;
@@ -113,5 +116,7 @@ export default class Spaceship extends Unit {
       this.width,
       this.height,
     );
+
+    ctx.fillText(`Missiles: ${NUM_MISSILES - this.numShots}`, 20, 60);
   }
 }

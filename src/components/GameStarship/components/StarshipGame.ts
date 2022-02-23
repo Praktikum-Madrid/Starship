@@ -189,7 +189,7 @@ export default class StarshipGame {
     this.spaceship.render(this._ctx, this.sprites);
 
     this.renderOpponents();
-    this._ctx.fillText(`Score: ${this.score}`, 20, 20);
+    this._ctx.fillText(`Score: ${this.score}`, 20, 30);
   }
 
   renderOpponents() {
