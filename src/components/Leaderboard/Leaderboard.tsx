@@ -1,56 +1,115 @@
-import React from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+/* eslint-disable react/function-component-definition */
+import React, { useState, useEffect } from 'react';
+import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import Container from '@mui/material/Container';
+import { Alert, Stack } from '@mui/material';
+import LeaderboardAPI from 'api/Leaderboard';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
   {
     field: 'firstName',
     headerName: 'First name',
-    width: 150,
-    editable: true,
+    width: 200,
+    editable: false,
   },
   {
     field: 'lastName',
     headerName: 'Last name',
-    width: 150,
-    editable: true,
+    width: 200,
+    editable: false,
   },
   {
     field: 'rating',
     headerName: 'Rating',
     type: 'number',
-    width: 110,
-    editable: true,
+    width: 200,
+    editable: false,
   },
 ];
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', rating: 350 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', rating: 420 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', rating: 450 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', rating: 160 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', rating: 0 },
-  { id: 6, lastName: 'Melisandre', firstName: 'Yu', rating: 1500 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', rating: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', rating: 360 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', rating: 65 },
-];
+const Leaderboard = () => {
+  // TODO: добавить Redux и доработать этот блок кода
+  const [rows, setRows] = useState<GridRowsProp>([]);
+  const [errorLeaderboard, setErrorLeaderboard] = useState('');
 
-export default function Leaderboard() {
+  type TUserLeaderboard = {
+    data: {
+      avatar: string;
+      rating: number;
+      first_name: string;
+      second_name: string;
+    };
+  }[];
+
+  function formatLeaderboardData(arr: TUserLeaderboard): GridRowsProp {
+    const result: {}[] = [];
+    arr.forEach((user, index) => {
+      result.push({
+        internalId: index + 1,
+        lastName: user.data.second_name,
+        firstName: user.data.first_name,
+        rating: user.data.rating,
+      });
+    });
+
+    return result;
+  }
+
+  const leaderboardRequest = {
+    ratingFieldName: 'rating',
+    cursor: 0,
+    limit: 5,
+  };
+
+  useEffect(() => {
+    LeaderboardAPI.getTeamLeaderboard(leaderboardRequest)
+      .then((response) => {
+        if (response.ok && response.status === 200) {
+          return response.json();
+        }
+        setErrorLeaderboard('Ошибка при обновлении данных лидерборда');
+      })
+      .then((response) => {
+        const resRows = formatLeaderboardData(response);
+        setRows(resRows);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <Container
       sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}
     >
+      {errorLeaderboard && (
+        <Stack
+          sx={{
+            mt: 2,
+            textAlign: 'center',
+            gap: 2,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            maxWidth: '400px',
+          }}
+        >
+          <Alert severity='warning'>{errorLeaderboard}</Alert>
+        </Stack>
+      )}
       <div style={{ height: 400, width: 600 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          disableSelectionOnClick
-        />
+        {rows.length > 1 && (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            getRowId={(row) => row.internalId}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            disableSelectionOnClick
+          />
+        )}
       </div>
     </Container>
   );
-}
+};
+
+export default Leaderboard;

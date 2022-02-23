@@ -14,3 +14,7 @@ export const savePassword = '/user/password';
 export const saveAvatar = '/user/profile/avatar';
 export const getUserById = '/user/';
 export const findUser = '/user/search';
+
+// Работа с Leaderboard
+export const addToLeaderboard = '/leaderboard';
+export const getTeamLeaderboard = '/leaderboard/starship';
