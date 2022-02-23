@@ -1,6 +1,8 @@
 // StarshipGame.ts
 
-import { ISprites, KEYS } from './types';
+import { SPRITES } from '../config/const';
+import { ISprites, KEYS } from '../config/types';
+import createImg from '../utils/createImg';
 import Background from './UnitBackground';
 import Missile from './UnitMissile';
 import Opponent from './UnitOpponent';
@@ -42,16 +44,7 @@ export default class StarshipGame {
     this.opponents = [];
     this.rows = ROWS_OPPONENTS;
     this.cols = COLS_OPPONENTS;
-    this.sprites = {
-      background: new Image(),
-      background_space: new Image(),
-      spaceship: new Image(),
-      opponent: new Image(),
-      missile_1: new Image(),
-      missile_2: new Image(),
-      missile_3: new Image(),
-      missile_4: new Image(),
-    };
+    this.sprites = createImg();
   }
 
   private init() {
@@ -101,7 +94,7 @@ export default class StarshipGame {
   }
 
   private preloadSprites(onResourceLoad: { (): void }) {
-    Object.keys(this.sprites).forEach((key) => {
+    SPRITES.forEach((key) => {
       this.sprites[key].src = `../images/${key}.png`;
       this.sprites[key].addEventListener('load', onResourceLoad);
     });

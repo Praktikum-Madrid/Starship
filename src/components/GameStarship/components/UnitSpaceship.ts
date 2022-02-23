@@ -1,5 +1,5 @@
 import Unit from './Unit';
-import { KEYS, ISprites } from './types';
+import { KEYS, ISprites } from '../config/types';
 import Missile from './UnitMissile';
 
 const NUM_MISSILES = 100;
