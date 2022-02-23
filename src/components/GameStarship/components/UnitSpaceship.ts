@@ -52,6 +52,9 @@ export default class Spaceship extends Unit {
       this.unitOfFire[this.numShots] = false;
       this.numShots += 1;
     }
+    if (this.numShots === NUM_MISSILES) {
+      this.active = false;
+    }
   }
 
   move() {

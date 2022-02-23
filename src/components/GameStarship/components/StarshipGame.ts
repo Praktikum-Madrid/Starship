@@ -167,10 +167,19 @@ export default class StarshipGame {
     });
     this.collideOpponents(this.spaceship.move());
     this.spaceship.collideBounds();
+
+    if (!this.spaceship.active) {
+      this.end('Вы проиграли...');
+    }
   }
 
   private addScore() {
     this.score += 1;
+    const opp = this.opponents.length
+    - this.opponents.filter((item) => item === null).length;
+    if (this.score > opp / 1.3) {
+      this.end('Вы выиграли!');
+    }
   }
 
   private run() {
@@ -190,6 +199,14 @@ export default class StarshipGame {
 
     this.renderOpponents();
     this._ctx.fillText(`Score: ${this.score}`, 20, 30);
+    this._ctx.fillText(
+      `Num opponents: ${
+        this.opponents.length
+        - this.opponents.filter((item) => item === null).length
+      }`,
+      20,
+      90,
+    );
   }
 
   renderOpponents() {
@@ -208,7 +225,9 @@ export default class StarshipGame {
     });
   }
 
-  end() {
+  end(message: string) {
     this.running = false;
+    alert(`${message} Ваш результат ${this.score}.`);
+    window.location.reload();
   }
 }
