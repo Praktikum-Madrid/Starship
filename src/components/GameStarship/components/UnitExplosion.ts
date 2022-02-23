@@ -33,18 +33,18 @@ export default class Explosion extends Unit {
     if (this.active) {
       console.log(this.frame);
 
-      if (this.frame >= 39 && this.timerId) {
-        clearInterval(this.timerId);
-        this.active = false;
-      }
-
       ctx.drawImage(
-        sprites[`exc_${this.frame > 9 ? '0' : '00'}${this.frame}`],
+        sprites[`exc_${this.frame > 9 ? '0' : '00'}${this.frame > 39 ? 40 : this.frame}`],
         this.x,
         this.y,
         this.width,
         this.height,
       );
+
+      if (this.frame >= 39 && this.timerId) {
+        clearInterval(this.timerId);
+        this.active = false;
+      }
     }
   }
 
