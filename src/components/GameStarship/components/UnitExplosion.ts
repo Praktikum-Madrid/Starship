@@ -7,7 +7,7 @@ export default class Explosion extends Unit {
 
   frame: number;
 
-  timerId: NodeJS.Timer | undefined;
+  timerId: number | undefined;
 
   constructor(missileVelocity: number, missileX: number, missileY: number) {
     super();
@@ -31,8 +31,6 @@ export default class Explosion extends Unit {
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
     if (this.active) {
-      // console.log(this.frame);
-
       ctx.drawImage(
         sprites[`exc_${this.frame > 9 ? '0' : '00'}${this.frame > 39 ? 40 : this.frame}`],
         this.x,
@@ -50,7 +48,7 @@ export default class Explosion extends Unit {
 
   animate() {
     if (this.active) {
-      this.timerId = setInterval(() => {
+      this.timerId = window.setInterval(() => {
         this.frame += 1;
       }, 10);
     }
