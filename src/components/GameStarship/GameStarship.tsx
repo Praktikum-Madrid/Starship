@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import { IconButton } from '@mui/material';
-import StarshipGame from './utils/StarshipGame';
+import StarshipGame from './components/StarshipGame';
 import StartGameScene from '../StartGameScene';
 import EndGameScene from '../EndGameScene';
 

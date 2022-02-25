@@ -2,6 +2,10 @@ export interface ISprites {
   [key: string]: HTMLImageElement;
 }
 
+export interface IAudio {
+  [key: string]: HTMLAudioElement | null;
+}
+
 export const enum KEYS {
   LEFT = 37,
   RIGHT = 39,

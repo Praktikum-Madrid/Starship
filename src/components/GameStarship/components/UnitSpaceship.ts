@@ -1,8 +1,11 @@
 import Unit from './Unit';
-import { KEYS, ISprites } from './types';
+import { KEYS, ISprites } from '../config/types';
 import Missile from './UnitMissile';
-
-const NUM_MISSILES = 100;
+import {
+  WIDTH_CANWAS,
+  HEIGT_CANWAS,
+  NUM_MISSILES,
+} from '../config/const';
 
 export default class Spaceship extends Unit {
   missiles: Missile[];
@@ -11,8 +14,11 @@ export default class Spaceship extends Unit {
 
   numShots: number;
 
+  active: boolean;
+
   constructor() {
     super();
+    this.active = true;
     this.velocity = 3;
     this.x = 380;
     this.y = 500;
@@ -46,6 +52,9 @@ export default class Spaceship extends Unit {
       this.unitOfFire[this.numShots] = false;
       this.numShots += 1;
     }
+    if (this.numShots === NUM_MISSILES) {
+      this.active = false;
+    }
   }
 
   move() {
@@ -73,6 +82,30 @@ export default class Spaceship extends Unit {
     return this.missiles;
   }
 
+  collideBounds() {
+    const starshipLeft = this.x + this.dx;
+    const starshipTop = this.y + this.dy;
+    const starshipRight = starshipLeft + this.width;
+    const starshipDown = starshipTop + this.height;
+    const boundsLeft = 0;
+    const boundsTop = 0;
+    const boundsRight = WIDTH_CANWAS;
+    const boundsDown = HEIGT_CANWAS;
+
+    if (starshipLeft < boundsLeft) {
+      this.dx = this.velocity;
+    }
+    if (starshipRight > boundsRight) {
+      this.dx = -this.velocity;
+    }
+    if (starshipTop < boundsTop) {
+      this.dy = this.velocity;
+    }
+    if (starshipDown > boundsDown) {
+      this.dy = -this.velocity;
+    }
+  }
+
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
     if (this.missiles) {
       this.missiles.forEach((missile) => {
@@ -86,5 +119,7 @@ export default class Spaceship extends Unit {
       this.width,
       this.height,
     );
+
+    ctx.fillText(`Missiles: ${NUM_MISSILES - this.numShots}`, 20, 60);
   }
 }
