@@ -34,7 +34,7 @@ export default class Spaceship extends Unit {
     this.missiles = this.missiles.map(() => new Missile());
   }
 
-  start(direction: KEYS) {
+  start = (direction: KEYS) => {
     if (direction === KEYS.LEFT) {
       this.dx = -this.velocity;
     } else if (direction === KEYS.RIGHT) {
@@ -44,9 +44,9 @@ export default class Spaceship extends Unit {
     } else if (direction === KEYS.DOWN) {
       this.dy = this.velocity;
     }
-  }
+  };
 
-  fire() {
+  fire = () => {
     if (this.missiles && this.numShots < NUM_MISSILES) {
       this.missiles[this.numShots].start();
       this.unitOfFire[this.numShots] = false;
@@ -55,7 +55,7 @@ export default class Spaceship extends Unit {
     if (this.numShots === NUM_MISSILES) {
       this.active = false;
     }
-  }
+  };
 
   move() {
     if (this.missiles) {
