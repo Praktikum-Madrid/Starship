@@ -17,29 +17,29 @@ const validationSchemaProfileData = yup.object({
     .min(2, 'Минимальная длина - 2 буквы')
     .required('Укажите вашу фамилию'),
   login: yup.string()
-    .matches(loginValidator, 'Разрешены буквы, цифры, подчеркивания и дефисы')
+    .matches(loginValidator, 'Разрешены латинские буквы, цифры, подчеркивания и дефисы')
     .required('Укажите логин пользователя'),
   display_name: yup.string()
-    .matches(loginValidator, 'Разрешены буквы, цифры, подчеркивания и дефисы')
+    .matches(loginValidator, 'Разрешены латинские буквы, цифры, подчеркивания и дефисы')
     .required('Укажите имя пользователя'),
   email: yup.string()
     .email('Укажите корректный адрес электронной почты')
     .required('Укажите адрес электронной почты'),
   phone: yup.string()
-    .matches(phoneValidator, 'Может состоять только из чисел')
+    .matches(phoneValidator, 'Должно состоять только из цифр, может начинаться со знака +, от 10 до 15 символов')
     .required('Укажите номер телефона'),
 });
 
 const validationSchemaPassword = yup.object({
   oldPassword: yup
     .string()
-    .matches(passwordValidator, 'Разрешены буквы, цифры, и спецсимволы')
     .min(8, 'Минимальная длина пароля - 8 символов')
+    .matches(passwordValidator, 'Должны использоваться как цифры, так и буквы')
     .required('Пожалуйста, введите пароль'),
   newPassword: yup
     .string()
-    .matches(passwordValidator, 'Разрешены буквы, цифры, и спецсимволы')
     .min(8, 'Минимальная длина пароля - 8 символов')
+    .matches(passwordValidator, 'Должны использоваться как цифры, так и буквы')
     .required('Пожалуйста, введите пароль'),
 });
 
