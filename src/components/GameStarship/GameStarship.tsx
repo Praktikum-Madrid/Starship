@@ -26,17 +26,19 @@ export default function Game() {
     <Container
       sx={{
         width: '900px',
+        height: '100vh',
         position: 'relative',
         display: 'flex',
-        justifyContent: 'center',
-        marginTop: '20px',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
       }}
     >
       {isGame ? (
         <>
           <IconButton
             aria-label='quit'
-            sx={{ position: 'absolute', right: '0px' }}
+            sx={{ position: 'absolute', right: '0', top: '0' }}
             onClick={() => {
               setIsGame(false);
               setIsQuit(true);

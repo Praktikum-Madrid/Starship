@@ -15,6 +15,7 @@ import Background from './UnitBackground';
 import Missile from './UnitMissile';
 import Opponent from './UnitOpponent';
 import Spaceship from './UnitSpaceship';
+import { toggleFullScreen } from '../utils/fullscreen';
 
 export default class StarshipGame {
   _ctx: CanvasRenderingContext2D;
@@ -74,6 +75,9 @@ export default class StarshipGame {
     const limitInput = throttleInput(200);
 
     window.addEventListener('keydown', (e) => {
+      if (e.keyCode === KEYS.ENTER) {
+        toggleFullScreen();
+      }
       if (e.keyCode === KEYS.SPACE) {
         // Ограничиваем частоту стрельбы
         limitInput(this.spaceship.fire);
