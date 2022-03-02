@@ -103,7 +103,6 @@ export default class StarshipGame {
     let loaded = 0;
     let required = Object.keys(this.sprites).length - 1;
     required += Object.keys(this.sounds).length;
-    console.log('required', required);
 
     const onResourceLoad = () => {
       loaded += 1;
@@ -145,12 +144,11 @@ export default class StarshipGame {
     this.opponents.forEach((opponent) => {
       if (opponent && opponent.active) {
         opponent.start();
-        console.log('start opponent');
       }
     });
   }
 
-  private collideOpponents(missiles: Missile[]) {
+  private collideMissileToOpponents(missiles: Missile[]) {
     missiles.forEach((missile) => {
       this.opponents.forEach((opponent) => {
         if (opponent && opponent.active && missile.collide(opponent)) {
@@ -163,6 +161,14 @@ export default class StarshipGame {
     });
   }
 
+  private collideStarshipToOpponents() {
+    this.opponents.forEach((opponent) => {
+      if (opponent && opponent.active && this.spaceship.collideOpponent(opponent)) {
+        this.sounds.bump?.play();
+      }
+    });
+  }
+
   private update() {
     this.background.move();
     this.opponents.forEach((opponent) => {
@@ -170,8 +176,10 @@ export default class StarshipGame {
         opponent.move();
       }
     });
-    this.collideOpponents(this.spaceship.move());
+
     this.spaceship.collideBounds();
+    this.collideMissileToOpponents(this.spaceship.move());
+    this.collideStarshipToOpponents();
 
     if (!this.spaceship.active) {
       this.end('Вы проиграли...');
@@ -203,11 +211,12 @@ export default class StarshipGame {
     this.spaceship.render(this._ctx, this.sprites);
 
     this.renderOpponents();
-    this._ctx.fillText(`Score: ${this.score}`, 20, 30);
+    this._ctx.fillText(`Счет: ${this.score}`, 20, 30);
     this._ctx.fillText(
-      `Num opponents: ${
+      `Противники: ${
         this.opponents.length
         - this.opponents.filter((item) => item === null).length
+        - this.score
       }`,
       20,
       90,
@@ -232,6 +241,7 @@ export default class StarshipGame {
 
   end(message: string) {
     this.running = false;
+    // eslint-disable-next-line no-alert
     alert(`${message} Ваш результат ${this.score}.`);
     window.location.reload();
   }

@@ -4,11 +4,11 @@ function throttleInput(wait: number) {
   let isPaused: boolean = false;
 
   return function wrapper(callback: Function, arg?: any) {
-    console.log('Нажато');
-    console.log(isPaused);
+    // console.log('Нажато');
+    // console.log(isPaused);
     // Если на паузе
     if (isPaused) {
-      console.log('На паузе');
+      // console.log('На паузе');
       // Выходим из функции
     } else {
       // При вызове врапер поставится на паузу
@@ -20,12 +20,12 @@ function throttleInput(wait: number) {
       } else {
         callback();
       }
-      console.log('Запущено');
+      // console.log('Запущено');
 
       setTimeout(() => {
         // Сняли с паузы враппер по наступлению таймера
         isPaused = false;
-        console.log('Снято с паузы');
+        // console.log('Снято с паузы');
       }, wait);
     }
   };

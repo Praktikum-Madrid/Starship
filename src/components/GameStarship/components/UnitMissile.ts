@@ -31,7 +31,7 @@ export default class Missile extends Unit {
     if (this.dy) {
       this.y += this.dy;
     }
-    this.explosion.followMissile(this.x, this.y);
+    this.explosion.followItem(this.x, this.y);
   }
 
   collide(opponent: Opponent) {
