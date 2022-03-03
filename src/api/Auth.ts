@@ -1,4 +1,8 @@
-import { getUser, logOut, signIn, signUp } from 'config/api';
+import {
+  getUser,
+  logOut,
+  signIn,
+  signUp } from 'config/api';
 import { TRequestData } from 'types';
 import Api from './Api';
 

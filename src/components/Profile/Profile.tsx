@@ -1,11 +1,12 @@
+// В файле были ошибки по типизации, Евгения, обрати внимание плиз на изменения, которые я внёс
 import React, { FC, useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { loginValidator, nameValidator, passwordValidator, phoneValidator } from 'config/validators';
-import ProfileApi, { TPassword, TUserInfo } from 'api/Profile';
+import ProfileApi from 'api/Profile';
+import { TUserInfo, TPassword, TCredintials } from 'types';
 import { useFormik } from 'formik';
-import { TCredintials } from 'types';
 import { Alert, Avatar, Button, Stack, TextField, Typography } from '@mui/material';
-import { RESOURCES_URL } from 'config/consts';
+import { RESOURCES_URL } from 'config/consts'; // FIXME: Это ещё зачем? Есть же файл с константами апи?
 
 const validationSchemaProfileData = yup.object({
   first_name: yup.string()
@@ -115,7 +116,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
   const formProfile = useFormik({
     initialValues: getInitialValuesFields(),
     validationSchema: validationSchemaProfileData,
-    onSubmit: (values: TCredintials) => {
+    onSubmit: (values: TUserInfo) => {
       setFormProfileEnable(false);
       saveProfile(values);
     },
@@ -127,7 +128,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
       newPassword: '',
     },
     validationSchema: validationSchemaPassword,
-    onSubmit: (values: TCredintials) => {
+    onSubmit: (values: TPassword) => {
       setFormPasswordEnable(false);
       savePassword(values);
     },
@@ -292,6 +293,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
               error={formProfile.touched.login && Boolean(formProfile.errors.login)}
               helperText={formProfile.touched.login && formProfile.errors.login}
             />
+
             <TextField
               fullWidth
               disabled={!formProfileEnabled}
@@ -305,6 +307,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
               error={formProfile.touched.display_name && Boolean(formProfile.errors.display_name)}
               helperText={formProfile.touched.display_name && formProfile.errors.display_name}
             />
+
             {formProfileEnabled ? (
               <>
                 <Button color='primary' variant='contained' fullWidth type='submit'>
