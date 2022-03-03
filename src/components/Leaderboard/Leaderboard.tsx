@@ -105,6 +105,7 @@ const Leaderboard = () => {
             pageSize={5}
             rowsPerPageOptions={[5]}
             disableSelectionOnClick
+            disableColumnMenu
           />
         )}
       </div>
