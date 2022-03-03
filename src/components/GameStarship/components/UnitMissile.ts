@@ -25,6 +25,9 @@ export default class Missile extends Unit {
   }
 
   move() {
+    if (this.y < 0) {
+      this.destroy();
+    }
     if (this.dx) {
       this.x += this.dx;
     }

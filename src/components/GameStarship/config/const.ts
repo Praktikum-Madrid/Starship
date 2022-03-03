@@ -6,7 +6,7 @@ export const ROWS_OPPONENTS = 10;
 export const COLS_OPPONENTS = 8;
 
 export const NUM_MISSILES = 30;
-export const LIFE = 10;
+export const LIFE = 5;
 
 export const AUDIOS: string[] = [
   'bump',

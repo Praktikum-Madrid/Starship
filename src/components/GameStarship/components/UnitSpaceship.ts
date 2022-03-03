@@ -9,7 +9,6 @@ import {
   LIFE,
 } from '../config/const';
 import SpaceshipBump from './UnitSpaceshipBump';
-import Explosion from './UnitExplosion';
 
 export default class Spaceship extends Unit {
   missiles: Missile[];
@@ -19,8 +18,6 @@ export default class Spaceship extends Unit {
   numShots: number;
 
   active: boolean;
-
-  explosion: Explosion;
 
   bumps: SpaceshipBump[];
 
@@ -39,7 +36,6 @@ export default class Spaceship extends Unit {
     this.numShots = 0;
     this.bumps = Array(LIFE).fill(null);
     this.expIndex = 0;
-    this.explosion = new Explosion(this.velocity, this.x, this.y);
     this.init();
   }
 
@@ -61,7 +57,6 @@ export default class Spaceship extends Unit {
     this.bumps.forEach((bump) => {
       bump.start();
     });
-    this.explosion.start();
   };
 
   fire = () => {
@@ -100,7 +95,6 @@ export default class Spaceship extends Unit {
     this.bumps.forEach((bump) => {
       bump.followSpaceship(this.x, this.y);
     });
-    this.explosion.followItem(this.x, this.y);
 
     return this.missiles;
   }
@@ -158,9 +152,7 @@ export default class Spaceship extends Unit {
       this.expIndex += 1;
       this.rebound(opponent);
 
-      if (this.expIndex === LIFE - 1) {
-        this.explosion.active = true;
-        this.explosion.animate();
+      if (this.expIndex === LIFE) {
         this.destroy();
       }
 
@@ -215,15 +207,14 @@ export default class Spaceship extends Unit {
       }
     });
 
-    if (this.explosion.active) {
-      this.explosion.render(ctx, sprites);
-    }
-
     ctx.fillText(`Ракеты: ${NUM_MISSILES - this.numShots}`, 20, 60);
-    ctx.fillText(`Жизни: ${LIFE - this.expIndex}`, 20, 120);
+    ctx.fillText(`Жизни: ${LIFE - this.expIndex > 0 ? LIFE - this.expIndex : 0}`, 20, 120);
   }
 
   destroy() {
+    this.missiles.forEach((missile) => {
+      missile.destroy();
+    })
     this.active = false;
   }
 }

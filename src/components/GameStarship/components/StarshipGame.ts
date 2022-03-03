@@ -240,9 +240,9 @@ export default class StarshipGame {
   }
 
   end(message: string) {
-    this.running = false;
-    // eslint-disable-next-line no-alert
-    alert(`${message} Ваш результат ${this.score}.`);
-    window.location.reload();
+    setTimeout(() => {
+      this.running = false;
+      console.log(`${message} Ваш результат ${this.score}.`);
+    }, 2000);
   }
 }
