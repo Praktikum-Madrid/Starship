@@ -17,11 +17,9 @@ import Page500 from 'components/Page500';
 import GameStarship from 'components/GameStarship';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'store/reducers/auth';
+import { setUserSettings } from 'store/reducers/settings';
 
 export default function App() {
-  // Стейт для хранения настроек юзера
-  const [userSettings, setUserSettings] = useState({});
-
   const dispatch = useDispatch();
 
   // Стейт о состоянии регистрации (успех/провал?)
@@ -34,10 +32,7 @@ export default function App() {
 
       if (settings) {
         // FIXME: Писать настройки юзера в стор из локалстораджа
-        setUserSettings({
-          ...JSON.parse(settings),
-          authorised: true,
-        });
+        dispatch(setUserSettings(JSON.parse(settings)));
         dispatch(logIn());
       }
     } catch (e) {
@@ -77,10 +72,10 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Home userSettings={userSettings} />} />
-          <Route path='signin' element={<SignIn userSettings={userSettings} />} />
+          <Route index element={<Home />} />
+          <Route path='signin' element={<SignIn />} />
           <Route path='signup' element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState} />} />
-          <Route path='profile' element={<Profile userSettings={userSettings} setUserSettings={setUserSettings} />} />
+          <Route path='profile' element={<Profile />} />
           <Route path='game' element={<GameStarship />} />
           <Route path='leaderboard' element={<Leaderboard />} />
           <Route path='forum' element={<Forum />} />

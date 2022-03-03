@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link as RouterLink } from 'react-router-dom';
@@ -9,19 +9,16 @@ import { logIn } from 'store/reducers/auth';
 import { setUserSettings } from 'store/reducers/settings';
 import { useDispatch } from 'react-redux';
 
-interface IProps {
-  userSettings: TCredintials,
-}
-
 const validationSchema = yup.object({
-  login: yup.string().required('Пожалуйста, введите имя пользователя'),
+  login: yup.string()
+    .required('Пожалуйста, введите имя пользователя'),
   password: yup
     .string()
     .min(8, 'Минимальная длина пароля - 8 символов')
     .required('Пожалуйста, введите пароль'),
 });
 
-const SignIn: FC<IProps> = ({ userSettings }) => {
+const SignIn = () => {
   // Стейт о состоянии авторизации (успех/провал?)
   const [signInState, setSignInState] = useState({
     error: '',
@@ -40,7 +37,7 @@ const SignIn: FC<IProps> = ({ userSettings }) => {
     },
   });
 
-  // FIXME: Перенести в thunk?
+  // FIXME: Перенести в thunk? Надо подумать.
   // Обрабатываем авторизацию
   const handleLogin = (loginData: TCredintials) => {
     // Авторизуемся
@@ -64,16 +61,20 @@ const SignIn: FC<IProps> = ({ userSettings }) => {
           setSignInState({ error: 'Неверные имя пользователя или пароль' });
           throw new Error('Неверные имя пользователя или пароль');
         }
-      }).then(() => Auth.getUserData().then((response) => {
-        if (response.ok && response.status === 200) {
-          return response.json();
-        }
+      })
+      .then(() => Auth.getUserData()
+        .then((response) => {
+          if (response.ok && response.status === 200) {
+            return response.json();
+          }
 
-        setSignInState({ error: 'Ошибка при получении данных пользователя' });
-      }).then((userData) => {
-        localStorage.setItem('settings', JSON.stringify(userData));
-        setUserSettings(userData);
-      }))
+          setSignInState({ error: 'Ошибка при получении данных пользователя' });
+        })
+        .then((userData) => {
+          localStorage.setItem('settings', JSON.stringify(userData));
+
+          dispatch(setUserSettings(userData));
+        }))
       .catch((error) => {
         console.log(error);
       });
@@ -81,10 +82,16 @@ const SignIn: FC<IProps> = ({ userSettings }) => {
 
   return (
     <div>
-      {userSettings.first_name && <p>{userSettings.first_name}</p>}
-
       <form onSubmit={formik.handleSubmit}>
-        <Stack sx={{ mt: 6, textAlign: 'center', gap: 2, marginLeft: 'auto', marginRight: 'auto', maxWidth: '400px' }}>
+        <Stack sx={{
+          mt: 6,
+          textAlign: 'center',
+          gap: 2,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          maxWidth: '400px',
+        }}
+        >
           <Typography variant='h4' gutterBottom component='h1'>
             Авторизация
           </Typography>

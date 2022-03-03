@@ -5,20 +5,30 @@ const ACTIONS = {
   RESET: 'RESET',
 };
 
-type TProfileData = TUserInfo | {};
+type TProfileData = TUserInfo;
+
+const defaultState: TProfileData = {
+  first_name: '',
+  second_name: '',
+  login: '',
+  email: '',
+  phone: '',
+  avatar: '',
+  display_name: '',
+  id: '',
+};
 
 // eslint-disable-next-line import/prefer-default-export
-export function settingsReducer(state: TProfileData = {}, { type, payload }: Record<string, any> = {}) {
+export function settingsReducer(state: TProfileData = defaultState, { type, payload }: Record<string, any> = {}) {
   switch (type) {
     case ACTIONS.SAVE:
       return {
         ...state,
-        settings: payload,
+        ...payload,
       };
     case ACTIONS.RESET:
       return {
-        ...state,
-        settings: undefined,
+        state: defaultState,
       };
     default:
       return state;
@@ -26,6 +36,7 @@ export function settingsReducer(state: TProfileData = {}, { type, payload }: Rec
 }
 
 export function setUserSettings(payload: Record<string, any>) {
+  console.log(payload);
   return {
     type: ACTIONS.SAVE,
     payload,

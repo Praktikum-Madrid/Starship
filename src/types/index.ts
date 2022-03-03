@@ -11,6 +11,7 @@ export type TCoordinate = number;
 export type TStore = Object;
 
 type TIdUser = number | string;
+
 type TLoginUser = string;
 
 export type TUserInfo = {

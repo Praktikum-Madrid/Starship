@@ -1,12 +1,15 @@
 // В файле были ошибки по типизации, Евгения, обрати внимание плиз на изменения, которые я внёс
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { loginValidator, nameValidator, passwordValidator, phoneValidator } from 'config/validators';
 import ProfileApi from 'api/Profile';
-import { TUserInfo, TPassword, TCredintials } from 'types';
+import { TUserInfo, TPassword } from 'types';
 import { useFormik } from 'formik';
 import { Alert, Avatar, Button, Stack, TextField, Typography } from '@mui/material';
 import { RESOURCES_URL } from 'config/consts'; // FIXME: Это ещё зачем? Есть же файл с константами апи?
+import { setUserSettings } from 'store/reducers/settings';
+import { RootState } from 'store/reducers';
+import { useDispatch, useSelector } from 'react-redux';
 
 const validationSchemaProfileData = yup.object({
   first_name: yup.string()
@@ -44,13 +47,10 @@ const validationSchemaPassword = yup.object({
     .required('Пожалуйста, введите пароль'),
 });
 
-interface IProps {
-  userSettings: TCredintials,
-  setUserSettings: Function,
-}
-
-const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
+const Profile = () => {
   const [errorRequest, setError] = useState('');
+  const userSettings = useSelector((state: RootState) => state.settings);
+  const dispatch = useDispatch();
 
   const saveProfile = (data: TUserInfo) => {
     ProfileApi.saveProfile(data)
@@ -62,7 +62,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
       })
       .then((userData) => {
         localStorage.setItem('settings', JSON.stringify(userData));
-        setUserSettings(userData);
+        dispatch(setUserSettings(userData));
       })
       .catch((error) => {
         console.log(error);
@@ -93,28 +93,23 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
       })
       .then((userData) => {
         localStorage.setItem('settings', JSON.stringify(userData));
-        setUserSettings(userData);
+        dispatch(setUserSettings(userData));
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const getInitialValuesFields = () => ({
-    first_name: userSettings?.first_name || '',
-    second_name: userSettings?.second_name || '',
-    display_name: userSettings?.display_name || '',
-    login: userSettings?.login || '',
-    email: userSettings?.email || '',
-    phone: userSettings?.phone || '',
-  });
+  useEffect(() => {
+    console.log(userSettings);
+  }, []);
 
   useEffect(() => {
-    formProfile.resetForm({ values: getInitialValuesFields() });
+    formProfile.resetForm({ values: userSettings as any });
   }, [userSettings]);
 
   const formProfile = useFormik({
-    initialValues: getInitialValuesFields(),
+    initialValues: userSettings as any,
     validationSchema: validationSchemaProfileData,
     onSubmit: (values: TUserInfo) => {
       setFormProfileEnable(false);
@@ -135,7 +130,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
   });
 
   const closeFormProfile = () => {
-    formProfile.resetForm({ values: getInitialValuesFields() });
+    formProfile.resetForm({ values: userSettings as any });
     setFormProfileEnable(false);
   };
 
