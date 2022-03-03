@@ -9,7 +9,7 @@ export default function Layout() {
 
   return (
     <>
-      { !isFullscreen ? <Header /> : '' }
+      { !isFullscreen && <Header /> }
 
       <div className='content' style={isFullscreen ? { backgroundColor: 'black' } : {}}>
         <Outlet />
