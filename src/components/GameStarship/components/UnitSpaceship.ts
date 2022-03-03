@@ -1,11 +1,14 @@
 import Unit from './Unit';
 import { KEYS, ISprites } from '../config/types';
 import Missile from './UnitMissile';
+import Opponent from './UnitOpponent';
 import {
   WIDTH_CANWAS,
   HEIGT_CANWAS,
   NUM_MISSILES,
+  LIFE,
 } from '../config/const';
+import SpaceshipBump from './UnitSpaceshipBump';
 
 export default class Spaceship extends Unit {
   missiles: Missile[];
@@ -15,6 +18,10 @@ export default class Spaceship extends Unit {
   numShots: number;
 
   active: boolean;
+
+  bumps: SpaceshipBump[];
+
+  expIndex: number;
 
   constructor() {
     super();
@@ -27,11 +34,14 @@ export default class Spaceship extends Unit {
     this.missiles = Array(NUM_MISSILES).fill(null);
     this.unitOfFire = Array(NUM_MISSILES).fill(true);
     this.numShots = 0;
+    this.bumps = Array(LIFE).fill(null);
+    this.expIndex = 0;
     this.init();
   }
 
   init() {
     this.missiles = this.missiles.map(() => new Missile());
+    this.bumps = this.bumps.map(() => new SpaceshipBump(this.velocity, this.x, this.y));
   }
 
   start = (direction: KEYS) => {
@@ -44,6 +54,9 @@ export default class Spaceship extends Unit {
     } else if (direction === KEYS.DOWN) {
       this.dy = this.velocity;
     }
+    this.bumps.forEach((bump) => {
+      bump.start();
+    });
   };
 
   fire = () => {
@@ -79,7 +92,73 @@ export default class Spaceship extends Unit {
         }
       });
     }
+    this.bumps.forEach((bump) => {
+      bump.followSpaceship(this.x, this.y);
+    });
+
     return this.missiles;
+  }
+
+  rebound(opponent: Opponent) {
+    const starshipLeft = this.x + this.dx;
+    const starshipTop = this.y + this.dy;
+    const starshipRight = starshipLeft + this.width;
+    const starshipDown = starshipTop + this.height;
+    const opponentLeft = opponent.x;
+    const opponentTop = opponent.y;
+    const opponentRight = opponentLeft + opponent.width;
+    const opponentDown = opponentTop + opponent.height;
+
+    if (
+      starshipTop < opponentDown
+      && starshipDown > opponentDown
+    ) {
+      this.dy = this.velocity;
+    }
+    if (
+      starshipDown > opponentTop
+      && starshipTop < opponentTop
+    ) {
+      this.dy = -this.velocity;
+    }
+    if (
+      starshipRight > opponentLeft
+      && starshipLeft < opponentLeft
+    ) {
+      this.dx = -this.velocity;
+    }
+    if (
+      starshipLeft < opponentRight
+      && starshipRight > opponentRight
+    ) {
+      this.dx = this.velocity;
+    }
+  }
+
+  collideOpponent(opponent: Opponent) {
+    const x = this.x + this.dx;
+    const y = this.y + this.dy;
+
+    if (
+      x + this.width > opponent.x
+      && x < opponent.x + opponent.width
+      && y + this.height > opponent.y
+      && y < opponent.y + opponent.height
+    ) {
+      if (this.expIndex < LIFE) {
+        this.bumps[this.expIndex].active = true;
+        this.bumps[this.expIndex].animate();
+      }
+      this.expIndex += 1;
+      this.rebound(opponent);
+
+      if (this.expIndex === LIFE) {
+        this.destroy();
+      }
+
+      return true;
+    }
+    return false;
   }
 
   collideBounds() {
@@ -112,14 +191,30 @@ export default class Spaceship extends Unit {
         missile.render(ctx, sprites);
       });
     }
-    ctx.drawImage(
-      sprites.spaceship,
-      this.x,
-      this.y,
-      this.width,
-      this.height,
-    );
+    if (this.active) {
+      ctx.drawImage(
+        sprites.spaceship,
+        this.x,
+        this.y,
+        this.width,
+        this.height,
+      );
+    }
 
-    ctx.fillText(`Missiles: ${NUM_MISSILES - this.numShots}`, 20, 60);
+    this.bumps.forEach((bump) => {
+      if (bump.active) {
+        bump.render(ctx, sprites);
+      }
+    });
+
+    ctx.fillText(`Ракеты: ${NUM_MISSILES - this.numShots}`, 20, 60);
+    ctx.fillText(`Жизни: ${LIFE - this.expIndex > 0 ? LIFE - this.expIndex : 0}`, 20, 120);
+  }
+
+  destroy() {
+    this.missiles.forEach((missile) => {
+      missile.destroy();
+    })
+    this.active = false;
   }
 }

@@ -12,4 +12,5 @@ export const enum KEYS {
   UP = 38,
   DOWN = 40,
   SPACE = 32,
+  ENTER = 13,
 }
