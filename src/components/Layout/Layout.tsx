@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-
 import Header from '../Header';
+
 
 export default function Layout() {
   // TODO: добавить в стейт redux состояние isFullscreen
@@ -17,3 +17,4 @@ export default function Layout() {
     </>
   );
 }
+

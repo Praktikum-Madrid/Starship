@@ -1,14 +1,14 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { TCredintials } from 'types';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/reducers';
 
-interface IProps {
-  userSettings: TCredintials
-}
-
-const Home: FC<IProps> = ({ userSettings }) => {
+const Home = () => {
   const navigate = useNavigate();
+
+  const { isLogined } = useSelector((state: RootState) => state.auth);
+
   return (
     <div style={{
       width: '100%',
@@ -65,7 +65,7 @@ const Home: FC<IProps> = ({ userSettings }) => {
             color='primary'
             variant='contained'
             onClick={() => {
-              navigate(userSettings?.authorised ? '/game' : '/signin');
+              navigate(isLogined ? '/game' : '/signin');
             }}
           >
             К ИГРЕ
