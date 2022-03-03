@@ -6,7 +6,7 @@ import Api from 'api/Api';
 
 export type TUserLeaderboard = {
   data: {
-    avatar: string,
+    avatar: string | undefined,
     rating: number,
     first_name: string,
     second_name: string,

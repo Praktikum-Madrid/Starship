@@ -1,5 +1,15 @@
 // StarshipGame.ts
 
+import { TUserInfo } from 'types';
+import LeaderboardAPI from 'api/Leaderboard';
+import createImg from '../utils/createImg';
+import throttleInput from '../../../utils/throttleInput';
+import Background from './UnitBackground';
+import Missile from './UnitMissile';
+import Opponent from './UnitOpponent';
+import Spaceship from './UnitSpaceship';
+import { toggleFullScreen } from '../utils/fullscreen';
+import { IAudio, ISprites, KEYS } from '../config/types';
 import {
   AUDIOS,
   COLS_OPPONENTS,
@@ -8,14 +18,6 @@ import {
   SPRITES,
   WIDTH_CANWAS,
 } from '../config/const';
-import { IAudio, ISprites, KEYS } from '../config/types';
-import createImg from '../utils/createImg';
-import throttleInput from '../../../utils/throttleInput';
-import Background from './UnitBackground';
-import Missile from './UnitMissile';
-import Opponent from './UnitOpponent';
-import Spaceship from './UnitSpaceship';
-import { toggleFullScreen } from '../utils/fullscreen';
 
 export default class StarshipGame {
   _ctx: CanvasRenderingContext2D;
@@ -42,7 +44,9 @@ export default class StarshipGame {
 
   score: number;
 
-  constructor(ctx: CanvasRenderingContext2D) {
+  settings: TUserInfo;
+
+  constructor(ctx: CanvasRenderingContext2D, settings: TUserInfo) {
     this._ctx = ctx;
     this.running = true;
     this.widthCanvas = WIDTH_CANWAS;
@@ -57,6 +61,7 @@ export default class StarshipGame {
       bump: null,
     };
     this.score = 0;
+    this.settings = settings;
   }
 
   private init() {
@@ -167,7 +172,11 @@ export default class StarshipGame {
 
   private collideStarshipToOpponents() {
     this.opponents.forEach((opponent) => {
-      if (opponent && opponent.active && this.spaceship.collideOpponent(opponent)) {
+      if (
+        opponent
+        && opponent.active
+        && this.spaceship.collideOpponent(opponent)
+      ) {
         this.sounds.bump?.play();
       }
     });
@@ -186,7 +195,7 @@ export default class StarshipGame {
     this.collideStarshipToOpponents();
 
     if (!this.spaceship.active) {
-      this.end('Вы проиграли...');
+      this.end('LOSE', this.score);
     }
   }
 
@@ -194,8 +203,8 @@ export default class StarshipGame {
     this.score += 1;
     const opp = this.opponents.length
     - this.opponents.filter((item) => item === null).length;
-    if (this.score > opp / 1.3) {
-      this.end('Вы выиграли!');
+    if (this.score === Math.round(opp / 1.3)) {
+      this.end('WIN', this.score);
     }
   }
 
@@ -243,10 +252,36 @@ export default class StarshipGame {
     });
   }
 
-  end(message: string) {
+  end(message: string, score: number) {
     setTimeout(() => {
       this.running = false;
-      console.log(`${message} Ваш результат ${this.score}.`);
+      if (message === 'WIN') {
+        const leaderboardRequest = {
+          data: {
+            avatar: this.settings.avatar,
+            rating: score * 150,
+            first_name: this.settings.first_name,
+            second_name: this.settings.second_name,
+          },
+          ratingFieldName: 'rating',
+          teamName: 'starship',
+        };
+
+        LeaderboardAPI.addUserToLeaderboard(leaderboardRequest)
+          .then((response) => {
+            try {
+              if (response.ok && response.status === 200) {
+                return response.json();
+              }
+            } catch (e) {
+              return e;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+      console.log(`${message} ${this.settings.first_name} Ваш результат ${this.score}.`);
     }, 2000);
   }
 }
