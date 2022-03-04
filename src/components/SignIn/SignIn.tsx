@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Alert, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { TCredintials } from 'types';
 import Auth from 'api/Auth';
@@ -26,6 +26,8 @@ const SignIn = () => {
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       login: '',
@@ -47,6 +49,7 @@ const SignIn = () => {
 
         if (response.ok && response.status === 200) {
           dispatch(logIn());
+          navigate('/');
           return;
         }
 

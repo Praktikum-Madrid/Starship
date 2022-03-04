@@ -18,6 +18,7 @@ import GameStarship from 'components/GameStarship';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'store/reducers/auth';
 import { setUserSettings } from 'store/reducers/settings';
+import PrivateRoute from 'components/PrivateRoute';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -56,11 +57,14 @@ export default function App() {
         }
 
         if (response.status === 409) {
-          setSignUpState({ error: 'Пользователь с таким имейлом уже существует' });
+          setSignUpState({
+            error: 'Пользователь с таким имейлом уже существует',
+          });
         }
 
         return response.json();
-      }).then((parsedResponse) => {
+      })
+      .then((parsedResponse) => {
         console.log(parsedResponse);
       })
       .catch((error) => {
@@ -72,14 +76,34 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<PrivateRoute component={Home} />} />
           <Route path='signin' element={<SignIn />} />
-          <Route path='signup' element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState} />} />
-          <Route path='profile' element={<Profile />} />
-          <Route path='game' element={<GameStarship />} />
-          <Route path='leaderboard' element={<Leaderboard />} />
-          <Route path='forum' element={<Forum />} />
-          <Route path='forum/:topicId' element={<Topic />} />
+          <Route
+            path='signup'
+            element={
+              <SignUp handleSignUp={handleSignUp} signUpState={signUpState} />
+            }
+          />
+          <Route
+            path='profile'
+            element={<PrivateRoute component={Profile} />}
+          />
+          <Route
+            path='game'
+            element={<PrivateRoute component={GameStarship} />}
+          />
+          <Route
+            path='leaderboard'
+            element={<PrivateRoute component={Leaderboard} />}
+          />
+          <Route
+            path='forum'
+            element={<PrivateRoute component={Forum} />}
+          />
+          <Route
+            path='forum/:topicId'
+            element={<PrivateRoute component={Topic} />}
+          />
           <Route path='server-error' element={<Page500 />} />
           <Route path='*' element={<Page404 />} />
         </Route>
