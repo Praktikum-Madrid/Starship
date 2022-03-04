@@ -1,9 +1,12 @@
 import Unit from './Unit';
 import Opponent from './UnitOpponent';
-import { ISprites } from './types';
+import Explosion from './UnitExplosion';
+import { ISprites } from '../config/types';
 
 export default class Missile extends Unit {
   active: boolean;
+
+  explosion: Explosion;
 
   constructor() {
     super();
@@ -13,19 +16,25 @@ export default class Missile extends Unit {
     this.y = 520;
     this.width = 30;
     this.height = 100;
+    this.explosion = new Explosion(this.velocity, this.x, this.y);
   }
 
   start() {
     this.dy = -this.velocity;
+    this.explosion.start();
   }
 
   move() {
+    if (this.y < 0) {
+      this.destroy();
+    }
     if (this.dx) {
       this.x += this.dx;
     }
     if (this.dy) {
       this.y += this.dy;
     }
+    this.explosion.followItem(this.x, this.y);
   }
 
   collide(opponent: Opponent) {
@@ -38,6 +47,9 @@ export default class Missile extends Unit {
       && y + this.height > opponent.y
       && y < opponent.y + opponent.height
     ) {
+      this.explosion.active = true;
+      this.explosion.animate();
+
       return true;
     }
     return false;
@@ -50,7 +62,7 @@ export default class Missile extends Unit {
     setTimeout(() => {
       this.x = -1000;
       this.y = -1000;
-    }, 10);
+    }, 300);
   }
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
@@ -62,6 +74,9 @@ export default class Missile extends Unit {
         this.width,
         this.height,
       );
+    }
+    if (this.explosion.active) {
+      this.explosion.render(ctx, sprites);
     }
   }
 }

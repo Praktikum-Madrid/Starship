@@ -78,6 +78,8 @@ export default class Game {
       // TODO: Реализовать перемещение по диагонали
       // keyCode 39
       if (event.key === 'ArrowRight') {
+        // const limitInput = throttleInput(this.starShip!.move, [1, 0], 1000);
+        // limitInput();
         this.starShip!.move(1, 0);
       }
 

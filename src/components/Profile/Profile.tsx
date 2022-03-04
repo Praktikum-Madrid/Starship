@@ -1,11 +1,15 @@
-import React, { FC, useEffect, useState } from 'react';
+// В файле были ошибки по типизации, Евгения, обрати внимание плиз на изменения, которые я внёс
+import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { loginValidator, nameValidator, passwordValidator, phoneValidator } from 'config/validators';
-import ProfileApi, { TPassword, TUserInfo } from 'api/Profile';
+import ProfileApi from 'api/Profile';
+import { TUserInfo, TPassword } from 'types';
 import { useFormik } from 'formik';
-import { TCredintials } from 'types';
 import { Alert, Avatar, Button, Stack, TextField, Typography } from '@mui/material';
-import { RESOURCES_URL } from 'config/consts';
+import { RESOURCES_URL } from 'config/consts'; // FIXME: Это ещё зачем? Есть же файл с константами апи?
+import { setUserSettings } from 'store/reducers/settings';
+import { RootState } from 'store/reducers';
+import { useDispatch, useSelector } from 'react-redux';
 
 const validationSchemaProfileData = yup.object({
   first_name: yup.string()
@@ -17,39 +21,36 @@ const validationSchemaProfileData = yup.object({
     .min(2, 'Минимальная длина - 2 буквы')
     .required('Укажите вашу фамилию'),
   login: yup.string()
-    .matches(loginValidator, 'Разрешены буквы, цифры, подчеркивания и дефисы')
+    .matches(loginValidator, 'Разрешены латинские буквы, цифры, подчеркивания и дефисы')
     .required('Укажите логин пользователя'),
   display_name: yup.string()
-    .matches(loginValidator, 'Разрешены буквы, цифры, подчеркивания и дефисы')
+    .matches(loginValidator, 'Разрешены латинские буквы, цифры, подчеркивания и дефисы')
     .required('Укажите имя пользователя'),
   email: yup.string()
     .email('Укажите корректный адрес электронной почты')
     .required('Укажите адрес электронной почты'),
   phone: yup.string()
-    .matches(phoneValidator, 'Может состоять только из чисел')
+    .matches(phoneValidator, 'Должно состоять только из цифр, может начинаться со знака +, от 10 до 15 символов')
     .required('Укажите номер телефона'),
 });
 
 const validationSchemaPassword = yup.object({
   oldPassword: yup
     .string()
-    .matches(passwordValidator, 'Разрешены буквы, цифры, и спецсимволы')
     .min(8, 'Минимальная длина пароля - 8 символов')
+    .matches(passwordValidator, 'Должны использоваться как цифры, так и буквы')
     .required('Пожалуйста, введите пароль'),
   newPassword: yup
     .string()
-    .matches(passwordValidator, 'Разрешены буквы, цифры, и спецсимволы')
     .min(8, 'Минимальная длина пароля - 8 символов')
+    .matches(passwordValidator, 'Должны использоваться как цифры, так и буквы')
     .required('Пожалуйста, введите пароль'),
 });
 
-interface IProps {
-  userSettings: TCredintials,
-  setUserSettings: Function,
-}
-
-const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
+const Profile = () => {
   const [errorRequest, setError] = useState('');
+  const userSettings = useSelector((state: RootState) => state.settings);
+  const dispatch = useDispatch();
 
   const saveProfile = (data: TUserInfo) => {
     ProfileApi.saveProfile(data)
@@ -61,7 +62,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
       })
       .then((userData) => {
         localStorage.setItem('settings', JSON.stringify(userData));
-        setUserSettings(userData);
+        dispatch(setUserSettings(userData));
       })
       .catch((error) => {
         console.log(error);
@@ -92,30 +93,25 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
       })
       .then((userData) => {
         localStorage.setItem('settings', JSON.stringify(userData));
-        setUserSettings(userData);
+        dispatch(setUserSettings(userData));
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const getInitialValuesFields = () => ({
-    first_name: userSettings?.first_name || '',
-    second_name: userSettings?.second_name || '',
-    display_name: userSettings?.display_name || '',
-    login: userSettings?.login || '',
-    email: userSettings?.email || '',
-    phone: userSettings?.phone || '',
-  });
+  useEffect(() => {
+    console.log(userSettings);
+  }, []);
 
   useEffect(() => {
-    formProfile.resetForm({ values: getInitialValuesFields() });
+    formProfile.resetForm({ values: userSettings as any });
   }, [userSettings]);
 
   const formProfile = useFormik({
-    initialValues: getInitialValuesFields(),
+    initialValues: userSettings as any,
     validationSchema: validationSchemaProfileData,
-    onSubmit: (values: TCredintials) => {
+    onSubmit: (values: TUserInfo) => {
       setFormProfileEnable(false);
       saveProfile(values);
     },
@@ -127,14 +123,14 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
       newPassword: '',
     },
     validationSchema: validationSchemaPassword,
-    onSubmit: (values: TCredintials) => {
+    onSubmit: (values: TPassword) => {
       setFormPasswordEnable(false);
       savePassword(values);
     },
   });
 
   const closeFormProfile = () => {
-    formProfile.resetForm({ values: getInitialValuesFields() });
+    formProfile.resetForm({ values: userSettings as any });
     setFormProfileEnable(false);
   };
 
@@ -292,6 +288,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
               error={formProfile.touched.login && Boolean(formProfile.errors.login)}
               helperText={formProfile.touched.login && formProfile.errors.login}
             />
+
             <TextField
               fullWidth
               disabled={!formProfileEnabled}
@@ -305,6 +302,7 @@ const Profile: FC<IProps> = ({ userSettings, setUserSettings }) => {
               error={formProfile.touched.display_name && Boolean(formProfile.errors.display_name)}
               helperText={formProfile.touched.display_name && formProfile.errors.display_name}
             />
+
             {formProfileEnabled ? (
               <>
                 <Button color='primary' variant='contained' fullWidth type='submit'>

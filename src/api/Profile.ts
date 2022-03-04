@@ -4,24 +4,7 @@ import {
   saveProfile,
 } from 'config/api';
 import Api from 'api/Api';
-
-type TIdUser = number | string;
-type TLoginUser = string;
-
-export type TUserInfo = {
-  first_name?: string,
-  second_name?: string,
-  login?: TLoginUser,
-  email?: string,
-  phone?: string,
-  avatar?: string,
-  id?: TIdUser,
-}
-
-export type TPassword = {
-  oldPassword?: string,
-  newPassword?: string,
-}
+import { TUserInfo, TPassword } from 'types';
 
 // Настройки пользователя
 class Profile extends Api {

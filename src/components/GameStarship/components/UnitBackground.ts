@@ -1,5 +1,5 @@
 import Unit from './Unit';
-import { ISprites } from './types';
+import { ISprites } from '../config/types';
 
 export default class Background extends Unit {
   sx: number;
@@ -38,7 +38,7 @@ export default class Background extends Unit {
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
     ctx.drawImage(
-      sprites.background, // sprites.background_space - это фон космоса
+      sprites.background_space, // sprites.background_space - это фон космоса
       this.x,
       this.y,
       this.width,
@@ -49,7 +49,7 @@ export default class Background extends Unit {
       this.sHeight,
     );
     ctx.drawImage(
-      sprites.background, // sprites.background_space - это фон космоса
+      sprites.background_space, // sprites.background_space - это фон космоса
       this.x,
       this.y,
       this.width,
