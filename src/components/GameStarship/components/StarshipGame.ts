@@ -269,12 +269,8 @@ export default class StarshipGame {
 
         LeaderboardAPI.addUserToLeaderboard(leaderboardRequest)
           .then((response) => {
-            try {
-              if (response.ok && response.status === 200) {
-                return response.json();
-              }
-            } catch (e) {
-              return e;
+            if (response.ok && response.status === 200) {
+              console.log('ok');
             }
           })
           .catch((error) => {
