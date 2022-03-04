@@ -9,7 +9,7 @@ import Missile from './UnitMissile';
 import Opponent from './UnitOpponent';
 import Spaceship from './UnitSpaceship';
 import { toggleFullScreen } from '../utils/fullscreen';
-import { IAudio, ISprites, KEYS } from '../config/types';
+import { END, IAudio, ISprites, KEYS, LEADERBOARD } from '../config/types';
 import {
   AUDIOS,
   COLS_OPPONENTS,
@@ -195,7 +195,7 @@ export default class StarshipGame {
     this.collideStarshipToOpponents();
 
     if (!this.spaceship.active) {
-      this.end('LOSE', this.score);
+      this.end(END.LOSE, this.score);
     }
   }
 
@@ -203,8 +203,8 @@ export default class StarshipGame {
     this.score += 1;
     const opp = this.opponents.length
     - this.opponents.filter((item) => item === null).length;
-    if (this.score === Math.round(opp / 1.3)) {
-      this.end('WIN', this.score);
+    if (this.score === Math.round(opp / 1.2)) {
+      this.end(END.WIN, this.score);
     }
   }
 
@@ -255,16 +255,16 @@ export default class StarshipGame {
   end(message: string, score: number) {
     setTimeout(() => {
       this.running = false;
-      if (message === 'WIN') {
+      if (message === END.WIN) {
         const leaderboardRequest = {
           data: {
             avatar: this.settings.avatar,
-            rating: score * 150,
+            rating: score * 200,
             first_name: this.settings.first_name,
             second_name: this.settings.second_name,
           },
-          ratingFieldName: 'rating',
-          teamName: 'starship',
+          ratingFieldName: LEADERBOARD.RATING_FIELD_NAME,
+          teamName: LEADERBOARD.TEAM_NAME,
         };
 
         LeaderboardAPI.addUserToLeaderboard(leaderboardRequest)
@@ -277,7 +277,7 @@ export default class StarshipGame {
             console.log(error);
           });
       }
-      console.log(`${message} ${this.settings.first_name} Ваш результат ${this.score}.`);
+      console.log(`${message}`);
     }, 2000);
   }
 }

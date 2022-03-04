@@ -14,3 +14,13 @@ export const enum KEYS {
   SPACE = 32,
   ENTER = 13,
 }
+
+export const enum LEADERBOARD {
+  RATING_FIELD_NAME = 'rating',
+  TEAM_NAME = 'starship',
+}
+
+export const enum END {
+  LOSE = 'LOSE',
+  WIN = 'WIN',
+}
