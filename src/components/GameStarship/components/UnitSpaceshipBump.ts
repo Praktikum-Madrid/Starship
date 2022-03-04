@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import Unit from './Unit';
 import { ISprites } from '../config/types';
 

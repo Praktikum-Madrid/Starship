@@ -214,7 +214,7 @@ export default class Spaceship extends Unit {
   destroy() {
     this.missiles.forEach((missile) => {
       missile.destroy();
-    })
+    });
     this.active = false;
   }
 }

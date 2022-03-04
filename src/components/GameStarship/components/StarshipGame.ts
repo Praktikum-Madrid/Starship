@@ -8,6 +8,7 @@ import {
   SPRITES,
   WIDTH_CANWAS,
 } from '../config/const';
+// @TODO перенести Keys в константы
 import { IAudio, ISprites, KEYS } from '../config/types';
 import createImg from '../utils/createImg';
 import throttleInput from '../../../utils/throttleInput';

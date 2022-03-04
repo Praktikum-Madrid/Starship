@@ -20,6 +20,7 @@ export type TTeamLeaderboard = {
   cursor: number,
   limit: number
 }
+// @TODO перенести центральное место
 
 class LeaderboardAPI extends Api {
   private readonly _saveUserLeaderboardURL: string;

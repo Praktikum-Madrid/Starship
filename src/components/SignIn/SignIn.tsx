@@ -20,6 +20,7 @@ const validationSchema = yup.object({
 
 const SignIn = () => {
   // Стейт о состоянии авторизации (успех/провал?)
+  // @TODO перенести в redux
   const [signInState, setSignInState] = useState({
     error: '',
   });

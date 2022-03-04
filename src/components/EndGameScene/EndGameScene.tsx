@@ -80,6 +80,7 @@ const EndGameScene: FC<IProps> = ({ score, handleReplay }) => {
         color='success'
         variant='contained'
         onClick={() => {
+          // @TODO можно пути хранить центрально в константах
           navigate('/leaderboard');
         }}
       >

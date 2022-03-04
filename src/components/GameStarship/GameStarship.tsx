@@ -7,6 +7,7 @@ import EndGameScene from '../EndGameScene';
 
 export default function Game() {
   const ref = useRef<HTMLCanvasElement>(null);
+  // @TODO перенести в redux
   const [isGame, setIsGame] = useState(false);
   const [isQuit, setIsQuit] = useState(false);
   const score = 1000;

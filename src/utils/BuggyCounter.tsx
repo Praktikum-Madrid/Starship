@@ -22,6 +22,7 @@ class BuggyCounter extends React.Component<Props, State> {
   }
 
   render() {
+    // @TODO Fix linting
     if (this.state.counter === 5) {
       throw new Error('I crashed!');
     }

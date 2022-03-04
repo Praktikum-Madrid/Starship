@@ -22,9 +22,9 @@ import { setUserSettings } from 'store/reducers/settings';
 export default function App() {
   const dispatch = useDispatch();
 
+  // @TODO унести в redux
   // Стейт о состоянии регистрации (успех/провал?)
   const [signUpState, setSignUpState] = useState({});
-
   // Если настройки юзера сохранены, используем их
   useEffect(() => {
     try {

@@ -22,6 +22,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     });
   }
 
+  // @TODO fix linting
   render() {
     if (this.state.errorInfo) {
       return (
