@@ -4,7 +4,9 @@ export const HEIGT_CANWAS = 700;
 
 export const ROWS_OPPONENTS = 10;
 export const COLS_OPPONENTS = 8;
+
 export const NUM_MISSILES = 30;
+export const LIFE = 5;
 
 export const AUDIOS: string[] = [
   'bump',
@@ -18,6 +20,25 @@ export const SPRITES: string[] = [
   'missile_2',
   'missile_3',
   'missile_4',
+  'exa_000',
+  'exa_001',
+  'exa_002',
+  'exa_003',
+  'exa_004',
+  'exa_005',
+  'exa_006',
+  'exa_007',
+  'exa_008',
+  'exa_009',
+  'exa_010',
+  'exa_011',
+  'exa_012',
+  'exa_013',
+  'exa_014',
+  'exa_015',
+  'exa_016',
+  'exa_017',
+  'exa_018',
   'exc_000',
   'exc_001',
   'exc_002',

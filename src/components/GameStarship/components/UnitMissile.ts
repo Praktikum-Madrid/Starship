@@ -25,13 +25,16 @@ export default class Missile extends Unit {
   }
 
   move() {
+    if (this.y < 0) {
+      this.destroy();
+    }
     if (this.dx) {
       this.x += this.dx;
     }
     if (this.dy) {
       this.y += this.dy;
     }
-    this.explosion.followMissile(this.x, this.y);
+    this.explosion.followItem(this.x, this.y);
   }
 
   collide(opponent: Opponent) {

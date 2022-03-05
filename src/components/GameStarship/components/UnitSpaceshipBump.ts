@@ -2,20 +2,20 @@
 import Unit from './Unit';
 import { ISprites } from '../config/types';
 
-export default class Explosion extends Unit {
+export default class SpaceshipBump extends Unit {
   active: boolean;
 
   frame: number;
 
   timerId: number | undefined;
 
-  constructor(itemVelocity: number, itemX: number, itemY: number) {
+  constructor(spaceshipVelocity: number, spaceshipX: number, spaceshipY: number) {
     super();
     this.active = false;
     this.frame = 0;
-    this.velocity = itemVelocity;
-    this.x = itemX - 108;
-    this.y = itemY - 150;
+    this.velocity = spaceshipVelocity;
+    this.x = spaceshipX - 50;
+    this.y = spaceshipY - 100;
     this.width = 250;
     this.height = 250;
   }
@@ -24,22 +24,22 @@ export default class Explosion extends Unit {
     this.dy = -this.velocity;
   }
 
-  followItem(itemX: number, itemY: number) {
-    this.x = itemX - 108;
-    this.y = itemY - 150;
+  followSpaceship(spaceshipX: number, spaceshipY: number) {
+    this.x = spaceshipX - 50;
+    this.y = spaceshipY - 100;
   }
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
     if (this.active) {
       ctx.drawImage(
-        sprites[`exc_${this.frame > 9 ? '0' : '00'}${this.frame > 39 ? 40 : this.frame}`],
+        sprites[`exa_${this.frame > 9 ? '0' : '00'}${this.frame > 17 ? 18 : this.frame}`],
         this.x,
         this.y,
         this.width,
         this.height,
       );
 
-      if (this.frame >= 39 && this.timerId) {
+      if (this.frame >= 17 && this.timerId) {
         clearInterval(this.timerId);
         this.active = false;
       }
@@ -50,7 +50,7 @@ export default class Explosion extends Unit {
     if (this.active) {
       this.timerId = window.setInterval(() => {
         this.frame += 1;
-      }, 10);
+      }, 100);
     }
   }
 }
