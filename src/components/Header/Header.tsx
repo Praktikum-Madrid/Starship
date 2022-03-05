@@ -8,7 +8,7 @@ import { Tab, Tabs, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/reducers';
 import { logOut } from 'store/reducers/auth';
-import Auth from 'api/Auth';
+// import Auth from 'api/Auth';
 
 const Header = () => {
   const [value, setValue] = React.useState(0);
@@ -43,14 +43,7 @@ const Header = () => {
   }, [value, location]);
 
   const handleLogout = () => {
-    Auth.logOut()
-      .then((response) => {
-        localStorage.removeItem('settings');
-        dispatch(logOut());
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(logOut());
   };
 
   return (

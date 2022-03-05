@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link as RouterLink } from 'react-router-dom';
 import { Alert, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { TCredintials } from 'types';
-import Auth from 'api/Auth';
+// import Auth from 'api/Auth';
 import { logIn } from 'store/reducers/auth';
-import { setUserSettings } from 'store/reducers/settings';
-import { useDispatch } from 'react-redux';
+// import { setUserSettings } from 'store/reducers/settings';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/reducers';
 
 const validationSchema = yup.object({
   login: yup.string()
@@ -19,10 +20,7 @@ const validationSchema = yup.object({
 });
 
 const SignIn = () => {
-  // Стейт о состоянии авторизации (успех/провал?)
-  const [signInState, setSignInState] = useState({
-    error: '',
-  });
+  const signInState = useSelector((state: RootState) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -37,47 +35,9 @@ const SignIn = () => {
     },
   });
 
-  // FIXME: Перенести в thunk? Надо подумать.
   // Обрабатываем авторизацию
   const handleLogin = (loginData: TCredintials) => {
-    // Авторизуемся
-    Auth.signIn(loginData)
-      .then((response) => {
-        setSignInState({ error: '' });
-
-        if (response.ok && response.status === 200) {
-          dispatch(logIn());
-          return;
-        }
-
-        if (response.status === 400) {
-          // FIXME: если юзер авторизован, он не должен попадать на эту страницу
-          Auth.logOut();
-          setSignInState({ error: 'Юзер уже авторизован' });
-          throw new Error('Юзер уже авторизован');
-        }
-
-        if (response.status === 401) {
-          setSignInState({ error: 'Неверные имя пользователя или пароль' });
-          throw new Error('Неверные имя пользователя или пароль');
-        }
-      })
-      .then(() => Auth.getUserData()
-        .then((response) => {
-          if (response.ok && response.status === 200) {
-            return response.json();
-          }
-
-          setSignInState({ error: 'Ошибка при получении данных пользователя' });
-        })
-        .then((userData) => {
-          localStorage.setItem('settings', JSON.stringify(userData));
-
-          dispatch(setUserSettings(userData));
-        }))
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(logIn(loginData));
   };
 
   return (
@@ -122,7 +82,7 @@ const SignIn = () => {
             helperText={formik.touched.password && formik.errors.password}
           />
 
-          {signInState.error && <Alert severity='warning'>{signInState.error}</Alert>}
+          {signInState.signInError && <Alert severity='warning'>{signInState.signInError}</Alert>}
 
           <Button color='primary' variant='contained' fullWidth type='submit'>
             Войти
