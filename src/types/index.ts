@@ -29,3 +29,11 @@ export type TPassword = {
   oldPassword: string,
   newPassword: string,
 }
+
+export interface ISprites {
+  [key: string]: HTMLImageElement;
+}
+
+export interface IAudio {
+  [key: string]: HTMLAudioElement | null;
+}

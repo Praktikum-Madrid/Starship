@@ -1,4 +1,4 @@
-import { ISprites } from '../config/types';
+import { ISprites } from 'types';
 import Unit from './Unit';
 
 export default class Opponent extends Unit {

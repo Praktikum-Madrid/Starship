@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import React, { FC } from 'react';
 import { Button, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';

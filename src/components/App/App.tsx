@@ -18,6 +18,7 @@ import GameStarship from 'components/GameStarship';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'store/reducers/auth';
 import { setUserSettings } from 'store/reducers/settings';
+import { PATH } from 'config/consts';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -73,14 +74,14 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='signin' element={<SignIn />} />
-          <Route path='signup' element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState} />} />
-          <Route path='profile' element={<Profile />} />
-          <Route path='game' element={<GameStarship />} />
-          <Route path='leaderboard' element={<Leaderboard />} />
-          <Route path='forum' element={<Forum />} />
-          <Route path='forum/:topicId' element={<Topic />} />
-          <Route path='server-error' element={<Page500 />} />
+          <Route path={PATH.SIGN_IN} element={<SignIn />} />
+          <Route path={PATH.SIGN_UP} element={<SignUp handleSignUp={handleSignUp} signUpState={signUpState} />} />
+          <Route path={PATH.PROFILE} element={<Profile />} />
+          <Route path={PATH.GAME} element={<GameStarship />} />
+          <Route path={PATH.LEADERBOARD} element={<Leaderboard />} />
+          <Route path={PATH.FORUM} element={<Forum />} />
+          <Route path={PATH.FORUM_TOPIC_ID} element={<Topic />} />
+          <Route path={PATH.SERVER_ERROR} element={<Page500 />} />
           <Route path='*' element={<Page404 />} />
         </Route>
       </Routes>

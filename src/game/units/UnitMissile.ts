@@ -1,7 +1,7 @@
+import { ISprites } from 'types';
 import Unit from './Unit';
 import Opponent from './UnitOpponent';
 import Explosion from './UnitExplosion';
-import { ISprites } from '../config/types';
 
 export default class Missile extends Unit {
   active: boolean;

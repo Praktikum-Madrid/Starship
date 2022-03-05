@@ -1,5 +1,5 @@
-import { SPRITES } from '../config/const';
-import { ISprites } from '../config/types';
+import { ISprites } from 'types';
+import { SPRITES } from 'config/consts';
 
 export default function createImg(): ISprites {
   const result: ISprites = {};
