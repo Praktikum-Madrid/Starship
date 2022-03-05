@@ -36,6 +36,8 @@ export function settingsReducer(state: TProfileData = defaultState, { type, payl
 }
 
 export function setUserSettings(payload: Record<string, any>) {
+  localStorage.setItem('settings', JSON.stringify(payload));
+
   console.log(payload);
   return {
     type: ACTIONS.SAVE,

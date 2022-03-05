@@ -29,3 +29,5 @@ export type TPassword = {
   oldPassword: string,
   newPassword: string,
 }
+
+export type TPayload = Record<string, any>;
