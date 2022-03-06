@@ -39,3 +39,9 @@ export interface IAudio {
 }
 
 export type TPayload = Record<string, any>;
+
+export type TLocationState = {
+  from: {
+    pathname: string;
+  }
+}
