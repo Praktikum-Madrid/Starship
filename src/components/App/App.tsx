@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from 'config/Theme';
 import Topic from 'components/Topic';
@@ -13,14 +13,23 @@ import Forum from 'components/Forum';
 import Page404 from 'components/Page404';
 import Page500 from 'components/Page500';
 import GameStarship from 'components/GameStarship';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUserLogined } from 'store/reducers/auth';
 import { setUserSettings } from 'store/reducers/settings';
 import { PATH } from 'config/consts';
 import RequireAuth from 'components/RequireAuth';
+import { RootState } from 'store/reducers';
 
 export default function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLogined } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (isLogined) {
+      navigate(PATH.HOME);
+    }
+  }, [isLogined]);
 
   // Если настройки юзера сохранены, используем их
   useEffect(() => {

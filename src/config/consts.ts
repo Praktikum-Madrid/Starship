@@ -8,6 +8,7 @@ export const NUM_MISSILES = 30;
 export const LIFE = 5;
 
 export const enum PATH {
+  HOME = '/',
   SIGN_IN = '/signin',
   SIGN_UP = '/signup',
   PROFILE = '/profile',
