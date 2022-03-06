@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from 'config/Theme';
 import Topic from 'components/Topic';
@@ -17,16 +17,24 @@ import { useSelector } from 'react-redux';
 import { PATH } from 'config/consts';
 import RequireAuth from 'components/RequireAuth';
 import { RootState } from 'store/reducers';
+import { TLocationState } from 'types';
 
 export default function App() {
   // const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLogined } = useSelector((state: RootState) => state.auth);
+  const location = useLocation();
+
+  const from = location.state as TLocationState;
 
   // Если настройки юзера сохранены, используем их
   useEffect(() => {
-    if (!isLogined) {
-      navigate(PATH.HOME);
+    if (isLogined) {
+      if (from) {
+        navigate(from.from.pathname);
+      } else {
+        navigate(PATH.HOME);
+      }
     }
   }, [isLogined]);
 
