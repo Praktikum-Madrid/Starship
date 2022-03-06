@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from 'config/Theme';
 import Topic from 'components/Topic';
@@ -13,13 +13,23 @@ import Forum from 'components/Forum';
 import Page404 from 'components/Page404';
 import Page500 from 'components/Page500';
 import GameStarship from 'components/GameStarship';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUserLogined } from 'store/reducers/auth';
 import { setUserSettings } from 'store/reducers/settings';
 import { PATH } from 'config/consts';
+import RequireAuth from 'components/RequireAuth';
+import { RootState } from 'store/reducers';
 
 export default function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLogined } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (isLogined) {
+      navigate(PATH.HOME);
+    }
+  }, [isLogined]);
 
   // Если настройки юзера сохранены, используем их
   useEffect(() => {
@@ -40,14 +50,16 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
           <Route path={PATH.SIGN_IN} element={<SignIn />} />
           <Route path={PATH.SIGN_UP} element={<SignUp />} />
-          <Route path={PATH.PROFILE} element={<Profile />} />
-          <Route path={PATH.GAME} element={<GameStarship />} />
-          <Route path={PATH.LEADERBOARD} element={<Leaderboard />} />
-          <Route path={PATH.FORUM} element={<Forum />} />
-          <Route path={PATH.FORUM_TOPIC_ID} element={<Topic />} />
+          <Route element={<RequireAuth />}>
+            <Route index element={<Home />} />
+            <Route path={PATH.PROFILE} element={<Profile />} />
+            <Route path={PATH.GAME} element={<GameStarship />} />
+            <Route path={PATH.LEADERBOARD} element={<Leaderboard />} />
+            <Route path={PATH.FORUM} element={<Forum />} />
+            <Route path={PATH.FORUM_TOPIC_ID} element={<Topic />} />
+          </Route>
           <Route path={PATH.SERVER_ERROR} element={<Page500 />} />
           <Route path='*' element={<Page404 />} />
         </Route>

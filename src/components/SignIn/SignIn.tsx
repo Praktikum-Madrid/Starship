@@ -4,9 +4,7 @@ import * as yup from 'yup';
 import { Link as RouterLink } from 'react-router-dom';
 import { Alert, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { TCredintials } from 'types';
-// import Auth from 'api/Auth';
 import { logIn } from 'store/reducers/auth';
-// import { setUserSettings } from 'store/reducers/settings';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/reducers';
 
