@@ -13,22 +13,21 @@ import Forum from 'components/Forum';
 import Page404 from 'components/Page404';
 import Page500 from 'components/Page500';
 import GameStarship from 'components/GameStarship';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUserLogined } from 'store/reducers/auth';
-import { setUserSettings } from 'store/reducers/settings';
+import { useSelector } from 'react-redux';
 import { PATH } from 'config/consts';
 import RequireAuth from 'components/RequireAuth';
 import { RootState } from 'store/reducers';
 import { TLocationState } from 'types';
 
 export default function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLogined } = useSelector((state: RootState) => state.auth);
   const location = useLocation();
 
   const from = location.state as TLocationState;
 
+  // Если настройки юзера сохранены, используем их
   useEffect(() => {
     if (isLogined) {
       if (from) {
@@ -38,21 +37,6 @@ export default function App() {
       }
     }
   }, [isLogined]);
-
-  // Если настройки юзера сохранены, используем их
-  useEffect(() => {
-    try {
-      const settings = localStorage.getItem('settings');
-
-      if (settings) {
-        // FIXME: Писать настройки юзера в стор из локалстораджа
-        dispatch(setUserSettings(JSON.parse(settings)));
-        dispatch(setUserLogined());
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
