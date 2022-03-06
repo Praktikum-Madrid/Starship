@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Alert, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { TCredintials } from 'types';
 import { logIn } from 'store/reducers/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/reducers';
+import { PATH } from 'config/consts';
 
 const validationSchema = yup.object({
   login: yup.string()
@@ -18,8 +19,8 @@ const validationSchema = yup.object({
 });
 
 const SignIn = () => {
-  const signInState = useSelector((state: RootState) => state.auth);
-
+  const navigate = useNavigate();
+  const { isLogined, signInError } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -32,6 +33,12 @@ const SignIn = () => {
       handleLogin(values);
     },
   });
+
+  useEffect(() => {
+    if (isLogined) {
+      navigate(PATH.GAME);
+    }
+  }, [isLogined]);
 
   // Обрабатываем авторизацию
   const handleLogin = (loginData: TCredintials) => {
@@ -80,7 +87,7 @@ const SignIn = () => {
             helperText={formik.touched.password && formik.errors.password}
           />
 
-          {signInState.signInError && <Alert severity='warning'>{signInState.signInError}</Alert>}
+          {signInError && <Alert severity='warning'>{signInError}</Alert>}
 
           <Button color='primary' variant='contained' fullWidth type='submit'>
             Войти
