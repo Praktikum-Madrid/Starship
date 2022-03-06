@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { setUserLogined } from 'store/reducers/auth';
 import { setUserSettings } from 'store/reducers/settings';
 import { PATH } from 'config/consts';
+import RequireAuth from 'components/RequireAuth';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -40,14 +41,16 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
           <Route path={PATH.SIGN_IN} element={<SignIn />} />
           <Route path={PATH.SIGN_UP} element={<SignUp />} />
-          <Route path={PATH.PROFILE} element={<Profile />} />
-          <Route path={PATH.GAME} element={<GameStarship />} />
-          <Route path={PATH.LEADERBOARD} element={<Leaderboard />} />
-          <Route path={PATH.FORUM} element={<Forum />} />
-          <Route path={PATH.FORUM_TOPIC_ID} element={<Topic />} />
+          <Route element={<RequireAuth />}>
+            <Route index element={<Home />} />
+            <Route path={PATH.PROFILE} element={<Profile />} />
+            <Route path={PATH.GAME} element={<GameStarship />} />
+            <Route path={PATH.LEADERBOARD} element={<Leaderboard />} />
+            <Route path={PATH.FORUM} element={<Forum />} />
+            <Route path={PATH.FORUM_TOPIC_ID} element={<Topic />} />
+          </Route>
           <Route path={PATH.SERVER_ERROR} element={<Page500 />} />
           <Route path='*' element={<Page404 />} />
         </Route>
