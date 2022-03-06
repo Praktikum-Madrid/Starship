@@ -1,7 +1,7 @@
 import Auth from 'api/Auth';
 import { Dispatch } from 'redux';
 import { TCredintials, TPayload } from 'types';
-import { setUserSettings } from 'store/reducers/settings';
+import { deleteUserSettings, setUserSettings } from 'store/reducers/settings';
 
 const ACTIONS = {
   LOGIN: 'LOGIN',
@@ -49,15 +49,6 @@ export function authReducer(state: UserState = defaultState, { type, payload }: 
     default: return state;
   }
 }
-
-// Установить состояние авторизации как "Авторизован"
-export const setUserLogined = () => ({
-  type: ACTIONS.LOGIN,
-  payload: {
-    isLogined: true,
-    error: '',
-  },
-});
 
 // Асинхронная авторизация
 export function logIn(loginData: TCredintials) {
@@ -115,9 +106,8 @@ export function logOut() {
   return async (dispatch: Dispatch) => {
     // Выполяем логаут
     try {
-      await Auth.logOut().then(() => {
-        localStorage.removeItem('settings');
-      });
+      await Auth.logOut();
+      dispatch(deleteUserSettings());
       // Обновляем стейт
       dispatch({
         type: ACTIONS.LOGOUT,
