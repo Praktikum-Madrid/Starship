@@ -37,3 +37,5 @@ export interface ISprites {
 export interface IAudio {
   [key: string]: HTMLAudioElement | null;
 }
+
+export type TPayload = Record<string, any>;

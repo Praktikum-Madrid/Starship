@@ -1,10 +1,13 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link as RouterLink } from 'react-router-dom';
 import { Alert, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { TCredintials } from 'types';
 import { loginValidator, nameValidator, passwordValidator, phoneValidator } from 'config/validators';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/reducers';
+import { registerUser } from 'store/reducers/auth';
 
 const validationSchema = yup.object({
   first_name: yup.string()
@@ -31,15 +34,7 @@ const validationSchema = yup.object({
     .required('Укажите номер телефона'),
 });
 
-interface IProps {
-  handleSignUp: Function,
-  signUpState: Record<string, boolean>
-}
-
-const SignUp: FC<IProps> = ({
-  handleSignUp,
-  signUpState,
-}) => {
+const SignUp = () => {
   const formik = useFormik({
     initialValues: {
       first_name: '',
@@ -55,106 +50,150 @@ const SignUp: FC<IProps> = ({
     },
   });
 
+  // FIXME: Перенести в компонент регистрации
+  // Стейт о состоянии регистрации (успех/провал?)
+  // const [signUpState, setSignUpState] = useState({});
+  const dispatch = useDispatch();
+
+  const signUpState = useSelector((state: RootState) => state.auth);
+
+  const handleSignUp = (signUpData: TCredintials) => {
+    // Авторизуемся
+    dispatch(registerUser(signUpData));
+    // Auth.signUp(signUpData)
+    //   .then((response) => {
+    //     if (response.ok && response.status === 200) {
+    //       setSignUpState({ registered: true });
+    //     }
+    //
+    //     if (response.status === 400) {
+    //       // FIXME: Авторизованый юзер не должен попадать в этот роут
+    //       Auth.logOut();
+    //       setSignUpState({ error: 'Ошибка при создании пользователя' });
+    //     }
+    //
+    //     if (response.status === 409) {
+    //       setSignUpState({ error: 'Пользователь с таким имейлом уже существует' });
+    //     }
+    //
+    //     return response.json();
+    //   }).then((parsedResponse) => {
+    //     console.log(parsedResponse);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+  };
+
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Stack sx={{ mt: 6, textAlign: 'center', gap: 2, marginLeft: 'auto', marginRight: 'auto', maxWidth: '400px' }}>
+      <Stack sx={{
+        mt: 6,
+        textAlign: 'center',
+        gap: 2,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        maxWidth: '400px',
+      }}
+      >
         <Typography variant='h4' gutterBottom component='h1'>
           Регистрация
         </Typography>
-        {!signUpState.registered
-            && (
-              <>
-                <TextField
-                  fullWidth
-                  id='first_name'
-                  name='first_name'
-                  label='Имя'
-                  variant='standard'
-                  value={formik.values.first_name}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.first_name && Boolean(formik.errors.first_name)
-                  }
-                  helperText={formik.touched.first_name && formik.errors.first_name}
-                />
+        {!signUpState.isRegistered
+        && (
+          <>
+            <TextField
+              fullWidth
+              id='first_name'
+              name='first_name'
+              label='Имя'
+              variant='standard'
+              value={formik.values.first_name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.first_name && Boolean(formik.errors.first_name)
+              }
+              helperText={formik.touched.first_name && formik.errors.first_name}
+            />
 
-                <TextField
-                  fullWidth
-                  id='second_name'
-                  name='second_name'
-                  label='Фамилия'
-                  variant='standard'
-                  value={formik.values.second_name}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.second_name && Boolean(formik.errors.second_name)
-                  }
-                  helperText={formik.touched.second_name && formik.errors.second_name}
-                />
+            <TextField
+              fullWidth
+              id='second_name'
+              name='second_name'
+              label='Фамилия'
+              variant='standard'
+              value={formik.values.second_name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.second_name && Boolean(formik.errors.second_name)
+              }
+              helperText={formik.touched.second_name && formik.errors.second_name}
+            />
 
-                <TextField
-                  fullWidth
-                  id='email'
-                  name='email'
-                  label='Адрес E-mail'
-                  variant='standard'
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
+            <TextField
+              fullWidth
+              id='email'
+              name='email'
+              label='Адрес E-mail'
+              variant='standard'
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
 
-                <TextField
-                  fullWidth
-                  id='phone'
-                  name='phone'
-                  label='Номер телефона'
-                  variant='standard'
-                  value={formik.values.phone}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.phone && Boolean(formik.errors.phone)}
-                  helperText={formik.touched.phone && formik.errors.phone}
-                />
+            <TextField
+              fullWidth
+              id='phone'
+              name='phone'
+              label='Номер телефона'
+              variant='standard'
+              value={formik.values.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.phone && Boolean(formik.errors.phone)}
+              helperText={formik.touched.phone && formik.errors.phone}
+            />
 
-                <TextField
-                  fullWidth
-                  id='login'
-                  name='login'
-                  label='Имя пользователя (Логин)'
-                  variant='standard'
-                  value={formik.values.login}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.login && Boolean(formik.errors.login)}
-                  helperText={formik.touched.login && formik.errors.login}
-                />
+            <TextField
+              fullWidth
+              id='login'
+              name='login'
+              label='Имя пользователя (Логин)'
+              variant='standard'
+              value={formik.values.login}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.login && Boolean(formik.errors.login)}
+              helperText={formik.touched.login && formik.errors.login}
+            />
 
-                <TextField
-                  fullWidth
-                  id='password'
-                  name='password'
-                  label='Пароль'
-                  type='password'
-                  variant='standard'
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.password && Boolean(formik.errors.password)}
-                  helperText={formik.touched.password && formik.errors.password}
-                />
+            <TextField
+              fullWidth
+              id='password'
+              name='password'
+              label='Пароль'
+              type='password'
+              variant='standard'
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+            />
 
-                <Button color='primary' variant='contained' fullWidth type='submit'>
-                  Зарегистрироваться
-                </Button>
-              </>
-            )}
+            <Button color='primary' variant='contained' fullWidth type='submit'>
+              Зарегистрироваться
+            </Button>
+          </>
+        )}
 
-        {signUpState.registered && <Alert severity='success'>Регистрация прошла успешно! Теперь вы можете войти.</Alert>}
-        {signUpState.error && <Alert severity='warning'>{signUpState.error}</Alert>}
+        {signUpState.isRegistered
+        && <Alert severity='success'>Регистрация прошла успешно! Теперь вы можете войти.</Alert>}
+        {signUpState.signUpError && <Alert severity='warning'>{signUpState.signUpError}</Alert>}
 
         <Link component={RouterLink} sx={{ fontFamily: 'Roboto' }} to='/signin'>
           Уже зарегистрированы? Войти.
