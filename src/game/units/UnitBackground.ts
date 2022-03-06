@@ -1,5 +1,5 @@
+import { ISprites } from 'types';
 import Unit from './Unit';
-import { ISprites } from '../config/types';
 
 export default class Background extends Unit {
   sx: number;

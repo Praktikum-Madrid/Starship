@@ -1,48 +1,39 @@
-import { TCoordinate } from 'types';
-
 export default class Unit {
-  protected _y: TCoordinate;
+  width: number;
 
-  protected _x: TCoordinate;
+  height: number;
 
-  private readonly _width: number;
+  velocity: number;
 
-  private readonly _height: number;
+  dx: number;
 
-  private readonly _sprite: any;
+  dy: number;
 
-  private _ctx: CanvasRenderingContext2D;
+  x: number;
 
-  // FIXME: Правильный тип у спрайта
-  constructor(sprite: any, x: TCoordinate, y: TCoordinate, width: number, height: number, ctx: CanvasRenderingContext2D) {
-    this._x = x;
-    this._y = y;
-    this._sprite = sprite;
-    this._width = width;
-    this._height = height;
-    this._ctx = ctx;
+  y: number;
+
+  constructor() {
+    this.width = 0;
+    this.height = 0;
+    this.velocity = 0;
+    this.x = 0;
+    this.y = 0;
+    this.dx = 0;
+    this.dy = 0;
   }
 
-  // Перемещает юнит по координатам (+/-)
-  public move(x: TCoordinate, y: TCoordinate) {
-    // TODO: Использовать дебаунсер для ограничения скорости перемещения
-    this._x += x;
-    this._y += y;
-    console.log(this._x, this._y);
+  stop() {
+    this.dx = 0;
+    this.dy = 0;
   }
 
-  // Рисует юнит на холсте
-  public render = () => {
-    this._ctx.drawImage(this._sprite, this._x, this._y, this._width, this._height);
-  };
-
-  // Возвращает текущюю позицию юнита
-  public getPosition = () => ({
-    currentX: this._x,
-    currentY: this._y,
-  });
-
-  public destroy = () => {
-    // TODO: Уничтожение объекта
-  };
+  move() {
+    if (this.dx) {
+      this.x += this.dx;
+    }
+    if (this.dy) {
+      this.y += this.dy;
+    }
+  }
 }

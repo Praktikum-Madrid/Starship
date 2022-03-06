@@ -1,11 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/reducers';
 import Container from '@mui/material/Container';
 import { IconButton } from '@mui/material';
-import StarshipGame from './components/StarshipGame';
+import StarshipGame from 'game';
 import StartGameScene from '../StartGameScene';
 import EndGameScene from '../EndGameScene';
 
 export default function Game() {
+  // TODO: переписать на отдельный кастомный хук, например useSettings
+  const settings = useSelector((state: RootState) => state.settings);
   const ref = useRef<HTMLCanvasElement>(null);
   const [isGame, setIsGame] = useState(false);
   const [isQuit, setIsQuit] = useState(false);
@@ -17,7 +21,7 @@ export default function Game() {
     ref.current?.focus();
 
     if (isGame && ctx) {
-      const game = new StarshipGame(ctx);
+      const game = new StarshipGame(ctx, settings);
       game.start();
     }
   }, [isGame]);

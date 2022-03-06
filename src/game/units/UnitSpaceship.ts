@@ -1,13 +1,14 @@
-import Unit from './Unit';
-import { KEYS, ISprites } from '../config/types';
-import Missile from './UnitMissile';
-import Opponent from './UnitOpponent';
+import { ISprites } from 'types';
 import {
   WIDTH_CANWAS,
   HEIGT_CANWAS,
   NUM_MISSILES,
   LIFE,
-} from '../config/const';
+  KEYS,
+} from 'config/consts';
+import Unit from './Unit';
+import Missile from './UnitMissile';
+import Opponent from './UnitOpponent';
 import SpaceshipBump from './UnitSpaceshipBump';
 
 export default class Spaceship extends Unit {
@@ -214,7 +215,7 @@ export default class Spaceship extends Unit {
   destroy() {
     this.missiles.forEach((missile) => {
       missile.destroy();
-    })
+    });
     this.active = false;
   }
 }

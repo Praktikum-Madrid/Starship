@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
+import { ISprites } from 'types';
 import Unit from './Unit';
-import { ISprites } from '../config/types';
 
 export default class Explosion extends Unit {
   active: boolean;

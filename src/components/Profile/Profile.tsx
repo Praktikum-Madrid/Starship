@@ -6,10 +6,10 @@ import ProfileApi from 'api/Profile';
 import { TUserInfo, TPassword } from 'types';
 import { useFormik } from 'formik';
 import { Alert, Avatar, Button, Stack, TextField, Typography } from '@mui/material';
-import { RESOURCES_URL } from 'config/consts'; // FIXME: Это ещё зачем? Есть же файл с константами апи?
 import { setUserSettings } from 'store/reducers/settings';
 import { RootState } from 'store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
+import { RESOURCES_URL } from 'config/api';
 
 const validationSchemaProfileData = yup.object({
   first_name: yup.string()

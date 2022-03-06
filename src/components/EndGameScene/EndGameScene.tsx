@@ -2,6 +2,7 @@
 import React, { FC } from 'react';
 import { Button, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { PATH } from 'config/consts';
 
 const styles = {
   buttonsEndGame: {
@@ -80,7 +81,7 @@ const EndGameScene: FC<IProps> = ({ score, handleReplay }) => {
         color='success'
         variant='contained'
         onClick={() => {
-          navigate('/leaderboard');
+          navigate(PATH.LEADERBOARD);
         }}
       >
         LEADERBOARD

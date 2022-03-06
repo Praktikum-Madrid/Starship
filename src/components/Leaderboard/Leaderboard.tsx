@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import Container from '@mui/material/Container';
@@ -105,6 +104,7 @@ const Leaderboard = () => {
             pageSize={5}
             rowsPerPageOptions={[5]}
             disableSelectionOnClick
+            disableColumnMenu
           />
         )}
       </div>
