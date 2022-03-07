@@ -2,6 +2,8 @@
 
 import { TUserInfo, IAudio, ISprites } from 'types';
 import LeaderboardAPI from 'api/Leaderboard';
+import { Dispatch } from 'redux';
+import { toggleGameFullscreen } from 'store/reducers/game';
 import {
   AUDIOS,
   COLS_OPPONENTS,
@@ -48,7 +50,9 @@ export default class StarshipGame {
 
   settings: TUserInfo;
 
-  constructor(ctx: CanvasRenderingContext2D, settings: TUserInfo) {
+  dispatch: Dispatch<any>;
+
+  constructor(ctx: CanvasRenderingContext2D, settings: TUserInfo, dispatch: Dispatch<any>) {
     this._ctx = ctx;
     this.running = true;
     this.widthCanvas = WIDTH_CANWAS;
@@ -64,6 +68,7 @@ export default class StarshipGame {
     };
     this.score = 0;
     this.settings = settings;
+    this.dispatch = dispatch;
   }
 
   private init() {
@@ -84,6 +89,7 @@ export default class StarshipGame {
     window.addEventListener('keydown', (e) => {
       if (e.keyCode === KEYS.ENTER) {
         toggleFullScreen();
+        this.dispatch(toggleGameFullscreen());
       }
       if (e.keyCode === KEYS.SPACE) {
         // Ограничиваем частоту стрельбы

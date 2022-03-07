@@ -45,3 +45,22 @@ export type TLocationState = {
     pathname: string;
   }
 }
+
+export type TGameSettings = {
+  isFullscreen?: boolean,
+}
+
+export interface FsDocument extends HTMLDocument {
+  webkitExitFullscreen: any;
+  webkitFullscreenElement: Element | undefined;
+  mozFullScreenElement?: Element;
+  msFullscreenElement?: Element;
+  msExitFullscreen?: () => void;
+  mozCancelFullScreen?: () => void;
+}
+
+export interface FsDocumentElement extends HTMLElement {
+  webkitRequestFullscreen: any;
+  msRequestFullscreen?: () => void;
+  mozRequestFullScreen?: () => void;
+}
