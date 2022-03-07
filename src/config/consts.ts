@@ -40,6 +40,8 @@ export const enum END_GAME {
 
 export const AUDIOS: string[] = [
   'bump',
+  'music',
+  'explosion',
 ];
 export const SPRITES: string[] = [
   'background',

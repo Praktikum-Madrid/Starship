@@ -1,6 +1,4 @@
-// StarshipGame.ts
-
-import { TUserInfo, IAudio, ISprites } from 'types';
+import { TUserInfo, ISprites } from 'types';
 import LeaderboardAPI from 'api/Leaderboard';
 import {
   AUDIOS,
@@ -13,6 +11,7 @@ import {
   SPRITES,
   WIDTH_CANWAS,
 } from 'config/consts';
+import SoundEngine from 'game/soundEngine';
 import createImg from './utils/createImg';
 import throttleInput from '../utils/throttleInput';
 import Background from './units/UnitBackground';
@@ -26,7 +25,7 @@ export default class StarshipGame {
 
   sprites: ISprites;
 
-  sounds: IAudio;
+  // sounds: IAudio;
 
   running: boolean;
 
@@ -48,6 +47,10 @@ export default class StarshipGame {
 
   settings: TUserInfo;
 
+  private sound: SoundEngine;
+
+  private music: HTMLAudioElement;
+
   constructor(ctx: CanvasRenderingContext2D, settings: TUserInfo) {
     this._ctx = ctx;
     this.running = true;
@@ -59,9 +62,8 @@ export default class StarshipGame {
     this.rows = ROWS_OPPONENTS;
     this.cols = COLS_OPPONENTS;
     this.sprites = createImg();
-    this.sounds = {
-      bump: null,
-    };
+    this.sound = new SoundEngine(AUDIOS);
+    this.music = this.sound.addMusic('music', 0.5);
     this.score = 0;
     this.settings = settings;
   }
@@ -112,8 +114,7 @@ export default class StarshipGame {
 
   private preload(callback: CallableFunction) {
     let loaded = 0;
-    let required = Object.keys(this.sprites).length - 1;
-    required += Object.keys(this.sounds).length;
+    const required = Object.keys(this.sprites).length - 1;
 
     const onResourceLoad = () => {
       loaded += 1;
@@ -123,22 +124,12 @@ export default class StarshipGame {
     };
 
     this.preloadSprites(onResourceLoad);
-    this.preloadAudios(onResourceLoad);
   }
 
   private preloadSprites(onResourceLoad: { (): void }) {
     SPRITES.forEach((key) => {
       this.sprites[key].src = `../images/${key}.png`;
       this.sprites[key].addEventListener('load', onResourceLoad);
-    });
-  }
-
-  private preloadAudios(onResourceLoad: { (): void }) {
-    AUDIOS.forEach((key) => {
-      this.sounds[key] = new Audio(`../sounds/${key}.mp3`);
-      this.sounds[key]!.addEventListener('canplaythrough', onResourceLoad, {
-        once: true,
-      });
     });
   }
 
@@ -157,6 +148,8 @@ export default class StarshipGame {
         opponent.start();
       }
     });
+
+    this.music.play(); // Включаем музыку
   }
 
   private collideMissileToOpponents(missiles: Missile[]) {
@@ -165,7 +158,8 @@ export default class StarshipGame {
         if (opponent && opponent.active && missile.collide(opponent)) {
           missile.destroy();
           opponent.destroy();
-          this.sounds.bump?.play();
+
+          this.sound.play('explosion');
           this.addScore();
         }
       });
@@ -179,7 +173,7 @@ export default class StarshipGame {
         && opponent.active
         && this.spaceship.collideOpponent(opponent)
       ) {
-        this.sounds.bump?.play();
+        this.sound.play('bump');
       }
     });
   }
@@ -256,6 +250,7 @@ export default class StarshipGame {
 
   end(message: string, score: number) {
     setTimeout(() => {
+      this.music.pause(); // Останавливаем музыку
       this.running = false;
       if (message === END_GAME.WIN) {
         const leaderboardRequest = {
