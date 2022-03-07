@@ -3,7 +3,12 @@
 import { TUserInfo, IAudio, ISprites } from 'types';
 import LeaderboardAPI from 'api/Leaderboard';
 import { Dispatch } from 'redux';
-import { toggleGameFullscreen } from 'store/reducers/game';
+import {
+  toggleGameFullscreen,
+  setGameScore,
+  setIsGame,
+  setIsQuit,
+} from 'store/reducers/game';
 import {
   AUDIOS,
   COLS_OPPONENTS,
@@ -52,7 +57,11 @@ export default class StarshipGame {
 
   dispatch: Dispatch<any>;
 
-  constructor(ctx: CanvasRenderingContext2D, settings: TUserInfo, dispatch: Dispatch<any>) {
+  constructor(
+    ctx: CanvasRenderingContext2D,
+    settings: TUserInfo,
+    dispatch: Dispatch<any>,
+  ) {
     this._ctx = ctx;
     this.running = true;
     this.widthCanvas = WIDTH_CANWAS;
@@ -263,7 +272,12 @@ export default class StarshipGame {
   end(message: string, score: number) {
     setTimeout(() => {
       this.running = false;
+
       if (message === END_GAME.WIN) {
+        this.dispatch(setGameScore({ score: score * 200 }));
+        this.dispatch(setIsGame({ isGame: false }));
+        this.dispatch(setIsQuit({ isQuit: true }));
+
         const leaderboardRequest = {
           data: {
             avatar: this.settings.avatar,
@@ -284,8 +298,11 @@ export default class StarshipGame {
           .catch((error) => {
             console.log(error);
           });
+      } else {
+        this.dispatch(setGameScore({ score: 0 }));
+        this.dispatch(setIsGame({ isGame: false }));
+        this.dispatch(setIsQuit({ isQuit: true }));
       }
-      console.log(`${message}`);
     }, 2000);
   }
 }

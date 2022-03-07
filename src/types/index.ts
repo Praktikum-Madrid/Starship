@@ -48,6 +48,9 @@ export type TLocationState = {
 
 export type TGameSettings = {
   isFullscreen?: boolean,
+  score?: number,
+  isGame?: boolean,
+  isQuit?: boolean,
 }
 
 export interface FsDocument extends HTMLDocument {

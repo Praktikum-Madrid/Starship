@@ -1,21 +1,37 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { setIsGame, setIsQuit } from 'store/reducers/game';
 import { RootState } from 'store/reducers';
 import Container from '@mui/material/Container';
-import { IconButton } from '@mui/material';
+import { Button } from '@mui/material';
 import StarshipGame from 'game';
 import StartGameScene from '../StartGameScene';
 import EndGameScene from '../EndGameScene';
 
+const styles = {
+  buttonQuit: {
+    width: '130px',
+    color: 'white',
+    border: '5px #406325 solid',
+    borderRadius: '15px',
+    marginBottom: '15px',
+    position: 'absolute',
+    right: '0',
+    top: '10px',
+  },
+};
+
 export default function Game() {
+  const ref = useRef<HTMLCanvasElement>(null);
   // TODO: переписать на отдельный кастомный хук, например useSettings
   const settings = useSelector((state: RootState) => state.settings);
-  const ref = useRef<HTMLCanvasElement>(null);
+  const { isGame, isQuit, score, isFullscreen } = useSelector((state: RootState) => state.game);
   const dispatch = useDispatch();
 
-  const [isGame, setIsGame] = useState(false);
-  const [isQuit, setIsQuit] = useState(false);
-  const score = 1000;
+  useEffect(() => {
+    dispatch(setIsQuit({ isQuit: false }));
+    dispatch(setIsGame({ isGame: false }));
+  }, []);
 
   useEffect(() => {
     const ctx = ref.current?.getContext('2d');
@@ -32,7 +48,7 @@ export default function Game() {
     <Container
       sx={{
         width: '900px',
-        height: '100vh',
+        height: `${isFullscreen ? '100vh' : 'calc(100vh - 64px)'}`,
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -42,20 +58,17 @@ export default function Game() {
     >
       {isGame ? (
         <>
-          <IconButton
-            aria-label='quit'
-            sx={{ position: 'absolute', right: '0', top: '0' }}
+          <Button
+            sx={styles.buttonQuit}
+            color='success'
+            variant='contained'
             onClick={() => {
-              setIsGame(false);
-              setIsQuit(true);
+              dispatch(setIsGame({ isGame: false }));
+              dispatch(setIsQuit({ isQuit: true }));
             }}
           >
-            <img
-              alt='quit-button'
-              src='../images/buttons/quit.png'
-              width='130px'
-            />
-          </IconButton>
+            QUIT
+          </Button>
           <canvas ref={ref} width={900} height={700} />
         </>
       ) : (
@@ -64,7 +77,8 @@ export default function Game() {
             <StartGameScene
               score={score}
               handlePlay={() => {
-                setIsGame(true);
+                dispatch(setIsGame({ isGame: true }));
+                dispatch(setIsQuit({ isQuit: false }));
               }}
             />
           )}
@@ -72,7 +86,8 @@ export default function Game() {
             <EndGameScene
               score={score}
               handleReplay={() => {
-                setIsGame(true);
+                dispatch(setIsGame({ isGame: true }));
+                dispatch(setIsQuit({ isQuit: false }));
               }}
             />
           )}
