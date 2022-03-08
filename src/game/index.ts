@@ -16,7 +16,7 @@ import createImg from './utils/createImg';
 import throttleInput from '../utils/throttleInput';
 import Background from './units/UnitBackground';
 import Missile from './units/UnitMissile';
-import Opponent from './units/UnitOpponent';
+import Opponent, { TYPES_OPPONENTS } from './units/UnitOpponent';
 import Spaceship from './units/UnitSpaceship';
 import { toggleFullScreen } from './utils/fullscreen';
 
@@ -133,12 +133,17 @@ export default class StarshipGame {
     });
   }
 
+  createOpponent(col: number, row: number) {
+    const type = Math.random() < 0.3 ? TYPES_OPPONENTS.METEOR : TYPES_OPPONENTS.SPACESHIP;
+    return new Opponent(100 * col + 50, 200 * -row, Math.random() - 0.3, type);
+  }
+
   private create() {
     for (let row = 0; row < this.rows; row += 1) {
       for (let col = 0; col < this.cols; col += 1) {
         this.opponents.push(
           Math.random() < 0.125
-            ? new Opponent(100 * col + 50, 200 * -row, Math.random() - 0.3)
+            ? this.createOpponent(col, row)
             : null,
         );
       }
