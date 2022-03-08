@@ -1,36 +1,114 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setGameScore,
+  setIsGameStarted,
+  setIsGameQuited,
+  toggleGameFullscreen,
+} from 'store/actions/game';
+import { toggleFullScreen } from 'game/utils/fullscreen';
+import LeaderboardAPI from 'api/Leaderboard';
+import { LEADERBOARD_REQUEST } from 'config/consts';
 import { RootState } from 'store/reducers';
 import Container from '@mui/material/Container';
-import { IconButton } from '@mui/material';
+import { Button } from '@mui/material';
 import StarshipGame from 'game';
 import StartGameScene from '../StartGameScene';
 import EndGameScene from '../EndGameScene';
 
+const styles = {
+  buttonQuit: {
+    width: '130px',
+    color: 'white',
+    border: '5px #406325 solid',
+    borderRadius: '15px',
+    marginBottom: '15px',
+    position: 'absolute',
+    right: '0',
+    top: '10px',
+  },
+};
+
 export default function Game() {
+  const ref = useRef<HTMLCanvasElement>(null);
   // TODO: переписать на отдельный кастомный хук, например useSettings
   const settings = useSelector((state: RootState) => state.settings);
-  const ref = useRef<HTMLCanvasElement>(null);
-  const [isGame, setIsGame] = useState(false);
-  const [isQuit, setIsQuit] = useState(false);
-  const score = 1000;
+  const { isGameStarted, isGameQuited, score, isFullscreen } = useSelector(
+    (state: RootState) => state.game,
+  );
+  const dispatch = useDispatch();
+  let game: StarshipGame | undefined;
+
+  const cb = {
+    toggleFullscreen: () => {
+      toggleFullScreen();
+      dispatch(toggleGameFullscreen());
+    },
+    gameEndWithWin: (score: number) => {
+      dispatch(setGameScore({ score: score * 200 }));
+      dispatch(setIsGameStarted({ isGameStarted: false }));
+      dispatch(setIsGameQuited({ isGameQuited: true }));
+
+      const leaderboardRequest = {
+        data: {
+          avatar: settings.avatar,
+          rating: score * 200,
+          first_name: settings.first_name,
+          second_name: settings.second_name,
+        },
+        ratingFieldName: LEADERBOARD_REQUEST.RATING_FIELD_NAME,
+        teamName: LEADERBOARD_REQUEST.TEAM_NAME,
+      };
+
+      LeaderboardAPI.addUserToLeaderboard(leaderboardRequest)
+        .then((response) => {
+          if (response.ok && response.status === 200) {
+            console.log('ok');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    gameEndWithLose: () => {
+      dispatch(setGameScore({ score: 0 }));
+      dispatch(setIsGameStarted({ isGameStarted: false }));
+      dispatch(setIsGameQuited({ isGameQuited: true }));
+    },
+  };
+
+  function handleStartGameButtonClick() {
+    dispatch(setIsGameStarted({ isGameStarted: true }));
+    dispatch(setIsGameQuited({ isGameQuited: false }));
+  }
+
+  function handleQuitButtonClick() {
+    game?.end();
+    dispatch(setIsGameStarted({ isGameStarted: false }));
+    dispatch(setIsGameQuited({ isGameQuited: true }));
+  }
+
+  useEffect(() => {
+    dispatch(setIsGameStarted({ isGameStarted: false }));
+    dispatch(setIsGameQuited({ isGameQuited: false }));
+  }, []);
 
   useEffect(() => {
     const ctx = ref.current?.getContext('2d');
 
     ref.current?.focus();
 
-    if (isGame && ctx) {
-      const game = new StarshipGame(ctx, settings);
+    if (isGameStarted && ctx) {
+      game = new StarshipGame(ctx, settings, cb);
       game.start();
     }
-  }, [isGame]);
+  }, [isGameStarted]);
 
   return (
     <Container
       sx={{
         width: '900px',
-        height: '100vh',
+        height: `${isFullscreen ? '100vh' : 'calc(100vh - 64px)'}`,
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -38,39 +116,31 @@ export default function Game() {
         justifyContent: 'flex-start',
       }}
     >
-      {isGame ? (
+      {isGameStarted ? (
         <>
-          <IconButton
-            aria-label='quit'
-            sx={{ position: 'absolute', right: '0', top: '0' }}
-            onClick={() => {
-              setIsGame(false);
-              setIsQuit(true);
-            }}
+          <Button
+            sx={styles.buttonQuit}
+            color='success'
+            variant='contained'
+            onClick={() => handleQuitButtonClick()}
           >
-            <img
-              alt='quit-button'
-              src='../images/buttons/quit.png'
-              width='130px'
-            />
-          </IconButton>
+            QUIT
+          </Button>
           <canvas ref={ref} width={900} height={700} />
         </>
       ) : (
         <>
-          {!isQuit && (
+          {!isGameQuited && (
             <StartGameScene
               score={score}
-              handlePlay={() => {
-                setIsGame(true);
-              }}
+              handlePlay={() => handleStartGameButtonClick()}
             />
           )}
-          {isQuit && (
+          {isGameQuited && (
             <EndGameScene
               score={score}
               handleReplay={() => {
-                setIsGame(true);
+                window.location.reload();
               }}
             />
           )}
