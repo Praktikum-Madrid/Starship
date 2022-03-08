@@ -133,7 +133,7 @@ export default class StarshipGame {
     });
   }
 
-  createOpponent(col: number, row: number) {
+  private createOpponent(col: number, row: number) {
     const type = Math.random() < 0.3 ? TYPES_OPPONENTS.METEOR : TYPES_OPPONENTS.SPACESHIP;
     return new Opponent(100 * col + 50, 200 * -row, Math.random() - 0.3, type);
   }
