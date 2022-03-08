@@ -12,6 +12,7 @@ import {
   WIDTH_CANWAS,
 } from 'config/consts';
 import SoundEngine from 'game/soundEngine';
+import Unit from 'game/units/Unit';
 import createImg from './utils/createImg';
 import throttleInput from '../utils/throttleInput';
 import Background from './units/UnitBackground';
@@ -56,7 +57,7 @@ export default class StarshipGame {
     this.running = true;
     this.widthCanvas = WIDTH_CANWAS;
     this.heightCanvas = HEIGT_CANWAS;
-    this.background = new Background();
+    this.background = new Background(true);
     this.spaceship = new Spaceship();
     this.opponents = [];
     this.rows = ROWS_OPPONENTS;
@@ -72,6 +73,7 @@ export default class StarshipGame {
     this.background.start();
     this.setTextFont();
     this.setEvents();
+    this.addShadowUnit(this.spaceship);
   }
 
   private setTextFont() {
@@ -133,6 +135,10 @@ export default class StarshipGame {
     });
   }
 
+  private addShadowUnit(unit: Unit) {
+    unit.setShadow(this.background.showShadows); // добавляем тень юниту если фон поддерживает отображение теней
+  }
+
   private create() {
     for (let row = 0; row < this.rows; row += 1) {
       for (let col = 0; col < this.cols; col += 1) {
@@ -146,6 +152,7 @@ export default class StarshipGame {
     this.opponents.forEach((opponent) => {
       if (opponent && opponent.active) {
         opponent.start();
+        this.addShadowUnit(opponent);
       }
     });
 
