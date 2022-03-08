@@ -1,6 +1,14 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsGame, setIsQuit } from 'store/reducers/game';
+import {
+  setGameScore,
+  setIsGameStarted,
+  setIsGameQuited,
+  toggleGameFullscreen,
+} from 'store/actions/game';
+import { toggleFullScreen } from 'game/utils/fullscreen';
+import LeaderboardAPI from 'api/Leaderboard';
+import { LEADERBOARD_REQUEST } from 'config/consts';
 import { RootState } from 'store/reducers';
 import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
@@ -25,12 +33,64 @@ export default function Game() {
   const ref = useRef<HTMLCanvasElement>(null);
   // TODO: переписать на отдельный кастомный хук, например useSettings
   const settings = useSelector((state: RootState) => state.settings);
-  const { isGame, isQuit, score, isFullscreen } = useSelector((state: RootState) => state.game);
+  const { isGameStarted, isGameQuited, score, isFullscreen } = useSelector(
+    (state: RootState) => state.game,
+  );
   const dispatch = useDispatch();
+  let game: StarshipGame | undefined;
+
+  const cb = {
+    toggleFullscreen: () => {
+      toggleFullScreen();
+      dispatch(toggleGameFullscreen());
+    },
+    gameEndWithWin: (score: number) => {
+      dispatch(setGameScore({ score: score * 200 }));
+      dispatch(setIsGameStarted({ isGameStarted: false }));
+      dispatch(setIsGameQuited({ isGameQuited: true }));
+
+      const leaderboardRequest = {
+        data: {
+          avatar: settings.avatar,
+          rating: score * 200,
+          first_name: settings.first_name,
+          second_name: settings.second_name,
+        },
+        ratingFieldName: LEADERBOARD_REQUEST.RATING_FIELD_NAME,
+        teamName: LEADERBOARD_REQUEST.TEAM_NAME,
+      };
+
+      LeaderboardAPI.addUserToLeaderboard(leaderboardRequest)
+        .then((response) => {
+          if (response.ok && response.status === 200) {
+            console.log('ok');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    gameEndWithLose: () => {
+      dispatch(setGameScore({ score: 0 }));
+      dispatch(setIsGameStarted({ isGameStarted: false }));
+      dispatch(setIsGameQuited({ isGameQuited: true }));
+    },
+  };
+
+  function handleStartGameButtonClick() {
+    dispatch(setIsGameStarted({ isGameStarted: true }));
+    dispatch(setIsGameQuited({ isGameQuited: false }));
+  }
+
+  function handleQuitButtonClick() {
+    game?.end();
+    dispatch(setIsGameStarted({ isGameStarted: false }));
+    dispatch(setIsGameQuited({ isGameQuited: true }));
+  }
 
   useEffect(() => {
-    dispatch(setIsQuit({ isQuit: false }));
-    dispatch(setIsGame({ isGame: false }));
+    dispatch(setIsGameStarted({ isGameStarted: false }));
+    dispatch(setIsGameQuited({ isGameQuited: false }));
   }, []);
 
   useEffect(() => {
@@ -38,11 +98,11 @@ export default function Game() {
 
     ref.current?.focus();
 
-    if (isGame && ctx) {
-      const game = new StarshipGame(ctx, settings, dispatch);
+    if (isGameStarted && ctx) {
+      game = new StarshipGame(ctx, settings, cb);
       game.start();
     }
-  }, [isGame]);
+  }, [isGameStarted]);
 
   return (
     <Container
@@ -56,16 +116,13 @@ export default function Game() {
         justifyContent: 'flex-start',
       }}
     >
-      {isGame ? (
+      {isGameStarted ? (
         <>
           <Button
             sx={styles.buttonQuit}
             color='success'
             variant='contained'
-            onClick={() => {
-              dispatch(setIsGame({ isGame: false }));
-              dispatch(setIsQuit({ isQuit: true }));
-            }}
+            onClick={() => handleQuitButtonClick()}
           >
             QUIT
           </Button>
@@ -73,21 +130,17 @@ export default function Game() {
         </>
       ) : (
         <>
-          {!isQuit && (
+          {!isGameQuited && (
             <StartGameScene
               score={score}
-              handlePlay={() => {
-                dispatch(setIsGame({ isGame: true }));
-                dispatch(setIsQuit({ isQuit: false }));
-              }}
+              handlePlay={() => handleStartGameButtonClick()}
             />
           )}
-          {isQuit && (
+          {isGameQuited && (
             <EndGameScene
               score={score}
               handleReplay={() => {
-                dispatch(setIsGame({ isGame: true }));
-                dispatch(setIsQuit({ isQuit: false }));
+                window.location.reload();
               }}
             />
           )}

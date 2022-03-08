@@ -1,17 +1,13 @@
-import { TGameSettings } from 'types';
+/* eslint-disable import/prefer-default-export */
 
-const ACTIONS = {
-  TOGGLE_FULLSCREEN: 'TOGGLE_FULLSCREEN',
-  SET_SCORE: 'SET_SCORE',
-  SET_IS_GAME: 'SET_IS_GAME',
-  SET_IS_QUIT: 'SET_IS_QUIT',
-};
+import { ACTIONS } from 'store/actions/game';
+import { TGameSettings } from 'types';
 
 const defaultState: TGameSettings = {
   isFullscreen: false,
   score: 0,
-  isGame: false,
-  isQuit: false,
+  isGameStarted: false,
+  isGameQuited: false,
 };
 
 export function gameReducer(state: TGameSettings = defaultState, { type, payload }: Record<string, any> = {}) {
@@ -29,41 +25,14 @@ export function gameReducer(state: TGameSettings = defaultState, { type, payload
     case ACTIONS.SET_IS_GAME:
       return {
         ...state,
-        isGame: payload.isGame,
+        isGameStarted: payload.isGameStarted,
       };
     case ACTIONS.SET_IS_QUIT:
       return {
         ...state,
-        isQuit: payload.isQuit,
+        isGameQuited: payload.isGameQuited,
       };
     default:
       return state;
   }
-}
-
-export function toggleGameFullscreen() {
-  return {
-    type: ACTIONS.TOGGLE_FULLSCREEN,
-  };
-}
-
-export function setGameScore(payload: Record<string, any>) {
-  return {
-    type: ACTIONS.SET_SCORE,
-    payload,
-  };
-}
-
-export function setIsGame(payload: Record<string, any>) {
-  return {
-    type: ACTIONS.SET_IS_GAME,
-    payload,
-  };
-}
-
-export function setIsQuit(payload: Record<string, any>) {
-  return {
-    type: ACTIONS.SET_IS_QUIT,
-    payload,
-  };
 }

@@ -1,21 +1,12 @@
 // StarshipGame.ts
 
-import { TUserInfo, IAudio, ISprites } from 'types';
-import LeaderboardAPI from 'api/Leaderboard';
-import { Dispatch } from 'redux';
-import {
-  toggleGameFullscreen,
-  setGameScore,
-  setIsGame,
-  setIsQuit,
-} from 'store/reducers/game';
+import { TUserInfo, IAudio, ISprites, TGameCallback } from 'types';
 import {
   AUDIOS,
   COLS_OPPONENTS,
   END_GAME,
   HEIGT_CANWAS,
   KEYS,
-  LEADERBOARD_REQUEST,
   ROWS_OPPONENTS,
   SPRITES,
   WIDTH_CANWAS,
@@ -26,7 +17,6 @@ import Background from './units/UnitBackground';
 import Missile from './units/UnitMissile';
 import Opponent from './units/UnitOpponent';
 import Spaceship from './units/UnitSpaceship';
-import { toggleFullScreen } from './utils/fullscreen';
 
 export default class StarshipGame {
   _ctx: CanvasRenderingContext2D;
@@ -55,12 +45,12 @@ export default class StarshipGame {
 
   settings: TUserInfo;
 
-  dispatch: Dispatch<any>;
+  callback: TGameCallback;
 
   constructor(
     ctx: CanvasRenderingContext2D,
     settings: TUserInfo,
-    dispatch: Dispatch<any>,
+    cb: TGameCallback,
   ) {
     this._ctx = ctx;
     this.running = true;
@@ -77,7 +67,7 @@ export default class StarshipGame {
     };
     this.score = 0;
     this.settings = settings;
-    this.dispatch = dispatch;
+    this.callback = cb;
   }
 
   private init() {
@@ -97,8 +87,7 @@ export default class StarshipGame {
 
     window.addEventListener('keydown', (e) => {
       if (e.keyCode === KEYS.ENTER) {
-        toggleFullScreen();
-        this.dispatch(toggleGameFullscreen());
+        this.callback.toggleFullscreen();
       }
       if (e.keyCode === KEYS.SPACE) {
         // Ограничиваем частоту стрельбы
@@ -269,39 +258,13 @@ export default class StarshipGame {
     });
   }
 
-  end(message: string, score: number) {
+  end(message: string = END_GAME.LOSE, score: number = 0) {
     setTimeout(() => {
       this.running = false;
-
       if (message === END_GAME.WIN) {
-        this.dispatch(setGameScore({ score: score * 200 }));
-        this.dispatch(setIsGame({ isGame: false }));
-        this.dispatch(setIsQuit({ isQuit: true }));
-
-        const leaderboardRequest = {
-          data: {
-            avatar: this.settings.avatar,
-            rating: score * 200,
-            first_name: this.settings.first_name,
-            second_name: this.settings.second_name,
-          },
-          ratingFieldName: LEADERBOARD_REQUEST.RATING_FIELD_NAME,
-          teamName: LEADERBOARD_REQUEST.TEAM_NAME,
-        };
-
-        LeaderboardAPI.addUserToLeaderboard(leaderboardRequest)
-          .then((response) => {
-            if (response.ok && response.status === 200) {
-              console.log('ok');
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        this.callback.gameEndWithWin(score);
       } else {
-        this.dispatch(setGameScore({ score: 0 }));
-        this.dispatch(setIsGame({ isGame: false }));
-        this.dispatch(setIsQuit({ isQuit: true }));
+        this.callback.gameEndWithLose();
       }
     }, 2000);
   }

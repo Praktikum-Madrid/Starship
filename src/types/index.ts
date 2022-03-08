@@ -49,9 +49,15 @@ export type TLocationState = {
 export type TGameSettings = {
   isFullscreen?: boolean,
   score?: number,
-  isGame?: boolean,
-  isQuit?: boolean,
+  isGameStarted?: boolean,
+  isGameQuited?: boolean,
 }
+
+export type TGameCallback = {
+  toggleFullscreen: CallableFunction;
+  gameEndWithWin: CallableFunction;
+  gameEndWithLose: CallableFunction;
+};
 
 export interface FsDocument extends HTMLDocument {
   webkitExitFullscreen: any;
