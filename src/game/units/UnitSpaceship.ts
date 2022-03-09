@@ -151,10 +151,10 @@ export default class Spaceship extends Unit {
         this.bumps[this.expIndex].active = true;
         this.bumps[this.expIndex].animate();
       }
-      this.expIndex += 1;
+      this.expIndex += opponent.damage;
       this.rebound(opponent);
 
-      if (this.expIndex === LIFE) {
+      if (this.expIndex >= LIFE) {
         this.destroy();
       }
 

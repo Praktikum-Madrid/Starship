@@ -1,12 +1,13 @@
-import { TUserInfo, ISprites } from 'types';
-import LeaderboardAPI from 'api/Leaderboard';
+// StarshipGame.ts
+
+import { TUserInfo, ISprites, TGameCallback } from 'types';
+
 import {
   AUDIOS,
   COLS_OPPONENTS,
   END_GAME,
   HEIGT_CANWAS,
   KEYS,
-  LEADERBOARD_REQUEST,
   ROWS_OPPONENTS,
   SPRITES,
   WIDTH_CANWAS,
@@ -17,9 +18,8 @@ import createImg from './utils/createImg';
 import throttleInput from '../utils/throttleInput';
 import Background from './units/UnitBackground';
 import Missile from './units/UnitMissile';
-import Opponent from './units/UnitOpponent';
+import Opponent, { TYPES_OPPONENTS } from './units/UnitOpponent';
 import Spaceship from './units/UnitSpaceship';
-import { toggleFullScreen } from './utils/fullscreen';
 
 export default class StarshipGame {
   _ctx: CanvasRenderingContext2D;
@@ -52,7 +52,13 @@ export default class StarshipGame {
 
   private music: HTMLAudioElement;
 
-  constructor(ctx: CanvasRenderingContext2D, settings: TUserInfo) {
+  callback: TGameCallback;
+
+  constructor(
+    ctx: CanvasRenderingContext2D,
+    settings: TUserInfo,
+    cb: TGameCallback,
+  ) {
     this._ctx = ctx;
     this.running = true;
     this.widthCanvas = WIDTH_CANWAS;
@@ -67,6 +73,7 @@ export default class StarshipGame {
     this.music = this.sound.addMusic('music', 0.5);
     this.score = 0;
     this.settings = settings;
+    this.callback = cb;
   }
 
   private init() {
@@ -87,7 +94,7 @@ export default class StarshipGame {
 
     window.addEventListener('keydown', (e) => {
       if (e.keyCode === KEYS.ENTER) {
-        toggleFullScreen();
+        this.callback.toggleFullscreen();
       }
       if (e.keyCode === KEYS.SPACE) {
         // Ограничиваем частоту стрельбы
@@ -135,6 +142,11 @@ export default class StarshipGame {
     });
   }
 
+  private createOpponent(col: number, row: number) {
+    const type = Math.random() < 0.3 ? TYPES_OPPONENTS.METEOR : TYPES_OPPONENTS.SPACESHIP;
+    return new Opponent(100 * col + 50, 200 * -row, Math.random() - 0.3, type);
+  }
+
   private addShadowUnit(unit: Unit) {
     unit.setShadow(this.background.showShadows); // добавляем тень юниту если фон поддерживает отображение теней
   }
@@ -144,7 +156,7 @@ export default class StarshipGame {
       for (let col = 0; col < this.cols; col += 1) {
         this.opponents.push(
           Math.random() < 0.125
-            ? new Opponent(100 * col + 50, 200 * -row, Math.random() - 0.3)
+            ? this.createOpponent(col, row)
             : null,
         );
       }
@@ -255,33 +267,15 @@ export default class StarshipGame {
     });
   }
 
-  end(message: string, score: number) {
+  end(message: string = END_GAME.LOSE, score: number = 0) {
     setTimeout(() => {
       this.music.pause(); // Останавливаем музыку
       this.running = false;
       if (message === END_GAME.WIN) {
-        const leaderboardRequest = {
-          data: {
-            avatar: this.settings.avatar,
-            rating: score * 200,
-            first_name: this.settings.first_name,
-            second_name: this.settings.second_name,
-          },
-          ratingFieldName: LEADERBOARD_REQUEST.RATING_FIELD_NAME,
-          teamName: LEADERBOARD_REQUEST.TEAM_NAME,
-        };
-
-        LeaderboardAPI.addUserToLeaderboard(leaderboardRequest)
-          .then((response) => {
-            if (response.ok && response.status === 200) {
-              console.log('ok');
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        this.callback.gameEndWithWin(score);
+      } else {
+        this.callback.gameEndWithLose();
       }
-      console.log(`${message}`);
     }, 2000);
   }
 }
