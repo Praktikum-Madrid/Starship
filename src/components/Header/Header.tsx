@@ -92,7 +92,7 @@ const Header = () => {
                 to='/game'
               />
             )}
-            {!isLogined
+            {isLogined
             && (
               <Tab
                 sx={{
@@ -104,7 +104,7 @@ const Header = () => {
                 to='/leaderboard'
               />
             )}
-            {!isLogined && (
+            {isLogined && (
               <Tab
                 sx={{
                   textTransform: 'none',
@@ -115,7 +115,7 @@ const Header = () => {
                 to='/forum'
               />
             )}
-            {!isLogined && (
+            {isLogined && (
               <Tab
                 sx={{
                   textTransform: 'none',
