@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Снэпшот соответствует ожидаемому 1`] = `
+<blockquote
+  className="blockquote"
+>
+  Test
+</blockquote>
+`;
