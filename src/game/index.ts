@@ -46,7 +46,7 @@ export default class StarshipGame {
   score: number;
 
   settings: TUserInfo;
-  
+
   private sound: SoundEngine;
 
   private music: HTMLAudioElement;
