@@ -12,7 +12,7 @@ export default class Background extends Unit {
 
   showShadows: boolean;
 
-  constructor(showShadows: boolean) {
+  constructor(showShadows = true) {
     super();
     this.velocity = 1;
     this.x = 0;

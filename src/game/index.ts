@@ -57,7 +57,7 @@ export default class StarshipGame {
     this.running = true;
     this.widthCanvas = WIDTH_CANWAS;
     this.heightCanvas = HEIGT_CANWAS;
-    this.background = new Background(true);
+    this.background = new Background();
     this.spaceship = new Spaceship();
     this.opponents = [];
     this.rows = ROWS_OPPONENTS;
