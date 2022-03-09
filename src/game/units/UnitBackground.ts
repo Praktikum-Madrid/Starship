@@ -10,7 +10,9 @@ export default class Background extends Unit {
 
   sHeight: number;
 
-  constructor() {
+  showShadows: boolean;
+
+  constructor(showShadows = true) {
     super();
     this.velocity = 1;
     this.x = 0;
@@ -21,6 +23,7 @@ export default class Background extends Unit {
     this.sy = 0;
     this.sWidth = 900;
     this.sHeight = 700;
+    this.showShadows = showShadows; // поддерживает ли фон отображение теней (например в космосе теней не должно быть)
   }
 
   start() {

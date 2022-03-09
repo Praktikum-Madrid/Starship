@@ -13,6 +13,8 @@ export default class Unit {
 
   y: number;
 
+  isShadow: boolean;
+
   constructor() {
     this.width = 0;
     this.height = 0;
@@ -21,6 +23,11 @@ export default class Unit {
     this.y = 0;
     this.dx = 0;
     this.dy = 0;
+    this.isShadow = false;
+  }
+
+  setShadow(shadow: boolean) {
+    this.isShadow = shadow;
   }
 
   stop() {

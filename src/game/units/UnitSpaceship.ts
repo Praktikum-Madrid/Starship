@@ -6,6 +6,7 @@ import {
   LIFE,
   KEYS,
 } from 'config/consts';
+import createShadowForImage from 'game/utils/createShadow';
 import Unit from './Unit';
 import Missile from './UnitMissile';
 import Opponent from './UnitOpponent';
@@ -193,13 +194,18 @@ export default class Spaceship extends Unit {
       });
     }
     if (this.active) {
-      ctx.drawImage(
+      const drawImg = () => ctx.drawImage(
         sprites.spaceship,
         this.x,
         this.y,
         this.width,
         this.height,
       );
+      if (this.isShadow) {
+        createShadowForImage(ctx, drawImg);
+      } else {
+        drawImg();
+      }
     }
 
     this.bumps.forEach((bump) => {

@@ -1,4 +1,5 @@
 import { ISprites } from 'types';
+import createShadowForImage from 'game/utils/createShadow';
 import Unit from './Unit';
 
 export const TYPES_OPPONENTS = {
@@ -55,13 +56,18 @@ export default class Opponent extends Unit {
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
     if (this.active) {
-      ctx.drawImage(
+      const drawImg = () => ctx.drawImage(
         sprites[OPPONENTS[this.type].nameSprite],
         this.x,
         this.y,
         this.width,
         this.height,
       );
+      if (this.isShadow) {
+        createShadowForImage(ctx, drawImg);
+      } else {
+        drawImg();
+      }
     }
   }
 }
