@@ -49,7 +49,7 @@ export default class SpaceshipBump extends Unit {
     if (this.active) {
       this.timerId = window.setInterval(() => {
         this.frame += 1;
-      }, 100);
+      }, 10);
     }
   }
 }
