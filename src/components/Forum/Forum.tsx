@@ -109,7 +109,7 @@ export default function Forum() {
                   <Typography gutterBottom variant='h5' component='div'>
                     { title }
                   </Typography>
-                  <Typography variant='body2' color='text.secondary'>
+                  <Typography variant='body2' color='text.secondary' sx={{ fontFamily: 'Roboto', fontSize: '18px' }}>
                     { message }
                   </Typography>
                 </CardContent>
@@ -140,6 +140,7 @@ export default function Forum() {
               onBlur={formik.handleBlur}
               error={formik.touched.title && Boolean(formik.errors.title)}
               helperText={formik.touched.title && formik.errors.title}
+              sx={{ fontFamily: 'Roboto', fontSize: '18px' }}
             />
             <TextField
               margin='dense'
@@ -155,6 +156,7 @@ export default function Forum() {
               onBlur={formik.handleBlur}
               error={formik.touched.message && Boolean(formik.errors.message)}
               helperText={formik.touched.message && formik.errors.message}
+              sx={{ fontFamily: 'Roboto', fontSize: '18px' }}
             />
           </DialogContent>
           <DialogActions>

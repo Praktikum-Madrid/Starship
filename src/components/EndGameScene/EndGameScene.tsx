@@ -6,7 +6,7 @@ import { PATH } from 'config/consts';
 
 const styles = {
   buttonsEndGame: {
-    width: '130px',
+    width: '230px',
     color: 'white',
     border: '5px #406325 solid',
     borderRadius: '15px',
@@ -74,7 +74,7 @@ const EndGameScene: FC<IProps> = ({ score, handleReplay }) => {
         variant='contained'
         onClick={handleReplay}
       >
-        REPLAY
+        ИГРАТЬ ЕЩЁ
       </Button>
       <Button
         sx={styles.buttonsEndGame}
@@ -84,7 +84,7 @@ const EndGameScene: FC<IProps> = ({ score, handleReplay }) => {
           navigate(PATH.LEADERBOARD);
         }}
       >
-        LEADERBOARD
+        ОЧКИ
       </Button>
     </Paper>
   );

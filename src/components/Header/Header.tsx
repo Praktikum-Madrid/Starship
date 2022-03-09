@@ -76,48 +76,51 @@ const Header = () => {
                 textTransform: 'none',
                 color: 'white',
               }}
-              label='Home'
+              label='Главная'
               component={Link}
               to='/'
             />
-            <Tab
-              sx={{
-                textTransform: 'none',
-                color: 'white',
-              }}
-              label='Game'
-              component={Link}
-              to='/game'
-            />
-            <Tab
-              sx={{
-                textTransform: 'none',
-                color: 'white',
-              }}
-              label='Leaderboard'
-              component={Link}
-              to='/leaderboard'
-            />
-            <Tab
-              sx={{
-                textTransform: 'none',
-                color: 'white',
-              }}
-              label='Forum'
-              component={Link}
-              to='/forum'
-            />
             {isLogined
             && (
-              <Tab
-                sx={{
-                  textTransform: 'none',
-                  color: 'white',
-                }}
-                label='Profile'
-                component={Link}
-                to='/profile'
-              />
+              <>
+                <Tab
+                  sx={{
+                    textTransform: 'none',
+                    color: 'white',
+                  }}
+                  label='Играть'
+                  component={Link}
+                  to='/game'
+                />
+                <Tab
+                  sx={{
+                    textTransform: 'none',
+                    color: 'white',
+                  }}
+                  label='Таблица лидеров'
+                  component={Link}
+                  to='/leaderboard'
+                />
+                <Tab
+                  sx={{
+                    textTransform: 'none',
+                    color: 'white',
+                  }}
+                  label='Форум'
+                  component={Link}
+                  to='/forum'
+                />
+
+                <Tab
+                  sx={{
+                    textTransform: 'none',
+                    color: 'white',
+                  }}
+                  label='Настрофки'
+                  component={Link}
+                  to='/profile'
+                />
+              </>
             )}
             {!isLogined
               && (
@@ -126,7 +129,7 @@ const Header = () => {
                     textTransform: 'none',
                     color: 'white',
                   }}
-                  label='SignIn'
+                  label='Войти'
                   component={Link}
                   to='/signin'
                 />
@@ -138,7 +141,7 @@ const Header = () => {
                     textTransform: 'none',
                     color: 'white',
                   }}
-                  label='SignUp'
+                  label='Регистрация'
                   component={Link}
                   to='/signup'
                 />
@@ -151,7 +154,7 @@ const Header = () => {
                     color: 'white',
                   }}
                   component={Button}
-                  label='Logout'
+                  label='Выйти'
                   onClick={() => handleLogout()}
                 />
               )}

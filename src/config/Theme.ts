@@ -19,8 +19,9 @@ export default createTheme({
   spacing: 8,
   typography: {
     fontFamily: [
+      'Press Start 2P',
       'Roboto',
-      '"Helvetica Neue"',
+      'Helvetica Neue',
       'Arial',
       'sans-serif',
       '-apple-system',
