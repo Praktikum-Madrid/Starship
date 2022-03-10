@@ -117,6 +117,7 @@ this.addEventListener('activate', (event) => {
 const MAX_AGE = 60;
 
 this.addEventListener('fetch', (event) => {
+  if (!(event.request.url.indexOf('http') === 0)) return;
   event.respondWith(
     // ищем запрошенный ресурс среди закэшированных
     caches.match(event.request).then((cachedResponse) => {
