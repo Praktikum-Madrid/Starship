@@ -161,7 +161,7 @@ export default function Topic() {
 
                 { quote && <Blockquote text={quote} /> }
 
-                <Typography variant='body2' sx={{ pt: 2, pb: 3, mb: 2, borderBottom: '1px solid #ddd' }}>
+                <Typography variant='body2' sx={{ pt: 2, pb: 3, mb: 2, borderBottom: '1px solid #ddd', fontFamily: 'Roboto', fontSize: '18px' }}>
                   {message}
                 </Typography>
                 <Button size='small' variant='outlined' onClick={() => handleReply(message)}>Ответить</Button>
@@ -195,6 +195,7 @@ export default function Topic() {
               onBlur={formik.handleBlur}
               error={formik.touched.message && Boolean(formik.errors.message)}
               helperText={formik.touched.message && formik.errors.message}
+              sx={{ fontFamily: 'Roboto', fontSize: '18px' }}
             />
           </DialogContent>
           <DialogActions>

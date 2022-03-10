@@ -76,36 +76,9 @@ const Header = () => {
                 textTransform: 'none',
                 color: 'white',
               }}
-              label='Home'
+              label='Главная'
               component={Link}
               to='/'
-            />
-            <Tab
-              sx={{
-                textTransform: 'none',
-                color: 'white',
-              }}
-              label='Game'
-              component={Link}
-              to='/game'
-            />
-            <Tab
-              sx={{
-                textTransform: 'none',
-                color: 'white',
-              }}
-              label='Leaderboard'
-              component={Link}
-              to='/leaderboard'
-            />
-            <Tab
-              sx={{
-                textTransform: 'none',
-                color: 'white',
-              }}
-              label='Forum'
-              component={Link}
-              to='/forum'
             />
             {isLogined
             && (
@@ -114,47 +87,81 @@ const Header = () => {
                   textTransform: 'none',
                   color: 'white',
                 }}
-                label='Profile'
+                label='Играть'
+                component={Link}
+                to='/game'
+              />
+            )}
+            {isLogined
+            && (
+              <Tab
+                sx={{
+                  textTransform: 'none',
+                  color: 'white',
+                }}
+                label='Таблица лидеров'
+                component={Link}
+                to='/leaderboard'
+              />
+            )}
+            {isLogined && (
+              <Tab
+                sx={{
+                  textTransform: 'none',
+                  color: 'white',
+                }}
+                label='Форум'
+                component={Link}
+                to='/forum'
+              />
+            )}
+            {isLogined && (
+              <Tab
+                sx={{
+                  textTransform: 'none',
+                  color: 'white',
+                }}
+                label='Настрофки'
                 component={Link}
                 to='/profile'
               />
+
+            )}
+            {!isLogined && (
+              <Tab
+                sx={{
+                  textTransform: 'none',
+                  color: 'white',
+                }}
+                label='Войти'
+                component={Link}
+                to='/signin'
+              />
             )}
             {!isLogined
-              && (
-                <Tab
-                  sx={{
-                    textTransform: 'none',
-                    color: 'white',
-                  }}
-                  label='SignIn'
-                  component={Link}
-                  to='/signin'
-                />
-              )}
-            {!isLogined
-              && (
-                <Tab
-                  sx={{
-                    textTransform: 'none',
-                    color: 'white',
-                  }}
-                  label='SignUp'
-                  component={Link}
-                  to='/signup'
-                />
-              )}
+            && (
+              <Tab
+                sx={{
+                  textTransform: 'none',
+                  color: 'white',
+                }}
+                label='Регистрация'
+                component={Link}
+                to='/signup'
+              />
+            )}
             {isLogined
-              && (
-                <Tab
-                  sx={{
-                    textTransform: 'none',
-                    color: 'white',
-                  }}
-                  component={Button}
-                  label='Logout'
-                  onClick={() => handleLogout()}
-                />
-              )}
+            && (
+              <Tab
+                sx={{
+                  textTransform: 'none',
+                  color: 'white',
+                }}
+                component={Button}
+                label='Выйти'
+                onClick={() => handleLogout()}
+              />
+            )}
           </Tabs>
         </Toolbar>
       </Container>

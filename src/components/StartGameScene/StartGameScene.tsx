@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const styles = {
   buttonsGame: {
-    width: '130px',
+    width: '230px',
     color: 'white',
     border: '5px #406325 solid',
     borderRadius: '15px',
@@ -41,7 +41,7 @@ const StartGameScene: FC<IProps> = ({ score, handlePlay }) => {
         variant='contained'
         onClick={handlePlay}
       >
-        PLAY
+        ИГРАТЬ
       </Button>
       <Button
         sx={styles.buttonsGame}
@@ -51,7 +51,7 @@ const StartGameScene: FC<IProps> = ({ score, handlePlay }) => {
           navigate('/leaderboard');
         }}
       >
-        LEADERBOARD
+        ОЧКИ
       </Button>
     </Paper>
   );

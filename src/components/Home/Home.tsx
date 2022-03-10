@@ -33,7 +33,7 @@ const Home = () => {
       >
         <div style={{ textAlign: 'center', maxWidth: '460px', zIndex: '5' }}>
           <Typography
-            variant='h1'
+            variant='h3'
             component='h1'
             sx={{
               fontWeight: '900',
@@ -53,7 +53,7 @@ const Home = () => {
               color: '#073657',
             }}
           >
-            STARSHIP - это игра, где тебе нужно обстреливать врагов и уворачиваться, чтобы сохранить свой корабль.
+            STARSHIP - это игра, где тебе нужно обстреливать врагов и&nbsp;уворачиваться, чтобы сохранить свой корабль.
           </Typography>
 
           <Button
