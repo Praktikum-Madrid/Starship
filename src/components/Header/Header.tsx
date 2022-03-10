@@ -121,7 +121,7 @@ const Header = () => {
                   textTransform: 'none',
                   color: 'white',
                 }}
-                label='Настрофки'
+                label='Настройки'
                 component={Link}
                 to='/profile'
               />
