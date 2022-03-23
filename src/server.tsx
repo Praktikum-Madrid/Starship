@@ -13,6 +13,7 @@ import createStore from './store/createStore';
 import routes from './Routes';
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 app.use(express.static('public'));
 app.get('*', (req, res, next) => {
   const store = createStore(req);
@@ -49,6 +50,6 @@ app.get('*', (req, res, next) => {
       .catch(next);
 });
 
-app.listen(3000, () => {
-  console.log('Listening on prot 3000');
+app.listen(PORT, () => {
+  console.log('Listening on prot', PORT);
 });

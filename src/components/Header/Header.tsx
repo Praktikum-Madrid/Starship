@@ -16,6 +16,8 @@ const Header = () => {
   const [value, setValue] = React.useState(0);
   const location = useLocation();
 
+  // FIXME: Временное решение, пока не подключим redux
+  const isLogined = true;
   // const { isLogined } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
@@ -82,7 +84,7 @@ const Header = () => {
               component={Link}
               to='/'
             />
-            {true
+            {isLogined
             && (
               <Tab
                 sx={{
@@ -94,7 +96,7 @@ const Header = () => {
                 to='/game'
               />
             )}
-            {true
+            {isLogined
             && (
               <Tab
                 sx={{
@@ -106,7 +108,7 @@ const Header = () => {
                 to='/leaderboard'
               />
             )}
-            {true && (
+            {isLogined && (
               <Tab
                 sx={{
                   textTransform: 'none',
@@ -117,7 +119,7 @@ const Header = () => {
                 to='/forum'
               />
             )}
-            {true && (
+            {isLogined && (
               <Tab
                 sx={{
                   textTransform: 'none',
@@ -129,7 +131,7 @@ const Header = () => {
               />
 
             )}
-            {true && (
+            {isLogined && (
               <Tab
                 sx={{
                   textTransform: 'none',
@@ -140,7 +142,7 @@ const Header = () => {
                 to='/signin'
               />
             )}
-            {true
+            {isLogined
             && (
               <Tab
                 sx={{
@@ -152,7 +154,7 @@ const Header = () => {
                 to='/signup'
               />
             )}
-            {true
+            {isLogined
             && (
               <Tab
                 sx={{
