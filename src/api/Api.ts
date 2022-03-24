@@ -1,5 +1,6 @@
 import { apiURL } from 'config/api';
 import { TRequestData, TRrequestOptions } from '../types';
+const axios = require('axios').default;
 
 class Api {
   protected apiUrl: string;
@@ -35,7 +36,10 @@ class Api {
 
   // Метод, выполняющий запрос
   private static _makeRequest(requestUrl: string, options?: TRrequestOptions): Promise<Response> {
-    return fetch(requestUrl, options);
+    return axios({
+      url: requestUrl,
+      ...options,
+    });
   }
 
   protected get(url: string): Promise<Response> {
