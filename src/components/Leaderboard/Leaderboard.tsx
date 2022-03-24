@@ -63,8 +63,8 @@ const Leaderboard = () => {
   useEffect(() => {
     LeaderboardAPI.getTeamLeaderboard(leaderboardRequest)
       .then((response) => {
-        if (response.ok && response.status === 200) {
-          return response.json();
+        if (response.status === 200) {
+          return response.data;
         }
         setErrorLeaderboard('Ошибка при обновлении данных лидерборда');
       })

@@ -62,7 +62,7 @@ export default function Game() {
 
       LeaderboardAPI.addUserToLeaderboard(leaderboardRequest)
         .then((response) => {
-          if (response.ok && response.status === 200) {
+          if (response.status === 200) {
             console.log('ok');
           }
         })

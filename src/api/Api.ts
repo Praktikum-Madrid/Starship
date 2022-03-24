@@ -1,6 +1,6 @@
 import { apiURL } from 'config/api';
+import axios, { AxiosPromise } from 'axios';
 import { TRequestData, TRrequestOptions } from '../types';
-const axios = require('axios').default;
 
 class Api {
   protected apiUrl: string;
@@ -35,32 +35,32 @@ class Api {
   }
 
   // Метод, выполняющий запрос
-  private static _makeRequest(requestUrl: string, options?: TRrequestOptions): Promise<Response> {
+  private static _makeRequest(requestUrl: string, options?: TRrequestOptions): AxiosPromise<any> {
     return axios({
       url: requestUrl,
       ...options,
     });
   }
 
-  protected get(url: string): Promise<Response> {
+  protected get(url: string) {
     const options = Api._createOptions('GET');
 
     return Api._makeRequest(url, options);
   }
 
-  protected post(url: string, data: TRequestData): Promise<Response> {
+  protected post(url: string, data: TRequestData) {
     const options = Api._createOptions('POST', data);
 
     return Api._makeRequest(url, options);
   }
 
-  protected put(url: string, data: TRequestData): Promise<Response> {
+  protected put(url: string, data: TRequestData) {
     const options = Api._createOptions('PUT', data);
 
     return Api._makeRequest(url, options);
   }
 
-  protected putFile(url: string, data: TRequestData): Promise<Response> {
+  protected putFile(url: string, data: TRequestData) {
     const options = Api._createOptionsFile('PUT', data);
 
     return Api._makeRequest(url, options);
