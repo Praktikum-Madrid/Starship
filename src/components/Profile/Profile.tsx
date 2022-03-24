@@ -55,16 +55,12 @@ const Profile = () => {
   const saveProfile = (data: TUserInfo) => {
     ProfileApi.saveProfile(data)
       .then((response) => {
-        console.log('Axios вернул');
-        console.log(response);
         if (response.status === 200) {
           return response.data;
         }
         setError('Ошибка при обновлении данных пользователя');
       })
       .then((userData) => {
-        console.log('Полученные данные');
-        console.log(userData);
         localStorage.setItem('settings', JSON.stringify(userData));
         dispatch(setUserSettings(userData));
       })
