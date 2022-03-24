@@ -21,14 +21,14 @@ class Api {
   private static _createOptions(method: string, data?: TRequestData): TRrequestOptions {
     const options: TRrequestOptions = {
       method,
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     };
 
     if (data) {
-      options.body = JSON.stringify(data);
+      options.data = data;
     }
 
     return options;
