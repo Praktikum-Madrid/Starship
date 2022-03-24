@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 // eslint-disable-next-line no-undef
-const PORT = process.env.PORT || 3000;
+const { PORT = 3000 } = process.env;
 
 // eslint-disable-next-line no-undef
 app.use(express.static(`${__dirname}/dist`));
