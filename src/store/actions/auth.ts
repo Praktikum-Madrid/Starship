@@ -2,11 +2,18 @@
 
 export const ACTIONS = {
   LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
 };
 
-export function signIn(payload: Record<string, any>) {
+export function signInActions(payload: Record<string, any>) {
   return {
     type: ACTIONS.LOGIN,
     payload,
+  };
+}
+
+export function logOutActions() {
+  return {
+    type: ACTIONS.LOGOUT,
   };
 }

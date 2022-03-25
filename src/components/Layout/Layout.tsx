@@ -3,10 +3,10 @@ import { Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store/reducers';
 import Auth from 'api/Auth';
-import { signIn } from 'store/actions/auth';
+import { signInActions } from 'store/actions/auth';
 // TODO: вынести action в раздел actions/settings
 import { setUserSettings } from 'store/reducers/settings';
-import Header from '../Header';
+import HeaderWithMenu from '../Header';
 
 export default function Layout() {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export default function Layout() {
     Auth.getUserData()
       .then((response) => {
         if (response.status === 200) {
-          dispatch(signIn({
+          dispatch(signInActions({
             isLogined: true,
             error: '',
           }));
@@ -32,7 +32,7 @@ export default function Layout() {
 
   return (
     <>
-      { !isFullscreen && <Header /> }
+      { !isFullscreen && <HeaderWithMenu /> }
 
       <div className='content' style={isFullscreen || isGameStarted ? { backgroundColor: 'black' } : {}}>
         <Outlet />
