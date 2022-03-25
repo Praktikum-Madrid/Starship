@@ -16,15 +16,15 @@ export default createTheme({
       main: green,
     },
   },
-  spacing: 8,
-  typography: {
-    fontFamily: [
-      'Press Start 2P',
-      'Roboto',
-      'Helvetica Neue',
-      'Arial',
-      'sans-serif',
-      '-apple-system',
-    ].join(','),
-  },
+  // spacing: 8,
+  // typography: {
+  //   fontFamily: [
+  //     'Roboto',
+  //     'Press Start 2P',
+  //     'Helvetica Neue',
+  //     'Arial',
+  //     'sans-serif',
+  //     '-apple-system',
+  //   ].join(','),
+  // },
 });
