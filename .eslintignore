@@ -3,3 +3,4 @@
 /.parcel-cache
 **/*.min.js
 *.test.*
+/src/serviceWorker/assetsList.ts
