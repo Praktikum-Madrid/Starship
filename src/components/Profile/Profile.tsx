@@ -55,8 +55,8 @@ const Profile = () => {
   const saveProfile = (data: TUserInfo) => {
     ProfileApi.saveProfile(data)
       .then((response) => {
-        if (response.ok && response.status === 200) {
-          return response.json();
+        if (response.status === 200) {
+          return response.data;
         }
         setError('Ошибка при обновлении данных пользователя');
       })
@@ -72,7 +72,7 @@ const Profile = () => {
   const savePassword = (data: TPassword) => {
     ProfileApi.savePassword(data)
       .then((response) => {
-        if (!(response.ok && response.status === 200)) {
+        if (!(response.status === 200)) {
           setError('Ошибка при обновлении пароля пользователя');
         }
       })
@@ -86,8 +86,8 @@ const Profile = () => {
     form.append('avatar', file);
     ProfileApi.saveAvatar(form)
       .then((response) => {
-        if (response.ok && response.status === 200) {
-          return response.json();
+        if (response.status === 200) {
+          return response.data;
         }
         setError('Ошибка при обновлении аватара');
       })

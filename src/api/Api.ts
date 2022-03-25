@@ -1,4 +1,5 @@
 import { apiURL } from 'config/api';
+import axios, { AxiosPromise } from 'axios';
 import { TRequestData, TRrequestOptions } from '../types';
 
 class Api {
@@ -20,43 +21,46 @@ class Api {
   private static _createOptions(method: string, data?: TRequestData): TRrequestOptions {
     const options: TRrequestOptions = {
       method,
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     };
 
     if (data) {
-      options.body = JSON.stringify(data);
+      options.data = data;
     }
 
     return options;
   }
 
   // Метод, выполняющий запрос
-  private static _makeRequest(requestUrl: string, options?: TRrequestOptions): Promise<Response> {
-    return fetch(requestUrl, options);
+  private static _makeRequest(requestUrl: string, options?: TRrequestOptions): AxiosPromise<any> {
+    return axios({
+      url: requestUrl,
+      ...options,
+    });
   }
 
-  protected get(url: string): Promise<Response> {
+  protected get(url: string) {
     const options = Api._createOptions('GET');
 
     return Api._makeRequest(url, options);
   }
 
-  protected post(url: string, data: TRequestData): Promise<Response> {
+  protected post(url: string, data: TRequestData) {
     const options = Api._createOptions('POST', data);
 
     return Api._makeRequest(url, options);
   }
 
-  protected put(url: string, data: TRequestData): Promise<Response> {
+  protected put(url: string, data: TRequestData) {
     const options = Api._createOptions('PUT', data);
 
     return Api._makeRequest(url, options);
   }
 
-  protected putFile(url: string, data: TRequestData): Promise<Response> {
+  protected putFile(url: string, data: TRequestData) {
     const options = Api._createOptionsFile('PUT', data);
 
     return Api._makeRequest(url, options);

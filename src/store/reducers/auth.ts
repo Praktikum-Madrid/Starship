@@ -57,7 +57,7 @@ export function logIn(loginData: TCredintials) {
       await Auth.signIn(loginData)
         .then((response) => {
           // Если авторизация успешна
-          if (response.ok && response.status === 200) {
+          if (response.status === 200) {
             dispatch({
               type: ACTIONS.LOGIN,
               payload: {
@@ -86,8 +86,8 @@ export function logIn(loginData: TCredintials) {
         })
         .then(() => Auth.getUserData()
           .then((response) => {
-            if (response.ok && response.status === 200) {
-              return response.json();
+            if (response.status === 200) {
+              return response.data;
             }
 
             throw new Error('Ошибка при получении данных пользователя');
@@ -124,7 +124,7 @@ export function registerUser(userData: TCredintials) {
     try {
       await Auth.signUp(userData)
         .then((response) => {
-          if (response.ok && response.status === 200) {
+          if (response.status === 200) {
             // Успешная регистрация
             dispatch({
               type: ACTIONS.REGISTER,
@@ -152,7 +152,7 @@ export function registerUser(userData: TCredintials) {
             });
           }
 
-          return response.json();
+          return response.data;
         }).then((parsedResponse) => {
           console.log(parsedResponse);
         });
