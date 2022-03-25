@@ -11,7 +11,7 @@
     "dev:server": "nodemon --watch build --exec \"node build/bundle.js\"",
     "dev:build-client": "webpack --mode=development --config webpack/client.config.js --watch",
     "dev:build-server": "webpack --mode=development --config webpack/server.config.js --watch",
-    "start": "NODE_ENV=development npm-run-all --print-label --parallel dev:*",
+    "start": "set NODE_ENV=development && npm-run-all --print-label --parallel dev:*",
     "test": "jest"
   },
   "repository": {
