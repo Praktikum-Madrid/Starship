@@ -5,16 +5,20 @@ import Typography from '@mui/material/Typography';
 import { Link, useLocation } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import { Tab, Tabs, Button } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store/reducers';
+import {
+  useDispatch,
+  // useSelector
+} from 'react-redux';
+// import { RootState } from 'store/reducers';
 import { logOut } from 'store/reducers/auth';
-// import Auth from 'api/Auth';
 
 const Header = () => {
   const [value, setValue] = React.useState(0);
   const location = useLocation();
 
-  const { isLogined } = useSelector((state: RootState) => state.auth);
+  // FIXME: Временное решение, пока не подключим redux
+  const isLogined = true;
+  // const { isLogined } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -127,7 +131,7 @@ const Header = () => {
               />
 
             )}
-            {!isLogined && (
+            {isLogined && (
               <Tab
                 sx={{
                   textTransform: 'none',
@@ -138,7 +142,7 @@ const Header = () => {
                 to='/signin'
               />
             )}
-            {!isLogined
+            {isLogined
             && (
               <Tab
                 sx={{
