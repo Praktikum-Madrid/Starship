@@ -36,7 +36,9 @@ app.get('*', (req, res, next) => {
 
         res.send(`
         <html>
-          <head></head>
+          <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css" />
+          </head>
           <body>
             <div id="root">${content}</div>
             <script>
