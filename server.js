@@ -1,13 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires,no-undef,import/no-extraneous-dependencies
 const express = require('express');
-// eslint-disable-next-line @typescript-eslint/no-var-requires,no-undef
 const path = require('path');
 
 const app = express();
-// eslint-disable-next-line no-undef
 const { PORT = 3000 } = process.env;
 
-// eslint-disable-next-line no-undef
 app.use(express.static(`${__dirname}/dist`));
 
 app.get('*', (req, res, next) => {

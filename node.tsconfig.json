@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "module": "CommonJS",
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "module": "commonjs",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "esModuleInterop": true
+  }
+}
