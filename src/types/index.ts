@@ -1,3 +1,5 @@
+import { PaletteMode } from '@mui/material';
+
 export type TRrequestOptions = {
   [key: string]: string | TRrequestOptions | TRequestData | boolean
 };
@@ -51,6 +53,10 @@ export type TGameSettings = {
   score?: number,
   isGameStarted?: boolean,
   isGameQuited?: boolean,
+}
+
+export type TModeSettings = {
+  mode: PaletteMode,
 }
 
 export type TGameCallback = {

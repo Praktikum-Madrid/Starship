@@ -21,6 +21,7 @@ import { RootState } from 'store/reducers';
 import { RESOURCES_URL } from 'config/api';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { toggleColorTheme } from 'store/actions/mode';
 
 const pages = [
   { page: 'Главная', link: '/' },
@@ -39,6 +40,7 @@ const HeaderWithMenu = () => {
   const dispatch = useDispatch();
   const { isLogined } = useSelector((state: RootState) => state.auth);
   const { login, avatar } = useSelector((state: RootState) => state.settings);
+  const { mode } = useSelector((state: RootState) => state.mode);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
@@ -67,10 +69,8 @@ const HeaderWithMenu = () => {
     dispatch(logOut());
   };
 
-  const [isThemeDark, setIsThemeDark] = React.useState(true);
-
   const toggleColorMode = () => {
-    setIsThemeDark(!isThemeDark);
+    dispatch(toggleColorTheme());
   };
 
   return (
@@ -160,7 +160,7 @@ const HeaderWithMenu = () => {
             }}
           >
             <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color='inherit'>
-              {isThemeDark ? <Brightness7Icon /> : <Brightness4Icon />}
+              {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Box>
 
