@@ -79,7 +79,13 @@ const Leaderboard = () => {
 
   return (
     <Container
-      sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}
+      sx={{
+        width: '100%',
+        height: 'calc(100vh - 88px)',
+        display: 'flex',
+        justifyContent: 'center',
+        pt: 10,
+      }}
     >
       {errorLeaderboard && (
         <Stack

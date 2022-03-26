@@ -108,7 +108,7 @@ export default function Game() {
     <Container
       sx={{
         width: '900px',
-        height: `${isFullscreen ? '100vh' : 'calc(100vh - 64px)'}`,
+        height: `${isFullscreen ? '100vh' : 'calc(100vh - 88px)'}`,
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',

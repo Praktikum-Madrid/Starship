@@ -8,6 +8,7 @@ import { signInActions } from 'store/actions/auth';
 import { setUserSettings } from 'store/reducers/settings';
 import { COORDINATES } from 'utils/geolocation';
 import { setGeolocation } from 'store/actions/mode';
+import Container from '@mui/material/Container';
 import HeaderWithMenu from '../Header';
 
 export default function Layout() {
@@ -62,9 +63,14 @@ export default function Layout() {
     <>
       { !isFullscreen && <HeaderWithMenu /> }
 
-      <div className='content' style={isFullscreen || isGameStarted ? { backgroundColor: 'black' } : {}}>
+      <Container
+        maxWidth='xl'
+        sx={{
+          bgcolor: `${isFullscreen || isGameStarted ? 'black' : 'background.default'}`,
+        }}
+      >
         <Outlet />
-      </div>
+      </Container>
     </>
   );
 }
