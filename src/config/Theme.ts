@@ -1,30 +1,22 @@
 import { createTheme } from '@mui/material/styles';
 
-const arcBlue = '#0B72B9';
-const arcOrange = '#FFBA60';
-const green = '#679a00';
+// const arcBlue = '#0B72B9';
+// const arcOrange = '#FFBA60';
+// const green = '#679a00';
 
 export default createTheme({
   palette: {
-    primary: {
-      main: arcBlue,
-    },
-    secondary: {
-      main: arcOrange,
-    },
-    success: {
-      main: green,
-    },
+    mode: 'dark',
   },
-  // spacing: 8,
-  // typography: {
-  //   fontFamily: [
-  //     'Roboto',
-  //     'Press Start 2P',
-  //     'Helvetica Neue',
-  //     'Arial',
-  //     'sans-serif',
-  //     '-apple-system',
-  //   ].join(','),
+  // palette: {
+  //   primary: {
+  //     main: arcBlue,
+  //   },
+  //   secondary: {
+  //     main: arcOrange,
+  //   },
+  //   success: {
+  //     main: green,
+  //   },
   // },
 });

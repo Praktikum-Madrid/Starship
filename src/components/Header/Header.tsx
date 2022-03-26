@@ -19,6 +19,8 @@ import {
 import { logOut } from 'store/reducers/auth';
 import { RootState } from 'store/reducers';
 import { RESOURCES_URL } from 'config/api';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const pages = [
   { page: 'Главная', link: '/' },
@@ -63,6 +65,12 @@ const HeaderWithMenu = () => {
   const handleLogout = () => {
     handleCloseUserMenu();
     dispatch(logOut());
+  };
+
+  const [isThemeDark, setIsThemeDark] = React.useState(true);
+
+  const toggleColorMode = () => {
+    setIsThemeDark(!isThemeDark);
   };
 
   return (
@@ -139,6 +147,21 @@ const HeaderWithMenu = () => {
                 {page}
               </Button>
             ))}
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: 'transparent',
+              color: 'text.primary',
+              p: 3,
+            }}
+          >
+            <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color='inherit'>
+              {isThemeDark ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
