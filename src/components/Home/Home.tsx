@@ -8,6 +8,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const { isLogined } = useSelector((state: RootState) => state.auth);
+  const { city } = useSelector((state: RootState) => state.mode);
 
   return (
     <div style={{
@@ -53,6 +54,8 @@ const Home = () => {
               color: '#073657',
             }}
           >
+            Привет
+            {`${city !== '' ? `, ${city}! ` : '! '}`}
             STARSHIP - это игра, где тебе нужно обстреливать врагов и&nbsp;уворачиваться, чтобы сохранить свой корабль.
           </Typography>
 

@@ -5,6 +5,7 @@ import { TModeSettings } from 'types';
 
 const defaultState: TModeSettings = {
   mode: 'light',
+  city: '',
 };
 
 export function modeReducer(state: TModeSettings = defaultState, { type, payload }: Record<string, any> = {}) {
@@ -13,6 +14,11 @@ export function modeReducer(state: TModeSettings = defaultState, { type, payload
       return {
         ...state,
         mode: state.mode === 'light' ? 'dark' : 'light',
+      };
+    case ACTIONS.GEOLOCATION:
+      return {
+        ...state,
+        city: payload.city,
       };
     default:
       return state;
