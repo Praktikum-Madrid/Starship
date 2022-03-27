@@ -25,7 +25,7 @@ const StartGameScene: FC<IProps> = ({ score, handlePlay }) => {
         position: 'absolute',
         top: '100px',
         padding: '30px',
-        background: '#0b72b9',
+        background: 'background.default', // '#0b72b9'
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',

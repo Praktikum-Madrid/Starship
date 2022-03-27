@@ -13,12 +13,12 @@ import {
   Pagination,
   Breadcrumbs,
   Link,
+  Container,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { Link as RouterLink } from 'react-router-dom';
 import * as yup from 'yup';
 import beautifyTime from 'utils/beautifyTime';
-import Blockquote from 'components/Blockquote';
 
 type TForumTopic = {
   id: number,
@@ -26,6 +26,7 @@ type TForumTopic = {
   author: string,
   message: string,
   quote?: string,
+  avatar?: string,
 }
 
 // Данные для рендера
@@ -35,12 +36,14 @@ const themesExampleData: TForumTopic[] = [
     date: Date.now(),
     author: 'UserName',
     message: 'Здраствуйте. Я, Кирилл. Хотел бы чтобы вы сделали игру, 3Д-экшон суть такова... Пользователь может играть лесными эльфами, охраной дворца и злодеем. И если пользователь играет эльфами то эльфы в лесу, домики деревяные набигают солдаты дворца и злодеи. Можно грабить корованы... И эльфу раз лесные то сделать так что там густой лес... А движок можно поставить так что вдали деревья картинкой,',
+    avatar: '../images/avatar.png',
   },
   {
     id: 2,
     date: Date.now(),
     author: 'Anonymous',
     message: 'Текст сообщения внутри темы, немного другой',
+    avatar: '../images/avatar.png',
   },
   {
     id: 3,
@@ -48,6 +51,7 @@ const themesExampleData: TForumTopic[] = [
     author: 'Nomad',
     message: 'Очин дорого, зделойте дешевле!',
     quote: 'Текст сообщения внутри темы, немного другой',
+    avatar: '../images/avatar.png',
   },
 ];
 
@@ -110,7 +114,13 @@ export default function Topic() {
   };
 
   return (
-    <>
+    <Container
+      sx={{
+        pt: 2,
+        width: '100%',
+        height: 'calc(100vh - 88px)',
+      }}
+    >
       <Breadcrumbs aria-label='breadcrumb' sx={{ m: 2, mt: 6, mb: 1, p: 0 }}>
         <Link underline='hover' color='inherit' component={RouterLink} to='/'>
           Starship
@@ -122,7 +132,7 @@ export default function Topic() {
       </Breadcrumbs>
 
       <Box component='div' sx={{ m: 2, mt: 2, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant='h4' gutterBottom component='h1'>
+        <Typography variant='h4' gutterBottom component='h1' sx={{ color: 'text.primary' }}>
           Можно грабить корованы
         </Typography>
         <Button variant='outlined' onClick={handleClickOpen}>
@@ -132,7 +142,7 @@ export default function Topic() {
 
       <Box component='div' sx={{ m: 2 }}>
         <Stack sx={{ gap: 2 }}>
-          {themesExampleData.map(({ id, message, date, author, quote = '' }) => (
+          {themesExampleData.map(({ id, message, date, author, quote = '', avatar }) => (
             <Box key={id} sx={{ p: 2, pl: 0, borderRadius: '5px', border: '1px solid #ddd', display: 'grid', gridTemplateColumns: '140px 1fr', gridColumnGap: '35px' }}>
 
               <Box sx={{
@@ -144,12 +154,12 @@ export default function Topic() {
               }}
               >
                 <Avatar
-                  alt='Remy Sharp'
-                  src='https://via.placeholder.com/80x80?text=Аватар'
+                  alt={author}
+                  src={avatar}
                   sx={{ width: 80, height: 80 }}
                 />
 
-                <Typography variant='subtitle2' sx={{ mt: 2 }}>
+                <Typography variant='subtitle2' sx={{ mt: 2, color: 'text.primary' }}>
                   {author}
                 </Typography>
               </Box>
@@ -159,9 +169,9 @@ export default function Topic() {
                   {beautifyTime(date)}
                 </Typography>
 
-                { quote && <Blockquote text={quote} /> }
+                { quote && <Typography sx={{ color: 'text.primary', fontStyle: 'oblique', borderLeft: '1px solid', pl: 2 }}>{quote}</Typography> }
 
-                <Typography variant='body2' sx={{ pt: 2, pb: 3, mb: 2, borderBottom: '1px solid #ddd', fontFamily: 'Roboto', fontSize: '18px' }}>
+                <Typography variant='body2' sx={{ pt: 2, pb: 3, mb: 2, borderBottom: '1px solid #ddd', fontFamily: 'Roboto', fontSize: '18px', color: 'text.primary' }}>
                   {message}
                 </Typography>
                 <Button size='small' variant='outlined' onClick={() => handleReply(message)}>Ответить</Button>
@@ -179,7 +189,7 @@ export default function Topic() {
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle>Ответ в тему</DialogTitle>
           <DialogContent>
-            { quote && <Blockquote text={quote} /> }
+            { quote && <Typography sx={{ color: 'text.primary', fontStyle: 'oblique', borderLeft: '1px solid', pl: 2 }}>{quote}</Typography> }
             <TextField
               autoFocus
               margin='dense'
@@ -204,6 +214,6 @@ export default function Topic() {
           </DialogActions>
         </form>
       </Dialog>
-    </>
+    </Container>
   );
 }
