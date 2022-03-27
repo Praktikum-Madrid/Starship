@@ -13,6 +13,7 @@ import {
   CardActionArea,
   CardContent,
   Pagination, Breadcrumbs, Link,
+  Container,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -83,8 +84,14 @@ export default function Forum() {
   };
 
   return (
-    <>
-      <Breadcrumbs aria-label='breadcrumb' sx={{ m: 2, mt: 6, mb: 1, p: 0 }}>
+    <Container
+      sx={{
+        pt: 2,
+        width: '100%',
+        height: 'calc(100vh - 88px)',
+      }}
+    >
+      <Breadcrumbs aria-label='breadcrumb' sx={{ m: 0, pt: 0, mb: 1, p: 0 }}>
         <Link underline='hover' color='inherit' component={RouterLink} to='/'>
           Starship
         </Link>
@@ -92,10 +99,10 @@ export default function Forum() {
       </Breadcrumbs>
 
       <Box component='div' sx={{ m: 2, mt: 2, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant='h4' gutterBottom component='h1'>
+        <Typography variant='h4' gutterBottom component='h1' sx={{ color: 'text.primary' }}>
           Форум
         </Typography>
-        <Button variant='outlined' onClick={handleClickOpen}>
+        <Button variant='outlined' onClick={handleClickOpen} sx={{ color: 'text.primary' }}>
           Создать тему
         </Button>
       </Box>
@@ -165,6 +172,6 @@ export default function Forum() {
           </DialogActions>
         </form>
       </Dialog>
-    </>
+    </Container>
   );
 }

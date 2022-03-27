@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom';
 import { PATH } from 'config/consts';
-// import Topic from 'components/Topic';
+import Topic from 'components/Topic';
 import SignIn from 'components/SignIn';
 import SignUp from 'components/SugnUp';
 import Home from 'components/Home';
@@ -40,10 +40,10 @@ const routes: RouteObject[] = [
     path: `${PATH.FORUM}`,
     element: Forum,
   },
-  // {
-  //   path: `${PATH.FORUM_TOPIC_ID}`,
-  //   element: Topic,
-  // },
+  {
+    path: `${PATH.FORUM_TOPIC_ID}`,
+    element: Topic,
+  },
   {
     path: `${PATH.SERVER_ERROR}`,
     element: Page500,

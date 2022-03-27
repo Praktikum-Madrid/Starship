@@ -5,7 +5,7 @@ import { loginValidator, nameValidator, passwordValidator, phoneValidator } from
 import ProfileApi from 'api/Profile';
 import { TUserInfo, TPassword } from 'types';
 import { useFormik } from 'formik';
-import { Alert, Avatar, Button, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Button, Stack, TextField, Typography, Container } from '@mui/material';
 import { setUserSettings } from 'store/reducers/settings';
 import { RootState } from 'store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
@@ -149,9 +149,14 @@ const Profile = () => {
   }, [formPasswordEnabled, formProfileEnabled]);
 
   return (
-    <>
+    <Container
+      sx={{
+        width: '100%',
+        height: 'calc(100vh - 88px)',
+      }}
+    >
       <Stack sx={{
-        mt: 3,
+        pt: 3,
         justifyContent: 'center',
         flexDirection: 'row',
         marginLeft: 'auto',
@@ -211,7 +216,7 @@ const Profile = () => {
           maxWidth: '400px',
         }}
         >
-          <Typography variant='h4' gutterBottom component='h1'>
+          <Typography variant='h4' gutterBottom component='h1' sx={{ color: 'text.primary' }}>
             {userSettings?.login}
           </Typography>
           <>
@@ -334,7 +339,7 @@ const Profile = () => {
 
       <Stack sx={{
         mt: 3,
-        mb: 3,
+        pb: 3,
         textAlign: 'center',
         gap: 2,
         marginLeft: 'auto',
@@ -400,7 +405,7 @@ const Profile = () => {
           </Button>
         )}
       </Stack>
-    </>
+    </Container>
   );
 };
 
