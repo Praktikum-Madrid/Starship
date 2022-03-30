@@ -2,6 +2,7 @@ import Auth from 'api/Auth';
 import { Dispatch } from 'redux';
 import { TCredintials, TPayload } from 'types';
 import { deleteUserSettings, setUserSettings } from 'store/reducers/settings';
+import { redirectURL } from 'config/api';
 
 const ACTIONS = {
   LOGIN: 'LOGIN',
@@ -99,6 +100,72 @@ export function logIn(loginData: TCredintials) {
       console.log(error);
     }
   };
+}
+
+// проверка авторизован пользователь с помощью OAuthYandex или нет
+export function checkOAuthYandex() {
+  return async (dispatch: Dispatch) => {
+    try {
+      const query = new URLSearchParams(window.location.search);
+      const code = query.get('code');
+
+      if (code) {
+        await Auth.oauthYandex({
+          code,
+          redirect_uri: `${redirectURL}`,
+        })
+          .then((response) => {
+            // Если юзер авторизован
+            if (response.status === 200) {
+              dispatch({
+                type: ACTIONS.LOGIN,
+                payload: {
+                  isLogined: true,
+                  error: '',
+                },
+              });
+              return Promise.resolve();
+            }
+          })
+          .then(() => Auth.getUserData()
+            .then((response) => {
+              if (response.status === 200) {
+                return response.data;
+              }
+
+              throw new Error('Ошибка при получении данных пользователя');
+            })
+            .then((userData) => {
+              dispatch(setUserSettings(userData));
+            }))
+          .catch((error) => {
+            console.log(error);
+            throw new Error('Ошибка при попытке проверить, авторизован ли пользователь с помощью Яндекса');
+          });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+// Асинхронная oauth авторизация
+export async function oauthYandexLogIn() {
+  await Auth.getServiceIdYandex()
+    .then((response) => {
+      // Если успешно получили serviceId
+      if (response.status === 200) {
+        return response.data;
+      }
+    })
+    .then(({ service_id }) => {
+      // редирект в яндекс
+      window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${service_id}&redirect_uri=${redirectURL}`;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw new Error('Ошибка при попытке авторизоваться с помощью Яндекса');
+    });
 }
 
 // Асинхронный выход

@@ -9,6 +9,7 @@ import { setUserSettings } from 'store/reducers/settings';
 import { COORDINATES } from 'utils/geolocation';
 import { setGeolocation } from 'store/actions/mode';
 import Container from '@mui/material/Container';
+import { checkOAuthYandex } from 'store/reducers/auth';
 import HeaderWithMenu from '../Header';
 
 export default function Layout() {
@@ -31,6 +32,10 @@ export default function Layout() {
         dispatch(setUserSettings(userData));
       })
       .catch((err) => console.log(err));
+  }, []);
+
+  React.useEffect(() => {
+    dispatch(checkOAuthYandex());
   }, []);
 
   const success = (position: any) => {
