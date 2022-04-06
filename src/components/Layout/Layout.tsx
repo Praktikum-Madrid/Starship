@@ -2,8 +2,8 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store/reducers';
-import Auth from 'api/Auth';
-import { signInActions } from 'store/actions/auth';
+import { auth } from 'api/frontend';
+import { logOutActions, signInActions } from 'store/actions/auth';
 // TODO: вынести action в раздел actions/settings
 import { setUserSettings } from 'store/reducers/settings';
 import { COORDINATES } from 'utils/geolocation';
@@ -15,8 +15,10 @@ import HeaderWithMenu from '../Header';
 export default function Layout() {
   const dispatch = useDispatch();
   const { isFullscreen, isGameStarted } = useSelector((state: RootState) => state.game);
+
+  // FIXME: Эти данные не нужно получать в лейауте потому что юзер по дефолту не авторизован
   React.useEffect(() => {
-    Auth.getUserData()
+    auth.getUserData()
       .then((response) => {
         if (response.status === 200) {
           dispatch(signInActions({
@@ -26,7 +28,10 @@ export default function Layout() {
           return response.data;
         }
 
-        throw new Error('Ошибка при получении данных пользователя');
+        dispatch(logOutActions());
+
+        // FIXME: Обрабатывать иначе
+        // throw new Error('Ошибка при получении данных пользователя');
       })
       .then((userData) => {
         dispatch(setUserSettings(userData));

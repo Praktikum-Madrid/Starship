@@ -7,7 +7,7 @@ import {
   toggleGameFullscreen,
 } from 'store/actions/game';
 import { toggleFullScreen } from 'game/utils/fullscreen';
-import LeaderboardAPI from 'api/Leaderboard';
+import Leaderboard from 'api/classes/Leaderboard';
 import { LEADERBOARD_REQUEST } from 'config/consts';
 import { RootState } from 'store/reducers';
 import Container from '@mui/material/Container';
@@ -60,7 +60,7 @@ export default function Game() {
         teamName: LEADERBOARD_REQUEST.TEAM_NAME,
       };
 
-      LeaderboardAPI.addUserToLeaderboard(leaderboardRequest)
+      Leaderboard.addUserToLeaderboard(leaderboardRequest)
         .then((response) => {
           if (response.status === 200) {
             console.log('ok');

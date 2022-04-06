@@ -1,16 +1,15 @@
-import { apiURL } from 'config/api';
 import axios, { AxiosPromise } from 'axios';
-import { TRequestData, TRrequestOptions } from '../types';
+import { TRequestData, TRequestOptions } from '../../types';
 
 class Api {
   protected apiUrl: string;
 
-  constructor() {
+  constructor(apiURL: string) {
     this.apiUrl = apiURL;
   }
 
   // Конструкторы опций
-  private static _createOptionsFile(method: string, data: TRequestData): TRrequestOptions {
+  private static _createOptionsFile(method: string, data: TRequestData): TRequestOptions {
     return {
       method,
       credentials: 'include',
@@ -18,8 +17,8 @@ class Api {
     };
   }
 
-  private static _createOptions(method: string, data?: TRequestData): TRrequestOptions {
-    const options: TRrequestOptions = {
+  private static _createOptions(method: string, data?: TRequestData, cookie?: string): TRequestOptions {
+    const options: TRequestOptions = {
       method,
       headers: {
         'Content-Type': 'application/json',
@@ -31,19 +30,28 @@ class Api {
       options.data = data;
     }
 
+    if (cookie) {
+      // FIXME: Исправить типизацию
+      /* eslint-disable dot-notation */
+      // @ts-ignore
+      options.headers['Cookie'] = cookie;
+    }
+
+    console.log(options);
+
     return options;
   }
 
   // Метод, выполняющий запрос
-  private static _makeRequest(requestUrl: string, options?: TRrequestOptions): AxiosPromise<any> {
+  private static _makeRequest(requestUrl: string, options?: TRequestOptions): AxiosPromise<any> {
     return axios({
       url: requestUrl,
       ...options,
     });
   }
 
-  protected get(url: string) {
-    const options = Api._createOptions('GET');
+  protected get(url: string, cookie?: any) {
+    const options = Api._createOptions('GET', undefined, cookie);
 
     return Api._makeRequest(url, options);
   }

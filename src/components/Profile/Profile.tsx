@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { loginValidator, nameValidator, passwordValidator, phoneValidator } from 'config/validators';
-import ProfileApi from 'api/Profile';
+import ProfileApi from 'api/classes/Profile';
 import { TUserInfo, TPassword } from 'types';
 import { useFormik } from 'formik';
 import { Alert, Avatar, Button, Stack, TextField, Typography, Container } from '@mui/material';

@@ -1,12 +1,3 @@
-import {
-  getServiceIdYandex,
-  getUser,
-  logOut,
-  oauthYandex,
-  redirectURL,
-  signIn,
-  signUp,
-} from 'config/api';
 import { TRequestData } from 'types';
 import Api from './Api';
 
@@ -24,12 +15,24 @@ class Auth extends Api {
 
   private readonly _getServiceIdYandexURL: string;
 
-  constructor() {
-    super();
+  private _redirectURL: string;
+
+  constructor({
+    apiURL,
+    getServiceIdYandex,
+    getUser,
+    logOut,
+    oauthYandex,
+    redirectURL,
+    signIn,
+    signUp,
+  }: Record<string, string>) {
+    super(apiURL);
     this._signUpURL = this.apiUrl + signUp;
     this._signInURL = this.apiUrl + signIn;
     this._getUserURL = this.apiUrl + getUser;
     this._logOutURL = this.apiUrl + logOut;
+    this._redirectURL = redirectURL;
     this._oauthYandexURL = this.apiUrl + oauthYandex;
     this._getServiceIdYandexURL = this.apiUrl + getServiceIdYandex;
   }
@@ -42,21 +45,22 @@ class Auth extends Api {
     return this.post(this._signInURL, data);
   }
 
-  getUserData() {
-    return this.get(this._getUserURL);
+  getUserData(cookie?: any) {
+    return this.get(this._getUserURL, cookie);
   }
 
   logOut() {
     return this.post(this._logOutURL, {});
   }
 
+  // FIXME: вынести функционал Oauth в отдельный класс
   oauthYandex(data: TRequestData) {
     return this.post(this._oauthYandexURL, data);
   }
 
   getServiceIdYandex() {
-    return this.get(`${this._getServiceIdYandexURL}/?redirect_uri=${redirectURL}`);
+    return this.get(`${this._getServiceIdYandexURL}/?redirect_uri=${this._redirectURL}`);
   }
 }
 
-export default new Auth();
+export default Auth;

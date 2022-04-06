@@ -1,9 +1,4 @@
-import {
-  saveAvatar,
-  savePassword,
-  saveProfile,
-} from 'config/api';
-import Api from 'api/Api';
+import Api from 'api/classes/Api';
 import { TUserInfo, TPassword } from 'types';
 
 // Настройки пользователя
@@ -14,8 +9,13 @@ class Profile extends Api {
 
   private readonly _saveAvatarURL: string;
 
-  constructor() {
-    super();
+  constructor({
+    saveAvatar,
+    savePassword,
+    saveProfile,
+    apiURL,
+  }: Record<string, string>) {
+    super(apiURL);
     this._saveProfileURL = this.apiUrl + saveProfile;
     this._savePasswordURL = this.apiUrl + savePassword;
     this._saveAvatarURL = this.apiUrl + saveAvatar;
@@ -34,4 +34,4 @@ class Profile extends Api {
   }
 }
 
-export default new Profile();
+export default Profile;

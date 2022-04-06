@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import Container from '@mui/material/Container';
 import { Alert, Stack } from '@mui/material';
-import LeaderboardAPI from 'api/Leaderboard';
+import { leaderboard } from 'api/frontend';
 
 const columns: GridColDef[] = [
   {
@@ -61,7 +61,7 @@ const Leaderboard = () => {
   };
 
   useEffect(() => {
-    LeaderboardAPI.getTeamLeaderboard(leaderboardRequest)
+    leaderboard.getTeamLeaderboard(leaderboardRequest)
       .then((response) => {
         if (response.status === 200) {
           return response.data;

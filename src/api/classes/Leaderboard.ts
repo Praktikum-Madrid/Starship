@@ -1,8 +1,4 @@
-import {
-  addToLeaderboard,
-  getTeamLeaderboard,
-} from 'config/api';
-import Api from 'api/Api';
+import Api from 'api/classes/Api';
 
 export type TUserLeaderboard = {
   data: {
@@ -21,13 +17,17 @@ export type TTeamLeaderboard = {
   limit: number
 }
 
-class LeaderboardAPI extends Api {
+class Leaderboard extends Api {
   private readonly _saveUserLeaderboardURL: string;
 
   private readonly _saveTeamLeaderboardURL: string;
 
-  constructor() {
-    super();
+  constructor({
+    apiURL,
+    addToLeaderboard,
+    getTeamLeaderboard,
+  }: Record<string, string>) {
+    super(apiURL);
     this._saveUserLeaderboardURL = this.apiUrl + addToLeaderboard;
     this._saveTeamLeaderboardURL = this.apiUrl + getTeamLeaderboard;
   }
@@ -41,4 +41,4 @@ class LeaderboardAPI extends Api {
   }
 }
 
-export default new LeaderboardAPI();
+export default Leaderboard;

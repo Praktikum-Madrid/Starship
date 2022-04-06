@@ -1,7 +1,9 @@
 import { PaletteMode } from '@mui/material';
 
-export type TRrequestOptions = {
-  [key: string]: string | TRrequestOptions | TRequestData | boolean
+import express from 'express';
+
+export type TRequestOptions = {
+  [key: string ]: string | TRequestOptions | TRequestData | boolean
 };
 
 export type TRequestData = Record<string, any>;
@@ -80,3 +82,6 @@ export interface FsDocumentElement extends HTMLElement {
   msRequestFullscreen?: () => void;
   mozRequestFullScreen?: () => void;
 }
+
+export type TReq = express.Request;
+export type TRes = express.Response;
