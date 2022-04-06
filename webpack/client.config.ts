@@ -11,7 +11,7 @@ const serverConfig = {
   // server application
   entry: {
     bundle: './src/client.tsx',
-    ServiceWorker: './src/serviceWorker/serviceWorker.ts',
+    // ServiceWorker: './src/serviceWorker/serviceWorker.ts',
   },
   module: {
     rules: [fileLoader.client, cssLoader.client, jsLoader.client],

@@ -4,7 +4,13 @@
 ## Установка
 - `npm run init` - установка зависимостей в проекте,
 - `npm run start` — запуск версии для разработчика,
+- `npm run build` — production сборка приложения,
 - `npm run test` — запуск тестов
+
+## Docker установка
+- `docker-compose build` — билд docker-контейнера
+- `docker-compose up` — запуск docker-контейнера
+- `docker-compose stop` — остановка docker-контейнера
 
 _Примечание: с запуском `npm run init` в среде **windows** может возникнуть проблема: не распознается команда `cp -r` для скрипта `assets:copy`. 
 При возникновении указанной проблемы, стоит поменять в **package.json** строку  `"cp -r ./src/assets/ public",`, на  `"robocopy ./src/assets/ public"`._
