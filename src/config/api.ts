@@ -22,4 +22,4 @@ export const findUser = '/user/search';
 
 // Работа с Leaderboard
 export const addToLeaderboard = '/leaderboard';
-export const getTeamLeaderboard = '/leaderboard/starship';
+export const getTeamLeaderboard = '/leaderboard/all';
