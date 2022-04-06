@@ -9,12 +9,21 @@ class Api {
   }
 
   // Конструкторы опций
-  private static _createOptionsFile(method: string, data: TRequestData): TRequestOptions {
-    return {
+  private static _createOptionsFile(method: string, data: TRequestData, cookie?: string): TRequestOptions {
+    const options = {
       method,
       credentials: 'include',
       body: data,
     };
+
+    if (cookie) {
+      // FIXME: Исправить типизацию
+      /* eslint-disable dot-notation */
+      // @ts-ignore
+      options.headers['Cookie'] = cookie;
+    }
+
+    return options;
   }
 
   private static _createOptions(method: string, data?: TRequestData, cookie?: string): TRequestOptions {
@@ -37,8 +46,6 @@ class Api {
       options.headers['Cookie'] = cookie;
     }
 
-    console.log(options);
-
     return options;
   }
 
@@ -56,20 +63,20 @@ class Api {
     return Api._makeRequest(url, options);
   }
 
-  protected post(url: string, data: TRequestData) {
-    const options = Api._createOptions('POST', data);
+  protected post(url: string, data: TRequestData, cookie?: string) {
+    const options = Api._createOptions('POST', data, cookie);
 
     return Api._makeRequest(url, options);
   }
 
-  protected put(url: string, data: TRequestData) {
-    const options = Api._createOptions('PUT', data);
+  protected put(url: string, data: TRequestData, cookie?: string) {
+    const options = Api._createOptions('PUT', data, cookie);
 
     return Api._makeRequest(url, options);
   }
 
-  protected putFile(url: string, data: TRequestData) {
-    const options = Api._createOptionsFile('PUT', data);
+  protected putFile(url: string, data: TRequestData, cookie?: string) {
+    const options = Api._createOptionsFile('PUT', data, cookie);
 
     return Api._makeRequest(url, options);
   }

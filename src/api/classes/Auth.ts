@@ -49,7 +49,7 @@ class Auth extends Api {
     return this.get(this._getUserURL, cookie);
   }
 
-  logOut() {
+  logOut(cookie?: any) {
     return this.post(this._logOutURL, {});
   }
 
