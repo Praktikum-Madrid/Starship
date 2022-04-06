@@ -50,7 +50,7 @@ class Auth extends Api {
   }
 
   logOut(cookie?: any) {
-    return this.post(this._logOutURL, {});
+    return this.post(this._logOutURL, {}, cookie);
   }
 
   // FIXME: вынести функционал Oauth в отдельный класс

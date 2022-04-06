@@ -10,9 +10,9 @@ import { matchRoutes } from 'react-router-dom';
 import cors from 'cors';
 import authRouter from 'server/routes/authRouter';
 import bodyParser from 'body-parser';
-import App from '../components/App';
-import createStore from '../store/createStore';
-import routes from '../Routes';
+import App from 'components/App';
+import createStore from 'store/createStore';
+import routes from '../routes';
 
 const app = express();
 app.use(cors());

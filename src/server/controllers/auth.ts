@@ -65,7 +65,7 @@ export const handleGetUserData = (req: TReq, res: TRes) => {
 };
 
 export const handleLogOut = (req: TReq, res: TRes) => {
-  auth.logOut()
+  auth.logOut(req.headers.cookie)
     .then((apiResponse) => {
       res.status(apiResponse.status).send(apiResponse.data);
 
