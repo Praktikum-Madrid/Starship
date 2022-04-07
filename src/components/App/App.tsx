@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { RootState } from 'store/reducers';
 import { useSelector } from 'react-redux';
-import routes from '../../Routes';
+import routes from '../../routes';
 import Layout from '../Layout';
 
 export default function App() {

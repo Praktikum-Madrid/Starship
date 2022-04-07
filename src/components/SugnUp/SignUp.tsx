@@ -60,29 +60,6 @@ const SignUp = () => {
   const handleSignUp = (signUpData: TCredintials) => {
     // Авторизуемся
     dispatch(registerUser(signUpData));
-    // Auth.signUp(signUpData)
-    //   .then((response) => {
-    //     if (response.ok && response.status === 200) {
-    //       setSignUpState({ registered: true });
-    //     }
-    //
-    //     if (response.status === 400) {
-    //       // FIXME: Авторизованый юзер не должен попадать в этот роут
-    //       Auth.logOut();
-    //       setSignUpState({ error: 'Ошибка при создании пользователя' });
-    //     }
-    //
-    //     if (response.status === 409) {
-    //       setSignUpState({ error: 'Пользователь с таким имейлом уже существует' });
-    //     }
-    //
-    //     return response.json();
-    //   }).then((parsedResponse) => {
-    //     console.log(parsedResponse);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
 
   return (

@@ -43,6 +43,8 @@ export const AUDIOS: string[] = [
   'music',
   'explosion',
 ];
+
+// FIXME: Использовать сгенерированный список спрайтов вместо этого ручного списка
 export const SPRITES: string[] = [
   'background',
   'background_space',
