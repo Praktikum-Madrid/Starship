@@ -65,24 +65,10 @@ export const handleSavePassword = (req: TReq, res: TRes) => {
 };
 
 export const handleSaveAvatar = (req: TReq, res: TRes) => {
-  // console.log(req.file);
-  // console.log(req.file?.buffer);
-  //
-  // if (!req.files || Object.keys(req.files).length === 0) {
-  //   return res.status(400)
-  //     .send('Ни одного файла не загружено!');
-  // }
-  //
-  // // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  // const avatar = req.files.avatar;
-  //
-  // const formData = new FormData();
-  // formData.append('avatar', avatar);
   const file = req.file;
-  console.log(file);
 
   const formData: FormData = new FormData();
-  formData.append('file', file!.buffer);
+  formData.append('avatar', file!.buffer, file!.originalname);
 
   profile.saveAvatar(formData, req.headers.cookie)
     .then((apiResponse) => {
@@ -90,6 +76,7 @@ export const handleSaveAvatar = (req: TReq, res: TRes) => {
         .send(apiResponse.data);
     })
     .catch((error) => {
+      console.log(error);
       res.status(error.response.status)
         .send(error.response.data);
     });

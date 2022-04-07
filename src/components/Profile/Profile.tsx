@@ -82,9 +82,10 @@ const Profile = () => {
   };
 
   const saveAvatar = (file: File) => {
-    const form = new FormData();
-    form.append('avatar', file);
-    profile.saveAvatar(form)
+    const formData = new FormData();
+    formData.append('avatar', file);
+    console.log(formData);
+    profile.saveAvatar(formData)
       .then((response) => {
         if (response.status === 200) {
           return response.data;

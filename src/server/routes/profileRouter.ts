@@ -7,6 +7,7 @@ const profileRouter = Router();
 profileRouter.put(config.saveProfile, handleSaveProfile);
 profileRouter.put(config.savePassword, handleSavePassword);
 
+// Мидлвэр для загрузки файла
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 

@@ -12,6 +12,9 @@ class Api {
   private static _createOptionsFile(method: string, data: TRequestData, cookie?: string): TRequestOptions {
     const options: TRequestOptions = {
       method,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
       withCredentials: true,
     };
 
@@ -56,6 +59,7 @@ class Api {
 
   // Метод, выполняющий запрос
   private static _makeRequest(requestUrl: string, options?: TRequestOptions): AxiosPromise<any> {
+    console.log(options);
     return axios({
       url: requestUrl,
       ...options,
@@ -75,7 +79,6 @@ class Api {
   }
 
   protected put(url: string, data: TRequestData, cookie?: string) {
-    console.log(cookie);
     const options = Api._createOptions('PUT', data, cookie);
 
     return Api._makeRequest(url, options);

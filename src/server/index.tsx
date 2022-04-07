@@ -14,7 +14,6 @@ import App from 'components/App';
 import createStore from 'store/createStore';
 import protectedRouter from 'server/router/protectedRouter';
 import routes from '../routes';
-// const fileUpload = require('express-fileupload'); // File upload module
 
 const app = express();
 app.use(cors());
@@ -25,11 +24,8 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.use(fileUpload({
-//   debug: true, // Отключили дебаг
-// }));
-
 app.use('/', ...publicRouter);
+// TODO: Добавить защищенный роут в проект
 app.use('/', ...protectedRouter);
 
 app.get('*', (req, res, next) => {
