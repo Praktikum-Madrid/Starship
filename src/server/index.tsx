@@ -8,11 +8,13 @@ import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import { matchRoutes } from 'react-router-dom';
 import cors from 'cors';
-import authRouter from 'server/routes/authRouter';
+import publicRouter from 'server/router/publicRouter';
 import bodyParser from 'body-parser';
 import App from 'components/App';
 import createStore from 'store/createStore';
+import protectedRouter from 'server/router/protectedRouter';
 import routes from '../routes';
+// const fileUpload = require('express-fileupload'); // File upload module
 
 const app = express();
 app.use(cors());
@@ -23,7 +25,12 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', authRouter);
+// app.use(fileUpload({
+//   debug: true, // Отключили дебаг
+// }));
+
+app.use('/', ...publicRouter);
+app.use('/', ...protectedRouter);
 
 app.get('*', (req, res, next) => {
   //  TODO: Здесь передавать в объект стора данные из базы данных

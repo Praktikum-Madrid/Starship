@@ -10,17 +10,22 @@ class Api {
 
   // Конструкторы опций
   private static _createOptionsFile(method: string, data: TRequestData, cookie?: string): TRequestOptions {
-    const options = {
+    const options: TRequestOptions = {
       method,
-      credentials: 'include',
-      body: data,
+      withCredentials: true,
     };
+
+    if (data) {
+      options.data = data;
+    }
 
     if (cookie) {
       // FIXME: Исправить типизацию
       /* eslint-disable dot-notation */
       // @ts-ignore
-      options.headers['Cookie'] = cookie;
+      options.headers = {
+        'Cookie': cookie,
+      };
     }
 
     return options;
@@ -70,6 +75,7 @@ class Api {
   }
 
   protected put(url: string, data: TRequestData, cookie?: string) {
+    console.log(cookie);
     const options = Api._createOptions('PUT', data, cookie);
 
     return Api._makeRequest(url, options);

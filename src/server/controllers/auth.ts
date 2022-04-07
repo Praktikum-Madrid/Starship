@@ -19,7 +19,11 @@ export const handleSignIn = (req: TReq, res: TRes) => {
       // TODO: В этом месте записывать полученный Cookie в базу данных
       console.log(cookies);
 
-      cookies.forEach((cookieObject) => res.cookie(cookieObject.name, cookieObject.value));
+      cookies.forEach((cookieObject) => res.cookie(cookieObject.name, cookieObject.value, {
+        httpOnly: true,
+        secure: true,
+        expires: cookieObject.expires,
+      }));
       res.status(apiResponse.status).send(apiResponse.data);
     })
     .catch((error) => {
@@ -67,6 +71,8 @@ export const handleGetUserData = (req: TReq, res: TRes) => {
 export const handleLogOut = (req: TReq, res: TRes) => {
   auth.logOut(req.headers.cookie)
     .then((apiResponse) => {
+      res.clearCookie('authCookie');
+      res.clearCookie('uuid');
       res.status(apiResponse.status).send(apiResponse.data);
 
       // TODO: Здесь удалять куку юзера из базы данных

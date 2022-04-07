@@ -1,21 +1,5 @@
 import Api from 'api/classes/Api';
-
-export type TUserLeaderboard = {
-  data: {
-    avatar?: string,
-    rating: number,
-    first_name: string,
-    second_name: string,
-  },
-  ratingFieldName: string,
-  teamName: string,
-}
-
-export type TTeamLeaderboard = {
-  ratingFieldName: string,
-  cursor: number,
-  limit: number
-}
+import { TUserLeaderboard, TTeamLeaderboard } from 'types';
 
 class Leaderboard extends Api {
   private readonly _saveUserLeaderboardURL: string;
@@ -32,12 +16,12 @@ class Leaderboard extends Api {
     this._saveTeamLeaderboardURL = this.apiUrl + getTeamLeaderboard;
   }
 
-  addUserToLeaderboard(data: TUserLeaderboard) {
-    return this.post(this._saveUserLeaderboardURL, data);
+  addUserToLeaderboard(data: TUserLeaderboard, cookie?: string) {
+    return this.post(this._saveUserLeaderboardURL, data, cookie);
   }
 
-  getTeamLeaderboard(data: TTeamLeaderboard) {
-    return this.post(this._saveTeamLeaderboardURL, data);
+  getTeamLeaderboard(data: TTeamLeaderboard, cookie?: string) {
+    return this.post(this._saveTeamLeaderboardURL, data, cookie);
   }
 }
 

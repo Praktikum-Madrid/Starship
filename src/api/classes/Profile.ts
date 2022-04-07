@@ -21,16 +21,17 @@ class Profile extends Api {
     this._saveAvatarURL = this.apiUrl + saveAvatar;
   }
 
-  saveProfile(data: TUserInfo) {
-    return this.put(this._saveProfileURL, data);
+  saveProfile(data: TUserInfo, cookie?: string) {
+    return this.put(this._saveProfileURL, data, cookie);
   }
 
-  savePassword(data: TPassword) {
-    return this.put(this._savePasswordURL, data);
+  savePassword(data: TPassword, cookie?: string) {
+    return this.put(this._savePasswordURL, data, cookie);
   }
 
-  saveAvatar(form: FormData) {
-    return this.putFile(this._saveAvatarURL, form);
+  saveAvatar(formData: any, cookie?: string) {
+    console.log(formData);
+    return this.putFile(this._saveAvatarURL, formData, cookie);
   }
 }
 

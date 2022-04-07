@@ -85,3 +85,20 @@ export interface FsDocumentElement extends HTMLElement {
 
 export type TReq = express.Request;
 export type TRes = express.Response;
+
+export type TUserLeaderboard = {
+  data: {
+    avatar?: string,
+    rating: number,
+    first_name: string,
+    second_name: string,
+  },
+  ratingFieldName: string,
+  teamName: string,
+}
+
+export type TTeamLeaderboard = {
+  ratingFieldName: string,
+  cursor: number,
+  limit: number
+}
