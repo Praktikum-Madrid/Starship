@@ -320,3 +320,5 @@ package-lock.json
 /dist
 /public
 /build
+/postgresdata
+/pgadmin-data

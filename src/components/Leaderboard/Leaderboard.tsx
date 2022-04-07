@@ -102,7 +102,7 @@ const Leaderboard = () => {
         </Stack>
       )}
       <div style={{ height: 400, width: 600 }}>
-        {rows.length > 1 && (
+        {rows.length >= 1 && (
           <DataGrid
             rows={rows}
             columns={columns}
