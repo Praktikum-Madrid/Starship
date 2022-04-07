@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { TCredintials, TPayload } from 'types';
 import { deleteUserSettings, setUserSettings } from 'store/reducers/settings';
 import { redirectURL } from 'config/api';
+// import { getUserById } from 'controllers/postgres';
 
 const ACTIONS = {
   LOGIN: 'LOGIN',
@@ -94,6 +95,13 @@ export function logIn(loginData: TCredintials) {
             throw new Error('Ошибка при получении данных пользователя');
           })
           .then((userData) => {
+            // TODO: прописать логику добавления данных юзера
+            // в postgres по игогам авторизации
+
+            // getUserById(userData.id).then((user) => {
+            //   console.log(user);
+            // });
+
             dispatch(setUserSettings(userData));
           }));
     } catch (error) {

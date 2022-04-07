@@ -11,30 +11,34 @@ import { matchRoutes } from 'react-router-dom';
 import App from './components/App';
 import createStore from './store/createStore';
 import routes from './Routes';
+import { dbConnect } from './init';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-app.use(express.static('public'));
-app.get('*', (req, res, next) => {
-  const store = createStore(req);
+dbConnect().then(async () => {
+  /* Запуск приложения только после старта БД */
 
-  const promises = matchRoutes(routes, req.path)?.map(({ route }) => {
-    // @ts-ignore
-    return route.loadData ? route.loadData(store) : null;
-  });
+  const app = express();
+  const PORT = process.env.PORT || 3000;
+  app.use(express.static('public'));
+  app.get('*', (req, res, next) => {
+    const store = createStore(req);
 
-  promises
-    && Promise.all(promises)
-      .then(() => {
-        const content = renderToString(
-          <Provider store={store}>
-            <StaticRouter location={req.url}>
-              <App />
-            </StaticRouter>
-          </Provider>,
-        );
+    const promises = matchRoutes(routes, req.path)?.map(({ route }) => {
+      // @ts-ignore
+      return route.loadData ? route.loadData(store) : null;
+    });
 
-        res.send(`
+    promises
+      && Promise.all(promises)
+        .then(() => {
+          const content = renderToString(
+            <Provider store={store}>
+              <StaticRouter location={req.url}>
+                <App />
+              </StaticRouter>
+            </Provider>,
+          );
+
+          res.send(`
         <!DOCTYPE html>
         <html lang="ru">
           <head>
@@ -54,10 +58,11 @@ app.get('*', (req, res, next) => {
           </body>
         </html>
       `);
-      })
-      .catch(next);
-});
+        })
+        .catch(next);
+  });
 
-app.listen(PORT, () => {
-  console.log('Listening on prot', PORT);
+  app.listen(PORT, () => {
+    console.log('Listening on prot', PORT);
+  });
 });
