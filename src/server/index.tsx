@@ -14,41 +14,43 @@ import App from 'components/App';
 import createStore from 'store/createStore';
 import protectedRouter from 'server/router/protectedRouter';
 import routes from '../routes';
+import { dbConnect } from '../init';
 
-const app = express();
-app.use(cors());
-const PORT = process.env.PORT || 3000;
+dbConnect().then(async () => {
+  /* Запуск приложения только после старта БД */
+  const app = express();
+  app.use(cors());
+  const PORT = process.env.PORT || 3000;
 
-app.use(express.static('public'));
+  app.use(express.static('public'));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', ...publicRouter);
-// TODO: Добавить защищенный роут в проект
-app.use('/', ...protectedRouter);
+  app.use('/', ...publicRouter);
+  // TODO: Добавить защищенный роут в проект
+  app.use('/', ...protectedRouter);
 
-app.get('*', (req, res, next) => {
-  //  TODO: Здесь передавать в объект стора данные из базы данных
-  const store = createStore(req);
+  app.get('*', (req, res, next) => {
+    //  TODO: Здесь передавать в объект стора данные из базы данных
+    const store = createStore(req);
 
-  const promises = matchRoutes(routes, req.path)
-    ?.map(({ route }) => {
+    const promises = matchRoutes(routes, req.path)?.map(({ route }) => {
       // @ts-ignore
       return route.loadData ?? null;
     });
 
-  Promise.all(promises!)
-    .then(() => {
-      const content = renderToString(
-        <Provider store={store}>
-          <StaticRouter location={req.url}>
-            <App />
-          </StaticRouter>
-        </Provider>,
-      );
+    Promise.all(promises!)
+      .then(() => {
+        const content = renderToString(
+          <Provider store={store}>
+            <StaticRouter location={req.url}>
+              <App />
+            </StaticRouter>
+          </Provider>,
+        );
 
-      res.send(`
+        res.send(`
         <!DOCTYPE html>
         <html lang="ru">
           <head>
@@ -68,10 +70,11 @@ app.get('*', (req, res, next) => {
           </body>
         </html>
       `);
-    })
-    .catch(next);
-});
+      })
+      .catch(next);
+  });
 
-app.listen(PORT, () => {
-  console.log('Listening on prot', PORT);
+  app.listen(PORT, () => {
+    console.log('Listening on prot', PORT);
+  });
 });

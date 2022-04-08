@@ -25,8 +25,19 @@ export type TUserInfo = {
   email: string,
   phone: string,
   avatar?: string,
-  display_name: string,
+  display_name?: string,
   id?: TIdUser,
+}
+
+export type TPostgresUserInfo = {
+  userId: TIdUser,
+  firstName: string,
+  secondName: string,
+  login: TLoginUser,
+  email: string,
+  phone: string,
+  avatar?: string,
+  displayName?: string,
 }
 
 export type TPassword = {

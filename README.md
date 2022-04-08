@@ -11,6 +11,7 @@
 - `docker-compose build` — билд docker-контейнера
 - `docker-compose up` — запуск docker-контейнера
 - `docker-compose stop` — остановка docker-контейнера
+- `docker-compose rm` — удаление docker-контейнера
 
 _Примечание: с запуском `npm run init` в среде **windows** может возникнуть проблема: не распознается команда `cp -r` для скрипта `assets:copy`. 
 При возникновении указанной проблемы, стоит поменять в **package.json** строку  `"cp -r ./src/assets/ public",`, на  `"robocopy ./src/assets/ public"`._
