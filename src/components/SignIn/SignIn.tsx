@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Alert, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { TCredintials } from 'types';
-import { logIn, oauthYandexLogIn } from 'store/reducers/auth';
+import { logIn, oauthYandexLogIn } from 'store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/reducers';
 import { PATH } from 'config/consts';

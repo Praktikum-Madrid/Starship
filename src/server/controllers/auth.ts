@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { TReq, TRes } from 'types';
 import { auth } from 'api/backend';
 import setCookie from 'set-cookie-parser';

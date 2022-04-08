@@ -6,7 +6,7 @@ import { profile } from 'api/frontend';
 import { TUserInfo, TPassword } from 'types';
 import { useFormik } from 'formik';
 import { Alert, Avatar, Button, Stack, TextField, Typography, Container } from '@mui/material';
-import { setUserSettings } from 'store/reducers/settings';
+import { setUserSettings } from 'store/actions/settings';
 import { RootState } from 'store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import { RESOURCES_URL } from 'config/api';

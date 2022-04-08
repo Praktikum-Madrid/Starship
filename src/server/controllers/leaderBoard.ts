@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { leaderboard } from 'api/backend';
 import { TReq, TRes, TUserLeaderboard } from 'types';
 

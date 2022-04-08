@@ -16,7 +16,7 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
-import { logOut } from 'store/reducers/auth';
+import { logOut } from 'store/actions/auth';
 import { RootState } from 'store/reducers';
 import { RESOURCES_URL } from 'config/api';
 import Brightness4Icon from '@mui/icons-material/Brightness4';

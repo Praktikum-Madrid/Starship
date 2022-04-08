@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { profile } from 'api/backend';
 import { TPassword, TReq, TRes, TUserInfo } from 'types';
 import FormData from 'form-data';
