@@ -16,6 +16,7 @@ export async function getUserById(userId: string) {
   return User.findOne({ where: { userId } });
 }
 
-export async function getUserByFirstName(firstName: string) {
-  return User.findOne({ where: { firstName } });
+// Получение пользователя по UUID
+export async function getUuidCookie(uuid: string) {
+  return User.findOne({ where: { uuid } });
 }

@@ -3,7 +3,7 @@ import { TPostgresUserInfo, TReq, TRes } from 'types';
 import { auth } from 'api/backend';
 import setCookie from 'set-cookie-parser';
 import { cookiesToString } from 'server/utils';
-import { getUserById, createUser } from 'database/postgres';
+import { getUserById, createUser, updateUserById } from 'database/postgres';
 
 export const handleSignIn = (req: TReq, res: TRes) => {
   const {
@@ -25,15 +25,7 @@ export const handleSignIn = (req: TReq, res: TRes) => {
       // 2: В этом месте запрашиваем данные пользователя и сохраняем их в базу данных
       auth.getUserData(__COOKIES__)
         .then((apiResponse) => {
-          const {
-            id,
-            first_name,
-            second_name,
-            login,
-            email,
-            phone,
-            avatar,
-          } = apiResponse.data;
+          const { id } = apiResponse.data;
           // Проверяем есть ли юзер в базе данных
           getUserById(`${id}`)
             .then((data) => {
@@ -41,15 +33,19 @@ export const handleSignIn = (req: TReq, res: TRes) => {
                 // если юзера нет
                 const userData: TPostgresUserInfo = {
                   userId: id,
-                  firstName: first_name,
-                  secondName: second_name,
-                  login,
-                  email,
-                  phone,
-                  avatar: avatar || '',
+                  authCookie: `${cookies[1].value}`,
+                  uuid: `${cookies[2].value}`,
                 };
-                // сохраняем данные юзера в базе данных
+                // сохраняем данные юзера и куки в базе данных
                 createUser(userData);
+              } else {
+                const userData: TPostgresUserInfo = {
+                  userId: id,
+                  authCookie: `${cookies[1].value}`,
+                  uuid: `${cookies[2].value}`,
+                };
+                // обновляем данные юзера и куки в базе данных
+                updateUserById(`${id}`, userData);
               }
             })
             .catch((error) => {
@@ -59,9 +55,6 @@ export const handleSignIn = (req: TReq, res: TRes) => {
         .catch((error) => {
           console.log(error);
         });
-
-      // 3: В этом месте записываем полученный Cookie (преобразованные в строку) в базу данных
-      // console.log(cookies);
 
       cookies.forEach((cookieObject) => res.cookie(cookieObject.name, cookieObject.value, {
         httpOnly: true,

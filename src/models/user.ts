@@ -8,30 +8,13 @@ export const userModel: ModelAttributes<Model, TPostgresUserInfo> = {
     type: DataType.STRING,
     allowNull: false,
   },
-  firstName: {
-    type: DataType.STRING,
-    allowNull: false,
-  },
-  secondName: {
-    type: DataType.STRING,
-    allowNull: false,
-  },
-  login: {
-    type: DataType.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataType.STRING,
-    allowNull: false,
-  },
-  phone: {
-    type: DataType.STRING,
-    allowNull: false,
-  },
-  displayName: {
+  uuid: {
     type: DataType.STRING,
   },
-  avatar: {
+  authCookie: {
+    type: DataType.STRING,
+  },
+  mode: {
     type: DataType.STRING,
   },
 };
