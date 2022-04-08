@@ -7,11 +7,15 @@ export async function createUser(userData: TPostgresUserInfo) {
 }
 
 // Обновление пользователя по ID
-export async function updateUserById(userId: number, data: TPostgresUserInfo) {
+export async function updateUserById(userId: string, data: TPostgresUserInfo) {
   return User.update(data, { where: { userId } });
 }
 
 // Получение пользователя по ID
-export async function getUserById(userId: number) {
+export async function getUserById(userId: string) {
   return User.findOne({ where: { userId } });
+}
+
+export async function getUserByFirstName(firstName: string) {
+  return User.findOne({ where: { firstName } });
 }

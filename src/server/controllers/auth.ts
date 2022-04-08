@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
-import { TReq, TRes } from 'types';
+import { TPostgresUserInfo, TReq, TRes } from 'types';
 import { auth } from 'api/backend';
 import setCookie from 'set-cookie-parser';
+import { cookiesToString } from 'server/utils';
+import { getUserById, createUser } from 'database/postgres';
 
 export const handleSignIn = (req: TReq, res: TRes) => {
   const {
@@ -17,8 +19,49 @@ export const handleSignIn = (req: TReq, res: TRes) => {
       const cookies = setCookie.parse((apiResponse as any), {
         decodeValues: true, // default: true
       });
-      // TODO: В этом месте записывать полученный Cookie в базу данных
-      console.log(cookies);
+      // 1: Преобразуем массив с данными cookies в строку
+      const __COOKIES__ = cookiesToString(cookies);
+
+      // 2: В этом месте запрашиваем данные пользователя и сохраняем их в базу данных
+      auth.getUserData(__COOKIES__)
+        .then((apiResponse) => {
+          const {
+            id,
+            first_name,
+            second_name,
+            login,
+            email,
+            phone,
+            avatar,
+          } = apiResponse.data;
+          // Проверяем есть ли юзер в базе данных
+          getUserById(`${id}`)
+            .then((data) => {
+              if (!data) {
+                // если юзера нет
+                const userData: TPostgresUserInfo = {
+                  userId: id,
+                  firstName: first_name,
+                  secondName: second_name,
+                  login,
+                  email,
+                  phone,
+                  avatar: avatar || '',
+                };
+                // сохраняем данные юзера в базе данных
+                createUser(userData);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      // 3: В этом месте записываем полученный Cookie (преобразованные в строку) в базу данных
+      // console.log(cookies);
 
       cookies.forEach((cookieObject) => res.cookie(cookieObject.name, cookieObject.value, {
         httpOnly: true,
