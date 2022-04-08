@@ -29,6 +29,8 @@ export type TUserInfo = {
   id?: TIdUser,
 }
 
+export type TProfileData = TUserInfo;
+
 export type TPostgresUserInfo = {
   userId: TIdUser,
   firstName: string,
@@ -54,6 +56,13 @@ export interface IAudio {
 }
 
 export type TPayload = Record<string, any>;
+
+export type TUserState = {
+  isLogined?: boolean,
+  signInError?: string,
+  isRegistered?: boolean,
+  signUpError?: string,
+}
 
 export type TLocationState = {
   from: {

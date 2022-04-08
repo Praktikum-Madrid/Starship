@@ -7,7 +7,7 @@ import { TCredintials } from 'types';
 import { loginValidator, nameValidator, passwordValidator, phoneValidator } from 'config/validators';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/reducers';
-import { registerUser } from 'store/reducers/auth';
+import { registerUser } from 'store/actions/auth';
 
 const validationSchema = yup.object({
   first_name: yup.string()

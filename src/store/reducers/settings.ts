@@ -1,11 +1,5 @@
-import { TUserInfo } from 'types';
-
-const ACTIONS = {
-  SAVE: 'SAVE',
-  RESET: 'RESET',
-};
-
-type TProfileData = TUserInfo;
+import { ACTIONS } from 'store/actions/settings';
+import { TProfileData } from 'types';
 
 const defaultState: TProfileData = {
   first_name: '',
@@ -33,17 +27,4 @@ export function settingsReducer(state: TProfileData = defaultState, { type, payl
     default:
       return state;
   }
-}
-
-export function setUserSettings(payload: Record<string, any>) {
-  return {
-    type: ACTIONS.SAVE,
-    payload,
-  };
-}
-
-export function deleteUserSettings() {
-  return {
-    type: ACTIONS.RESET,
-  };
 }

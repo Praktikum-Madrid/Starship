@@ -3,13 +3,11 @@ import { Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store/reducers';
 import { auth } from 'api/frontend';
-import { logOutActions, signInActions } from 'store/actions/auth';
-// TODO: вынести action в раздел actions/settings
-import { setUserSettings } from 'store/reducers/settings';
-import { COORDINATES } from 'utils/geolocation';
+import { logOutActions, signInActions, checkOAuthYandex } from 'store/actions/auth';
+import { setUserSettings } from 'store/actions/settings';
 import { setGeolocation } from 'store/actions/mode';
+import { COORDINATES } from 'utils/geolocation';
 import Container from '@mui/material/Container';
-import { checkOAuthYandex } from 'store/reducers/auth';
 import HeaderWithMenu from '../Header';
 
 export default function Layout() {
