@@ -1,9 +1,9 @@
-import Auth from 'api/Auth';
+import { auth } from 'api/frontend';
 import { Dispatch } from 'redux';
 import { TCredintials, TPayload } from 'types';
 import { deleteUserSettings, setUserSettings } from 'store/reducers/settings';
 import { redirectURL } from 'config/api';
-// import { getUserById } from 'controllers/postgres';
+import { AxiosResponse } from 'axios';
 
 const ACTIONS = {
   LOGIN: 'LOGIN',
@@ -56,8 +56,8 @@ export function authReducer(state: UserState = defaultState, { type, payload }: 
 export function logIn(loginData: TCredintials) {
   return async (dispatch: Dispatch) => {
     try {
-      await Auth.signIn(loginData)
-        .then((response) => {
+      await auth.signIn(loginData)
+        .then((response: AxiosResponse) => {
           // Если авторизация успешна
           if (response.status === 200) {
             dispatch({
@@ -86,22 +86,15 @@ export function logIn(loginData: TCredintials) {
             throw new Error('Неверные имя пользователя или пароль');
           }
         })
-        .then(() => Auth.getUserData()
-          .then((response) => {
+        .then(() => auth.getUserData()
+          .then((response: AxiosResponse) => {
             if (response.status === 200) {
               return response.data;
             }
 
             throw new Error('Ошибка при получении данных пользователя');
           })
-          .then((userData) => {
-            // TODO: прописать логику добавления данных юзера
-            // в postgres по игогам авторизации
-
-            // getUserById(userData.id).then((user) => {
-            //   console.log(user);
-            // });
-
+          .then((userData: AxiosResponse) => {
             dispatch(setUserSettings(userData));
           }));
     } catch (error) {
@@ -118,11 +111,11 @@ export function checkOAuthYandex() {
       const code = query.get('code');
 
       if (code) {
-        await Auth.oauthYandex({
+        await auth.oauthYandex({
           code,
           redirect_uri: `${redirectURL}`,
         })
-          .then((response) => {
+          .then((response: AxiosResponse) => {
             // Если юзер авторизован
             if (response.status === 200) {
               dispatch({
@@ -135,8 +128,8 @@ export function checkOAuthYandex() {
               return Promise.resolve();
             }
           })
-          .then(() => Auth.getUserData()
-            .then((response) => {
+          .then(() => auth.getUserData()
+            .then((response: AxiosResponse) => {
               if (response.status === 200) {
                 return response.data;
               }
@@ -159,8 +152,8 @@ export function checkOAuthYandex() {
 
 // Асинхронная oauth авторизация
 export async function oauthYandexLogIn() {
-  await Auth.getServiceIdYandex()
-    .then((response) => {
+  await auth.getServiceIdYandex()
+    .then((response: AxiosResponse) => {
       // Если успешно получили serviceId
       if (response.status === 200) {
         return response.data;
@@ -170,7 +163,7 @@ export async function oauthYandexLogIn() {
       // редирект в яндекс
       window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${service_id}&redirect_uri=${redirectURL}`;
     })
-    .catch((error) => {
+    .catch((error: any) => {
       console.log(error);
       throw new Error('Ошибка при попытке авторизоваться с помощью Яндекса');
     });
@@ -181,7 +174,7 @@ export function logOut() {
   return async (dispatch: Dispatch) => {
     // Выполяем логаут
     try {
-      await Auth.logOut();
+      await auth.logOut();
       dispatch(deleteUserSettings());
       // Обновляем стейт
       dispatch({
@@ -197,8 +190,8 @@ export function logOut() {
 export function registerUser(userData: TCredintials) {
   return async (dispatch: Dispatch) => {
     try {
-      await Auth.signUp(userData)
-        .then((response) => {
+      await auth.signUp(userData)
+        .then((response: AxiosResponse) => {
           if (response.status === 200) {
             // Успешная регистрация
             dispatch({
@@ -228,7 +221,7 @@ export function registerUser(userData: TCredintials) {
           }
 
           return response.data;
-        }).then((parsedResponse) => {
+        }).then((parsedResponse: any) => {
           console.log(parsedResponse);
         });
     } catch (error) {

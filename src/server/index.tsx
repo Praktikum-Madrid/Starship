@@ -1,5 +1,4 @@
 /* eslint-disable arrow-body-style */
-/* eslint-disable no-unused-expressions */
 import 'babel-polyfill';
 import React from 'react';
 import express from 'express';
@@ -8,37 +7,50 @@ import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import { matchRoutes } from 'react-router-dom';
-import App from './components/App';
-import createStore from './store/createStore';
-import routes from './Routes';
-import { dbConnect } from './init';
+import cors from 'cors';
+import publicRouter from 'server/router/publicRouter';
+import bodyParser from 'body-parser';
+import App from 'components/App';
+import createStore from 'store/createStore';
+import protectedRouter from 'server/router/protectedRouter';
+import routes from '../routes';
+import { dbConnect } from '../init';
 
 dbConnect().then(async () => {
   /* Запуск приложения только после старта БД */
-
   const app = express();
+  app.use(cors());
   const PORT = process.env.PORT || 3000;
+
   app.use(express.static('public'));
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+
+  app.use('/', ...publicRouter);
+  // TODO: Добавить защищенный роут в проект
+  app.use('/', ...protectedRouter);
+
   app.get('*', (req, res, next) => {
+    //  TODO: Здесь передавать в объект стора данные из базы данных
     const store = createStore(req);
 
     const promises = matchRoutes(routes, req.path)?.map(({ route }) => {
       // @ts-ignore
-      return route.loadData ? route.loadData(store) : null;
+      return route.loadData ?? null;
     });
 
-    promises
-      && Promise.all(promises)
-        .then(() => {
-          const content = renderToString(
-            <Provider store={store}>
-              <StaticRouter location={req.url}>
-                <App />
-              </StaticRouter>
-            </Provider>,
-          );
+    Promise.all(promises!)
+      .then(() => {
+        const content = renderToString(
+          <Provider store={store}>
+            <StaticRouter location={req.url}>
+              <App />
+            </StaticRouter>
+          </Provider>,
+        );
 
-          res.send(`
+        res.send(`
         <!DOCTYPE html>
         <html lang="ru">
           <head>
@@ -47,8 +59,8 @@ dbConnect().then(async () => {
             <meta http-equiv="X-UA-Compatible" content="ie=edge" />
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css" />
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+            <title>Starship</title>
           </head>
-          <title>Starship</title>
           <body>
             <div id="root">${content}</div>
             <script>
@@ -58,8 +70,8 @@ dbConnect().then(async () => {
           </body>
         </html>
       `);
-        })
-        .catch(next);
+      })
+      .catch(next);
   });
 
   app.listen(PORT, () => {

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { loginValidator, nameValidator, passwordValidator, phoneValidator } from 'config/validators';
-import ProfileApi from 'api/Profile';
+import { profile } from 'api/frontend';
 import { TUserInfo, TPassword } from 'types';
 import { useFormik } from 'formik';
 import { Alert, Avatar, Button, Stack, TextField, Typography, Container } from '@mui/material';
@@ -53,7 +53,7 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const saveProfile = (data: TUserInfo) => {
-    ProfileApi.saveProfile(data)
+    profile.saveProfile(data)
       .then((response) => {
         if (response.status === 200) {
           return response.data;
@@ -70,7 +70,7 @@ const Profile = () => {
   };
 
   const savePassword = (data: TPassword) => {
-    ProfileApi.savePassword(data)
+    profile.savePassword(data)
       .then((response) => {
         if (!(response.status === 200)) {
           setError('Ошибка при обновлении пароля пользователя');
@@ -82,9 +82,10 @@ const Profile = () => {
   };
 
   const saveAvatar = (file: File) => {
-    const form = new FormData();
-    form.append('avatar', file);
-    ProfileApi.saveAvatar(form)
+    const formData = new FormData();
+    formData.append('avatar', file);
+    console.log(formData);
+    profile.saveAvatar(formData)
       .then((response) => {
         if (response.status === 200) {
           return response.data;

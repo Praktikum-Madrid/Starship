@@ -1,7 +1,9 @@
 import { PaletteMode } from '@mui/material';
 
-export type TRrequestOptions = {
-  [key: string]: string | TRrequestOptions | TRequestData | boolean
+import express from 'express';
+
+export type TRequestOptions = {
+  [key: string ]: string | TRequestOptions | TRequestData | boolean
 };
 
 export type TRequestData = Record<string, any>;
@@ -90,4 +92,24 @@ export interface FsDocumentElement extends HTMLElement {
   webkitRequestFullscreen: any;
   msRequestFullscreen?: () => void;
   mozRequestFullScreen?: () => void;
+}
+
+export type TReq = express.Request;
+export type TRes = express.Response;
+
+export type TUserLeaderboard = {
+  data: {
+    avatar?: string,
+    rating: number,
+    first_name: string,
+    second_name: string,
+  },
+  ratingFieldName: string,
+  teamName: string,
+}
+
+export type TTeamLeaderboard = {
+  ratingFieldName: string,
+  cursor: number,
+  limit: number
 }
