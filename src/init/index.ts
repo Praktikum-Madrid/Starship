@@ -1,5 +1,5 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
-import { userModel } from '../models/user';
+import { userModel } from 'models/user';
 
 const sequelizeOptions: SequelizeOptions = {
   host: 'localhost',

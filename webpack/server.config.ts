@@ -14,7 +14,7 @@ const serverConfig = {
   externals: [nodeExternals()],
   // Tell webpack the root file of our
   // server application
-  entry: './src/server/index.tsx',
+  entry: './src/server/index.ts',
   module: {
     rules: [fileLoader.client, cssLoader.client, jsLoader.client],
   },
