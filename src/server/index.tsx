@@ -15,6 +15,7 @@ import createStore from 'store/createStore';
 import protectedRouter from 'server/router/protectedRouter';
 import routes from '../routes';
 import { dbConnect } from '../init';
+import { auth } from './middlewares/auth'; // для теста - удалить
 
 dbConnect().then(async () => {
   /* Запуск приложения только после старта БД */
@@ -29,6 +30,9 @@ dbConnect().then(async () => {
 
   app.use('/', ...publicRouter);
   // TODO: Добавить защищенный роут в проект
+
+  app.use(auth); // для теста - удалить!
+
   app.use('/', ...protectedRouter);
 
   app.get('*', (req, res, next) => {

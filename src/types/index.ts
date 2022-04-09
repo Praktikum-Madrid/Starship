@@ -33,13 +33,9 @@ export type TProfileData = TUserInfo;
 
 export type TPostgresUserInfo = {
   userId: TIdUser,
-  firstName: string,
-  secondName: string,
-  login: TLoginUser,
-  email: string,
-  phone: string,
-  avatar?: string,
-  displayName?: string,
+  uuid?: string,
+  authCookie?: string,
+  mode?: string,
 }
 
 export type TPassword = {
