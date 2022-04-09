@@ -2,10 +2,10 @@ import 'babel-polyfill';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { dbConnect } from 'init';
 import publicRouter from 'server/router/publicRouter';
 import protectedRouter from 'server/router/protectedRouter';
 import ssrRouter from 'server/router/ssrRouter';
+import { dbConnect } from './init';
 import checkAuth from './middlewares/checkAuth';
 
 dbConnect().then(async () => {

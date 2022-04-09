@@ -3,7 +3,7 @@ import { TPostgresUserInfo, TReq, TRes } from 'types';
 import { auth } from 'api/backend';
 import setCookie from 'set-cookie-parser';
 import { cookiesToString } from 'server/utils';
-import { getUserById, createUser, updateUserById } from 'database/postgres';
+import { getUserById, createUser, updateUserById } from 'server/database/controllers/user';
 
 export const handleSignIn = (req: TReq, res: TRes) => {
   const {
