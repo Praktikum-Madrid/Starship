@@ -17,6 +17,8 @@ const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
 
   try {
     const isAuth = await getUuidCookie(uuidCookie);
+    // @ts-ignore
+    console.log('isAuth', isAuth.dataValues);
     if (isAuth) {
       next();
     } else {
@@ -29,7 +31,7 @@ const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
     }
   } catch (error) {
     console.log('Ошибка авторизации: кукис недействителен или просрочен.');
-    res.clearCookie('authCookie').status(500).send({
+    res.clearCookie('uuid').status(500).send({
       error: 'Auth check error',
     });
   }
