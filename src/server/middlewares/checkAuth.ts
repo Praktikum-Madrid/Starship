@@ -1,12 +1,12 @@
+import { getUuidCookie } from 'database/postgres';
 import { TRes, TNext, TReqWithUserData } from 'types';
 import getCookiesFromRequest from 'utils/getCookiesFromRequest';
 
-const checkAuth = (req: TReqWithUserData, res: TRes, next: TNext) => {
+const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
   const cookie = getCookiesFromRequest(req);
-  const authCookie = cookie?.authCookie;
+  const uuidCookie = cookie.uuid || null;
 
-  // Если кукиса нет, возвращаем 401 ошибку
-  if (!authCookie) {
+  if (!uuidCookie) {
     res.status(401)
       .send({
         error: 'Unauthorised request',
@@ -15,16 +15,9 @@ const checkAuth = (req: TReqWithUserData, res: TRes, next: TNext) => {
     return;
   }
 
-  // Если кукис есть, сравниваем его с кукисом в базе данных
-  // FIXME: Временное решение без запроса к бд, сейчас пейлоад будет всегда
-  const dbCookie = authCookie;
-
-  // Если кукис есть, мы проверяем токен и записываем пейлоад в req.user
   try {
-    // ... Запрос к бд
-    if (dbCookie === authCookie) {
-      // Записали полученные данные пользователя в пейлоад
-      req.userData = 'test user data';
+    const isAuth = await getUuidCookie(uuidCookie);
+    if (isAuth) {
       next();
     } else {
       res.status(401)
@@ -35,7 +28,6 @@ const checkAuth = (req: TReqWithUserData, res: TRes, next: TNext) => {
       return;
     }
   } catch (error) {
-    // Если что-то пошло не так, вернётся ошибка, которую надо обработать в блоке catch
     console.log('Ошибка авторизации: кукис недействителен или просрочен.');
     res.clearCookie('authCookie').status(500).send({
       error: 'Auth check error',

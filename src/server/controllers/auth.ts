@@ -19,11 +19,9 @@ export const handleSignIn = (req: TReq, res: TRes) => {
       const cookies = setCookie.parse((apiResponse as any), {
         decodeValues: true, // default: true
       });
-      // 1: Преобразуем массив с данными cookies в строку
-      const __COOKIES__ = cookiesToString(cookies);
 
-      // 2: В этом месте запрашиваем данные пользователя и сохраняем их в базу данных
-      auth.getUserData(__COOKIES__)
+      // Запрашиваем данные пользователя и сохраняем их в базу данных
+      auth.getUserData(cookiesToString(cookies))
         .then((apiResponse) => {
           const { id } = apiResponse.data;
           // Проверяем есть ли юзер в базе данных
