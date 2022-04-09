@@ -6,6 +6,7 @@ import { TModeSettings } from 'types';
 const defaultState: TModeSettings = {
   mode: 'light',
   city: '',
+  leader: [],
 };
 
 export function modeReducer(state: TModeSettings = defaultState, { type, payload }: Record<string, any> = {}) {
@@ -19,6 +20,11 @@ export function modeReducer(state: TModeSettings = defaultState, { type, payload
       return {
         ...state,
         city: payload.city,
+      };
+    case ACTIONS.GET_LEADER:
+      return {
+        ...state,
+        leader: payload,
       };
     default:
       return state;

@@ -76,6 +76,7 @@ export type TGameSettings = {
 export type TModeSettings = {
   mode: PaletteMode,
   city?: string,
+  leader?: [],
 }
 
 export type TGameCallback = {

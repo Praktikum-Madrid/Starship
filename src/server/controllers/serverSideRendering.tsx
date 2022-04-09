@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable import/prefer-default-export */
 import { TNext, TReqWithUserData, TRes } from 'types';
 import createStore from 'store/createStore';
 import { matchRoutes } from 'react-router-dom';
@@ -10,14 +12,10 @@ import serialize from 'serialize-javascript';
 import React from 'react';
 
 export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNext) => {
-  //  TODO: Здесь передавать в объект стора данные из базы данных
-  console.log(req.userData);
   const store = createStore(req);
-
   // @ts-ignore
-  const promises = matchRoutes(routes, req.path)?.map(({ route }) => route.loadData ?? null);
+  const promises = matchRoutes(routes, req.url)?.map(({ route }) => (route.loadData ? route.loadData(store) : null));
 
-  // FIXME: Что делает здесь Promise.all??? Почему не возвращает значения? Для чего эта переменная???
   Promise.all(promises!)
     .then(() => {
       const content = renderToString(

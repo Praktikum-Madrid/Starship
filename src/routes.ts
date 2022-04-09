@@ -34,7 +34,7 @@ const routes: RouteObject[] = [
   },
   {
     path: `${PATH.LEADERBOARD}`,
-    element: Leaderboard,
+    ...Leaderboard,
   },
   {
     path: `${PATH.FORUM}`,
