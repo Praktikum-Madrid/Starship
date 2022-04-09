@@ -4,6 +4,12 @@ import { ModelAttributes } from 'sequelize/types';
 import { TPostgresUserInfo } from 'types';
 
 export const userModel: ModelAttributes<Model, TPostgresUserInfo> = {
+  id: {
+    type: DataType.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
   userId: {
     type: DataType.STRING,
     allowNull: false,
