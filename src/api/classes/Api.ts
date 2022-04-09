@@ -59,7 +59,6 @@ class Api {
 
   // Метод, выполняющий запрос
   private static _makeRequest(requestUrl: string, options?: TRequestOptions): AxiosPromise<any> {
-    console.log(options);
     return axios({
       url: requestUrl,
       ...options,
