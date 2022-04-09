@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import Container from '@mui/material/Container';
 import { Alert, Stack } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { getLeader } from '../../store/actions/mode';
+import { getLeader } from 'store/actions/mode';
 
 const columns: GridColDef[] = [
   {

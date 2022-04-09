@@ -8,6 +8,7 @@ import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom/server';
 import App from 'components/App';
+import Layout from 'components/Layout';
 import serialize from 'serialize-javascript';
 import React from 'react';
 
@@ -15,6 +16,7 @@ export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNex
   const store = createStore(req);
   // @ts-ignore
   const promises = matchRoutes(routes, req.url)?.map(({ route }) => (route.loadData ? route.loadData(store) : null));
+  promises?.push(Layout.loadData(store));
 
   Promise.all(promises!)
     .then(() => {

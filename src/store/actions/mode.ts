@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
+import { getTeamLeaderboard } from 'config/api';
+
 export const ACTIONS = {
   TOGGLE_MODE: 'TOGGLE_MODE',
   GEOLOCATION: 'GEOLOCATION',
@@ -26,7 +28,7 @@ export function setGeolocation(payload: Record<string, any>) {
 }
 
 export const getLeader = () => async (dispatch: any, getState: any, axiosInstance: any) => {
-  const res = await axiosInstance.post('/leaderboard/all', __DATA__, {
+  const res = await axiosInstance.post(getTeamLeaderboard, __DATA__, {
     withCredentials: true,
   });
 
