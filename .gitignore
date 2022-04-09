@@ -318,6 +318,7 @@ package-lock.json
 
 # Остальные файлы остающиеся в процессе работы
 /dist
-/pgadmin-data
-/postgresdata
 /public
+/build
+/postgresdata
+/pgadmin-data
