@@ -36,6 +36,35 @@ export type TPostgresUserInfo = {
   uuid?: string,
   authCookie?: string,
   mode?: string,
+  themeId?: number,
+}
+
+export type TPostgresTheme = {
+  id: number,
+  name: string
+}
+
+export type TPostgresThread = {
+  id: number,
+  name: string,
+  text: string,
+  authorId?: number,
+  createdAt?: string,
+}
+
+export type TPostgresMessage = {
+  id: number,
+  text: string,
+  authorId?: number,
+  threadId?: number,
+  emotionId?: number,
+  replyToMessageId?: number,
+  createdAt?: string,
+}
+
+export type TPostgresEmotion = {
+  id: number,
+  htmlCode: string,
 }
 
 export type TPassword = {
