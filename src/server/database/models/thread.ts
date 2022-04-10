@@ -15,7 +15,7 @@ export const threadModel: ModelAttributes<Model, TPostgresThread> = {
     allowNull: false,
   },
   text: {
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: false,
   },
 };

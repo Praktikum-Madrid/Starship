@@ -6,14 +6,15 @@ import { threadModel } from 'server/database/models/thread';
 import { messageModel } from 'server/database/models/message';
 import { emotionsModel } from 'server/database/models/emotions';
 import { userModel } from 'server/database/models/user';
+import { host, port, username, password, dialect, database } from 'config/database';
 
 const sequelizeOptions: SequelizeOptions = {
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'newPassword',
-  database: 'my-db-name',
-  dialect: 'postgres',
+  host,
+  port,
+  username,
+  password,
+  database,
+  dialect,
 };
 
 // Создаем инстанс Sequelize

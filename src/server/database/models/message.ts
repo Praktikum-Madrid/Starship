@@ -11,7 +11,7 @@ export const messageModel: ModelAttributes<Model, TPostgresMessage> = {
     allowNull: false,
   },
   text: {
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: false,
   },
   replyToMessageId: {
