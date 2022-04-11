@@ -208,9 +208,12 @@ export default class StarshipGame {
   private collideStarshipToOpponents() {
     this.opponents.forEach((opponent) => {
       if (
-        opponent
+        (opponent
         && opponent.active
-        && this.spaceship.collideOpponent(opponent)
+        && this.spaceship.collideOpponent(opponent))
+        || (this.boss
+          && this.boss.active
+          && this.spaceship.collideOpponent(this.boss))
       ) {
         this.sound.play('bump');
       }
