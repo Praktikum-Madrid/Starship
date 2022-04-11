@@ -64,6 +64,7 @@ export const handleSignIn = (req: TReq, res: TRes) => {
     .catch((error) => {
       res.status(error.response.status).send(error.response.data);
       // TODO: Сделать здесь свои ответы сервера на каждый вариант
+      // TODO: Предусмотреть ответ на случай, когда апи отвечает 502 ошибкой
     });
 };
 

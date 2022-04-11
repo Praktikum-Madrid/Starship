@@ -24,7 +24,7 @@ self.addEventListener('activate', (event: any) => {
 });
 
 // период обновления кэша - минута
-const MAX_AGE = 60;
+// const MAX_AGE = 60;
 
 // eslint-disable-next-line no-restricted-globals
 // self.addEventListener('fetch', (event: any) => {
