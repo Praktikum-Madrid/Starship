@@ -1,3 +1,5 @@
+import { IMusic } from 'types';
+
 class SoundEngine {
   private _soundsList: string[];
 
@@ -17,6 +19,7 @@ class SoundEngine {
   // Загружаем звуки
   private _preloadSounds = () => {
     this._soundsList.forEach((soundName) => {
+      console.log('loading', soundName);
       this._sounds[soundName] = new Audio(`../sounds/${soundName}.mp3`);
       this._sounds[soundName]!.addEventListener('canplaythrough', this.countLoaded, {
         once: true,
@@ -44,11 +47,15 @@ class SoundEngine {
   }
 
   // Возвращает трек, которым можно урпавлять
-  public addMusic(name: string, volume: number = 1) {
-    const music = this._sounds[name].cloneNode(true) as HTMLAudioElement;
+  public addMusic(name: string, volume: number = 1): IMusic {
+    const music: IMusic = this._sounds[name].cloneNode(true) as HTMLAudioElement;
     music.volume = volume;
 
-    // TODO: Корректно удалять ноды после окончания проигрывания
+    // eslint-disable-next-line func-names
+    music.stop = function () {
+      this.src = '';
+    };
+
     return music;
   }
 }

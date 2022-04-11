@@ -1,7 +1,4 @@
-// StarshipGame.ts
-
-import { TUserInfo, ISprites, TGameCallback } from 'types';
-
+import { TUserInfo, ISprites, TGameCallback, IMusic } from 'types';
 import {
   AUDIOS,
   COLS_OPPONENTS,
@@ -14,45 +11,48 @@ import {
 } from 'config/consts';
 import SoundEngine from 'game/soundEngine';
 import Unit from 'game/units/Unit';
+import throttleInput from 'utils/throttleInput';
+import Background from 'game/units/UnitBackground';
+import Missile from 'game/units/UnitMissile';
+import Opponent, { TYPES_OPPONENTS } from 'game/units/UnitOpponent';
+import Spaceship from 'game/units/UnitSpaceship';
+import UnitBossBall from 'game/units/UnitBossBall';
 import createImg from './utils/createImg';
-import throttleInput from '../utils/throttleInput';
-import Background from './units/UnitBackground';
-import Missile from './units/UnitMissile';
-import Opponent, { TYPES_OPPONENTS } from './units/UnitOpponent';
-import Spaceship from './units/UnitSpaceship';
 
 export default class StarshipGame {
-  _ctx: CanvasRenderingContext2D;
-
-  sprites: ISprites;
-
-  // sounds: IAudio;
-
-  running: boolean;
-
-  widthCanvas: number;
-
-  heightCanvas: number;
-
-  spaceship: Spaceship;
-
   background: Background;
 
-  rows: number;
+  callback: TGameCallback;
+
+  _ctx: CanvasRenderingContext2D;
 
   cols: number;
 
+  heightCanvas: number;
+
   opponents: (Opponent | null)[];
+
+  sprites: ISprites;
+
+  spaceship: Spaceship;
+
+  rows: number;
+
+  running: boolean;
 
   score: number;
 
   settings: TUserInfo;
 
+  widthCanvas: number;
+
   private sound: SoundEngine;
 
-  private music: HTMLAudioElement;
+  private readonly music: IMusic;
 
-  callback: TGameCallback;
+  private bossMusic: IMusic;
+
+  private boss: UnitBossBall | undefined;
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -71,6 +71,7 @@ export default class StarshipGame {
     this.sprites = createImg();
     this.sound = new SoundEngine(AUDIOS);
     this.music = this.sound.addMusic('music', 0.5);
+    this.bossMusic = this.sound.addMusic('boss', 0.5);
     this.score = 0;
     this.settings = settings;
     this.callback = cb;
@@ -161,6 +162,7 @@ export default class StarshipGame {
         );
       }
     }
+
     this.opponents.forEach((opponent) => {
       if (opponent && opponent.active) {
         opponent.start();
@@ -169,6 +171,8 @@ export default class StarshipGame {
     });
 
     this.music.play(); // Включаем музыку
+
+    this.startBossFight();
   }
 
   private collideMissileToOpponents(missiles: Missile[]) {
@@ -198,17 +202,29 @@ export default class StarshipGame {
   }
 
   private update() {
+    // Передвинуть фон
     this.background.move();
+
+    // Передвинуть всех врагов
+    // if (this.opponents.length) {
     this.opponents.forEach((opponent) => {
       if (opponent && opponent.active) {
         opponent.move();
       }
     });
+    // }
 
+    // Проверить есть ли босс, и выполнить движение боссом
+    this.boss?.move();
+
+    // Проверить столкновения с краями экрана
     this.spaceship.collideBounds();
+    // Проверить столкновения ракет с врагами
     this.collideMissileToOpponents(this.spaceship.move());
+    // Проверить столкновения корабля с врагами
     this.collideStarshipToOpponents();
 
+    // Проверить, жив ли игрок
     if (!this.spaceship.active) {
       this.end(END_GAME.LOSE, this.score);
     }
@@ -216,12 +232,36 @@ export default class StarshipGame {
 
   private addScore() {
     this.score += 1;
-    const opp = this.opponents.length
-    - this.opponents.filter((item) => item === null).length;
+    const opp = this.opponents.length - this.opponents.filter((item) => item === null).length;
     if (this.score === Math.round(opp / 1.2)) {
-      this.end(END_GAME.WIN, this.score);
+      // this.end(END_GAME.WIN, this.score);
+      // this.startBossFight();
     }
   }
+
+  // Создаем юнит босса
+  private createBoss() {
+    console.log('Создали босса');
+    // Передали размеры игрового экрана боссу для хитрого плана
+    return new UnitBossBall(this.widthCanvas, this.heightCanvas);
+  }
+
+  // Запускаем бой с боссом
+  private startBossFight = () => {
+    // Остановили музыку
+    if (this.music) {
+      console.log('Music stopped');
+      // @ts-ignore
+      this.music.stop();
+    }
+    // Создали босса
+    this.boss = this.createBoss();
+
+    this.boss?.start();
+
+    // Включили музыку босса
+    this.bossMusic?.play();
+  };
 
   private run() {
     if (this.running) {
@@ -249,6 +289,8 @@ export default class StarshipGame {
       20,
       90,
     );
+
+    this.boss?.render(this._ctx, this.sprites);
   }
 
   renderOpponents() {

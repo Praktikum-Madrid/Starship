@@ -137,6 +137,7 @@ export default class Spaceship extends Unit {
     }
   }
 
+  // FIXME: ограничить частоту столкновений
   collideOpponent(opponent: Opponent) {
     const x = this.x + this.dx;
     const y = this.y + this.dy;
