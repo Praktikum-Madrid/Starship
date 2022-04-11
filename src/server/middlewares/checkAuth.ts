@@ -1,4 +1,4 @@
-import { getUuidCookie } from 'database/postgres';
+import { getUuidCookie } from 'server/database/controllers/user';
 import { TRes, TNext, TReqWithUserData } from 'types';
 import getCookiesFromRequest from 'utils/getCookiesFromRequest';
 

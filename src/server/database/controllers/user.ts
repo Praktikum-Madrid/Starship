@@ -1,5 +1,5 @@
 import { TPostgresUserInfo } from 'types';
-import { User } from '../init';
+import { User } from 'server/init';
 
 // Создание пользователя
 export async function createUser(userData: TPostgresUserInfo) {

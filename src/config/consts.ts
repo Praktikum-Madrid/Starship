@@ -7,6 +7,18 @@ export const COLS_OPPONENTS = 8;
 export const NUM_MISSILES = 30;
 export const LIFE = 5;
 
+export const THEMES = {
+  LIGHT: 'light',
+  DARK: 'dark',
+};
+
+export const EMOTIONS = {
+  SMILE: '&#128512',
+  SAD: '&#128577',
+  LIKE: '&#128077',
+  HEART: '&#129505',
+};
+
 export const enum PATH {
   HOME = '/',
   SIGN_IN = '/signin',
