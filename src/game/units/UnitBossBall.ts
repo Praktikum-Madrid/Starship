@@ -3,7 +3,7 @@ import { ISprites } from 'types';
 import createShadowForImage from 'game/utils/createShadow';
 
 const BALLPARAMS = {
-  hp: 10,
+  hp: 50,
   damage: 1,
   velocity: 1,
   x: 350,
@@ -34,8 +34,8 @@ class UnitBossBall extends Unit {
     this.active = true;
     this.x = BALLPARAMS.x;
     this.y = BALLPARAMS.y;
-    this.width = 50;
-    this.height = 50;
+    this.width = 150;
+    this.height = 150;
     this.damage = BALLPARAMS.damage;
     // this.moveRadius = BALLPARAMS.moveRadius;
     this.direction = 'left-to-bottom';
@@ -46,48 +46,56 @@ class UnitBossBall extends Unit {
   start() {
     this.dy = this.velocity;
     this.dx = this.velocity;
+    this.direction = 'top-to-left';
   }
 
   move() {
-    // Направления движения
-    // top-to-left
-    // left-to-bottom
-    // bottom-to-right
-    // right-to-top
     // Вычисляем направление движения
-    if (this.x > 0 && this.y > 0) {
-      this.direction = 'top-to-left';
-      console.log(this.direction);
-      this.dy = this.velocity * 1;
-      this.dx = this.velocity * -1;
-    } else if (this.x <= 0) {
-      this.direction = 'left-to-bottom';
-      console.log(this.direction);
-      this.dy = this.velocity * 1;
-      this.dx = this.velocity * 1;
-    } else if (this.x >= this.tableWidth) {
-      this.direction = 'right-to-top';
-      console.log(this.direction);
-      this.dy = this.velocity * -1;
-      this.dx = this.velocity * -1;
-    } else if (this.y >= this.tableHeight) {
-      this.direction = 'bottom-to-right';
-      console.log(this.direction);
-      this.dy = this.velocity * -1;
-      this.dx = this.velocity * 1;
-    } else if (this.y <= 0) {
-      this.direction = 'top-to-left';
-      console.log(this.direction);
-      this.dy = this.velocity * 1;
-      this.dx = this.velocity * -1;
+    if (this.direction === 'top-to-left') {
+      if (this.x > 0) {
+        this.dy = this.velocity * 2;
+        this.dx = this.velocity * -1;
+      } else {
+        this.direction = 'left-to-bottom';
+      }
     }
 
-    console.log(this.x, this.y);
-    console.log(this.dx, this.dy);
+    if (this.direction === 'left-to-bottom') {
+      if (this.y < this.tableHeight) {
+        this.dy = this.velocity * 1;
+        this.dx = this.velocity * 2;
+      } else {
+        this.direction = 'bottom-to-right';
+      }
+    }
+
+    if (this.direction === 'bottom-to-right') {
+      if (this.x < this.tableWidth) {
+        this.dy = this.velocity * -1;
+        this.dx = this.velocity * 2;
+      } else {
+        this.direction = 'right-to-top';
+      }
+    }
+
+    if (this.direction === 'right-to-top') {
+      if (this.y > 0) {
+        this.dy = this.velocity * -1;
+        this.dx = this.velocity * -1;
+      } else {
+        this.direction = 'top-to-left';
+      }
+    }
 
     // Движение босса
     this.x += this.dx;
     this.y += this.dy;
+  }
+
+  takeDamage() {
+    console.log('Damage from missle');
+    console.log(this.hp);
+    this.hp -= 1;
   }
 
   destroy() {

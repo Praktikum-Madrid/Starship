@@ -172,11 +172,15 @@ export default class StarshipGame {
 
     this.music.play(); // Включаем музыку
 
-    this.startBossFight();
+    // FIXME: dev only
+    // this.startBossFight();
   }
 
   private collideMissileToOpponents(missiles: Missile[]) {
+    let bossDamageTaken = false;
+
     missiles.forEach((missile) => {
+      // Столкновения ракет с врагами
       this.opponents.forEach((opponent) => {
         if (opponent && opponent.active && missile.collide(opponent)) {
           missile.destroy();
@@ -186,6 +190,18 @@ export default class StarshipGame {
           this.addScore();
         }
       });
+
+      // Столкновения ракет с боссом
+      if (this.boss && this.boss.active && missile.collide(this.boss) && !bossDamageTaken) {
+        bossDamageTaken = true;
+        missile.destroy();
+        this.boss.takeDamage();
+        this.sound.play('explosion');
+
+        if (this.boss.hp <= 0) {
+          this.end(END_GAME.WIN, this.score);
+        }
+      }
     });
   }
 
@@ -234,8 +250,7 @@ export default class StarshipGame {
     this.score += 1;
     const opp = this.opponents.length - this.opponents.filter((item) => item === null).length;
     if (this.score === Math.round(opp / 1.2)) {
-      // this.end(END_GAME.WIN, this.score);
-      // this.startBossFight();
+      this.startBossFight();
     }
   }
 
@@ -276,6 +291,7 @@ export default class StarshipGame {
   private render() {
     this._ctx.clearRect(0, 0, this.widthCanvas, this.heightCanvas);
     this.background.render(this._ctx, this.sprites);
+    this.boss?.render(this._ctx, this.sprites);
     this.spaceship.render(this._ctx, this.sprites);
 
     this.renderOpponents();
@@ -289,8 +305,6 @@ export default class StarshipGame {
       20,
       90,
     );
-
-    this.boss?.render(this._ctx, this.sprites);
   }
 
   renderOpponents() {
@@ -312,6 +326,7 @@ export default class StarshipGame {
   end(message: string = END_GAME.LOSE, score: number = 0) {
     setTimeout(() => {
       this.music.pause(); // Останавливаем музыку
+      this.bossMusic.pause(); // Останавливаем музыку
       this.running = false;
       if (message === END_GAME.WIN) {
         this.callback.gameEndWithWin(score);
