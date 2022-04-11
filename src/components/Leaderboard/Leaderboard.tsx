@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import Container from '@mui/material/Container';
 import { Alert, Stack } from '@mui/material';
-import { leaderboard } from 'api/frontend';
+import { useSelector, useDispatch } from 'react-redux';
+import { getLeader } from 'store/actions/mode';
 
 const columns: GridColDef[] = [
   {
@@ -27,9 +28,10 @@ const columns: GridColDef[] = [
 ];
 
 const Leaderboard = () => {
-  // TODO: добавить Redux и доработать этот блок кода
-  const [rows, setRows] = useState<GridRowsProp>([]);
-  const [errorLeaderboard, setErrorLeaderboard] = useState('');
+  const dispatch = useDispatch();
+  const { leader } = useSelector((state) => state.mode);
+  const rows = formatLeaderboardData(leader);
+  const errorLeaderboard = '';
 
   type TUserLeaderboard = {
     data: {
@@ -54,27 +56,8 @@ const Leaderboard = () => {
     return result;
   }
 
-  const leaderboardRequest = {
-    ratingFieldName: 'rating',
-    cursor: 0,
-    limit: 5,
-  };
-
-  useEffect(() => {
-    leaderboard.getTeamLeaderboard(leaderboardRequest)
-      .then((response) => {
-        if (response.status === 200) {
-          return response.data;
-        }
-        setErrorLeaderboard('Ошибка при обновлении данных лидерборда');
-      })
-      .then((response) => {
-        const resRows = formatLeaderboardData(response);
-        setRows(resRows);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  React.useEffect(() => {
+    dispatch(getLeader());
   }, []);
 
   return (
@@ -118,4 +101,11 @@ const Leaderboard = () => {
   );
 };
 
-export default Leaderboard;
+function loadData(store: any) {
+  return store.dispatch(getLeader());
+}
+
+export default {
+  element: Leaderboard,
+  loadData,
+};

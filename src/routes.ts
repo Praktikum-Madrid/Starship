@@ -26,7 +26,7 @@ const routes: RouteObject[] = [
   },
   {
     path: `${PATH.PROFILE}`,
-    element: Profile,
+    ...Profile,
   },
   {
     path: `${PATH.GAME}`,
@@ -34,7 +34,7 @@ const routes: RouteObject[] = [
   },
   {
     path: `${PATH.LEADERBOARD}`,
-    element: Leaderboard,
+    ...Leaderboard,
   },
   {
     path: `${PATH.FORUM}`,

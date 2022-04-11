@@ -15,6 +15,11 @@ const defaultState: TProfileData = {
 // eslint-disable-next-line import/prefer-default-export
 export function settingsReducer(state: TProfileData = defaultState, { type, payload }: Record<string, any> = {}) {
   switch (type) {
+    case ACTIONS.GET_USER:
+      return {
+        ...state,
+        ...payload,
+      };
     case ACTIONS.SAVE:
       return {
         ...state,

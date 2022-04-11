@@ -2,40 +2,18 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store/reducers';
-import { auth } from 'api/frontend';
-import { logOutActions, signInActions, checkOAuthYandex } from 'store/actions/auth';
-import { setUserSettings } from 'store/actions/settings';
+import {
+  checkOAuthYandex,
+  isAuth,
+} from 'store/actions/auth';
 import { setGeolocation } from 'store/actions/mode';
 import { COORDINATES } from 'utils/geolocation';
 import Container from '@mui/material/Container';
 import HeaderWithMenu from '../Header';
 
-export default function Layout() {
+const Layout = () => {
   const dispatch = useDispatch();
   const { isFullscreen, isGameStarted } = useSelector((state: RootState) => state.game);
-
-  // FIXME: Эти данные не нужно получать в лейауте потому что юзер по дефолту не авторизован
-  React.useEffect(() => {
-    auth.getUserData()
-      .then((response) => {
-        if (response.status === 200) {
-          dispatch(signInActions({
-            isLogined: true,
-            error: '',
-          }));
-          return response.data;
-        }
-
-        dispatch(logOutActions());
-
-        // FIXME: Обрабатывать иначе
-        // throw new Error('Ошибка при получении данных пользователя');
-      })
-      .then((userData) => {
-        dispatch(setUserSettings(userData));
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   React.useEffect(() => {
     dispatch(checkOAuthYandex());
@@ -81,4 +59,13 @@ export default function Layout() {
       </Container>
     </>
   );
+};
+
+function loadData(store: any) {
+  return store.dispatch(isAuth());
 }
+
+export default {
+  element: Layout,
+  loadData,
+};

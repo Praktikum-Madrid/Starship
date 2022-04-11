@@ -19,7 +19,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path='/' element={<Layout />}>
+        <Route path='/' element={Layout.element()}>
           {routes.map(({ path, element: Component }) => (
             // @ts-ignore
             <Route key={path} path={path} element={<Component />} />

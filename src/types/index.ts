@@ -32,6 +32,7 @@ export type TUserInfo = {
 export type TProfileData = TUserInfo;
 
 export type TPostgresUserInfo = {
+  id: number,
   userId: TIdUser,
   uuid?: string,
   authCookie?: string,
@@ -76,6 +77,7 @@ export type TGameSettings = {
 export type TModeSettings = {
   mode: PaletteMode,
   city?: string,
+  leader?: [],
 }
 
 export type TGameCallback = {

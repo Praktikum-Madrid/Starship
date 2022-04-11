@@ -4,33 +4,52 @@ import { auth } from 'api/frontend';
 import { Dispatch } from 'redux';
 import { TCredintials } from 'types';
 import { deleteUserSettings, setUserSettings } from 'store/actions/settings';
-import { redirectURL } from 'config/api';
+import { getUser, redirectURL } from 'config/api';
 import { AxiosResponse } from 'axios';
 
 export const ACTIONS = {
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
   REGISTER: 'REGISTER',
+  GET_USER: 'GET_USER',
 };
 
-export function signInActions(payload: Record<string, any>) {
-  return {
-    type: ACTIONS.LOGIN,
-    payload,
-  };
-}
-
-export function logOutActions() {
-  return {
-    type: ACTIONS.LOGOUT,
-  };
-}
+// Проверка авторизации и загрузка данных юзера
+export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: any) => {
+  try {
+    const res = await axiosInstance.get(
+      getUser,
+      {},
+      {
+        withCredentials: true,
+      },
+    );
+    // Если авторизация успешна
+    if (res.status === 200) {
+      dispatch({
+        type: ACTIONS.LOGIN,
+        payload: {
+          isLogined: true,
+          error: '',
+        },
+      });
+      dispatch({
+        type: ACTIONS.GET_USER,
+        payload: res.data,
+      });
+      return;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // Асинхронная авторизация
 export function logIn(loginData: TCredintials) {
   return async (dispatch: Dispatch) => {
     try {
-      await auth.signIn(loginData)
+      await auth
+        .signIn(loginData)
         .then((response: AxiosResponse) => {
           // Если авторизация успешна
           if (response.status === 200) {
@@ -46,7 +65,9 @@ export function logIn(loginData: TCredintials) {
 
           if (response.status === 400) {
             dispatch(logOut() as any);
-            throw new Error('Юзер уже авторизован, и не должен попадать на эту страницу');
+            throw new Error(
+              'Юзер уже авторизован, и не должен попадать на эту страницу',
+            );
           }
 
           if (response.status === 401) {
@@ -60,7 +81,8 @@ export function logIn(loginData: TCredintials) {
             throw new Error('Неверные имя пользователя или пароль');
           }
         })
-        .then(() => auth.getUserData()
+        .then(() => auth
+          .getUserData()
           .then((response: AxiosResponse) => {
             if (response.status === 200) {
               return response.data;
@@ -85,10 +107,11 @@ export function checkOAuthYandex() {
       const code = query.get('code');
 
       if (code) {
-        await auth.oauthYandex({
-          code,
-          redirect_uri: `${redirectURL}`,
-        })
+        await auth
+          .oauthYandex({
+            code,
+            redirect_uri: `${redirectURL}`,
+          })
           .then((response: AxiosResponse) => {
             // Если юзер авторизован
             if (response.status === 200) {
@@ -102,7 +125,8 @@ export function checkOAuthYandex() {
               return Promise.resolve();
             }
           })
-          .then(() => auth.getUserData()
+          .then(() => auth
+            .getUserData()
             .then((response: AxiosResponse) => {
               if (response.status === 200) {
                 return response.data;
@@ -115,7 +139,9 @@ export function checkOAuthYandex() {
             }))
           .catch((error) => {
             console.log(error);
-            throw new Error('Ошибка при попытке проверить, авторизован ли пользователь с помощью Яндекса');
+            throw new Error(
+              'Ошибка при попытке проверить, авторизован ли пользователь с помощью Яндекса',
+            );
           });
       }
     } catch (error) {
@@ -126,7 +152,8 @@ export function checkOAuthYandex() {
 
 // Асинхронная oauth авторизация
 export async function oauthYandexLogIn() {
-  await auth.getServiceIdYandex()
+  await auth
+    .getServiceIdYandex()
     .then((response: AxiosResponse) => {
       // Если успешно получили serviceId
       if (response.status === 200) {
@@ -164,7 +191,8 @@ export function logOut() {
 export function registerUser(userData: TCredintials) {
   return async (dispatch: Dispatch) => {
     try {
-      await auth.signUp(userData)
+      await auth
+        .signUp(userData)
         .then((response: AxiosResponse) => {
           if (response.status === 200) {
             // Успешная регистрация
@@ -195,7 +223,8 @@ export function registerUser(userData: TCredintials) {
           }
 
           return response.data;
-        }).then((parsedResponse: any) => {
+        })
+        .then((parsedResponse: any) => {
           console.log(parsedResponse);
         });
     } catch (error) {
