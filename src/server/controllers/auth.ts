@@ -4,6 +4,7 @@ import { auth } from 'api/backend';
 import setCookie from 'set-cookie-parser';
 import { cookiesToString } from 'server/utils';
 import { getUserById, createUser, updateUserById } from 'server/database/controllers/user';
+import { THEMES } from 'config/consts';
 
 export const handleSignIn = (req: TReq, res: TRes) => {
   const {
@@ -33,6 +34,7 @@ export const handleSignIn = (req: TReq, res: TRes) => {
                   userId: id,
                   authCookie: `${cookies[1].value}`,
                   uuid: `${cookies[2].value}`,
+                  mode: THEMES.LIGHT,
                 };
                 // сохраняем данные юзера и куки в базе данных
                 createUser(userData);
@@ -41,6 +43,7 @@ export const handleSignIn = (req: TReq, res: TRes) => {
                   userId: id,
                   authCookie: `${cookies[1].value}`,
                   uuid: `${cookies[2].value}`,
+                  mode: THEMES.LIGHT,
                 };
                 // обновляем данные юзера и куки в базе данных
                 updateUserById(`${id}`, userData);

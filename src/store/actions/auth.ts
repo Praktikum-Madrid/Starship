@@ -12,20 +12,22 @@ export const ACTIONS = {
   LOGOUT: 'LOGOUT',
   REGISTER: 'REGISTER',
   GET_USER: 'GET_USER',
+  SET_MODE: 'SET_MODE',
 };
 
-// Проверка авторизации и загрузка данных юзера
+// Проверка авторизации и загрузка данных пользователя
 export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: any) => {
   try {
-    const res = await axiosInstance.get(
+    const user = await axiosInstance.get(
       getUser,
       {},
       {
         withCredentials: true,
       },
     );
+    console.log('USER', user.data);
     // Если авторизация успешна
-    if (res.status === 200) {
+    if (user.status === 200) {
       dispatch({
         type: ACTIONS.LOGIN,
         payload: {
@@ -35,8 +37,15 @@ export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: 
       });
       dispatch({
         type: ACTIONS.GET_USER,
-        payload: res.data,
+        payload: user.data,
       });
+      // TODO: сюда нужно передать сохраненную тему с сервера
+
+      // dispatch({
+      //   type: ACTIONS.SET_MODE,
+      //   payload: { mode: `${mode}` },
+      // });
+
       return;
     }
   } catch (error) {

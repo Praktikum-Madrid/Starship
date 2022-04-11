@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { handleSaveProfile, handleSavePassword, handleSaveAvatar } from 'server/controllers/profile';
+import { handleSaveProfile, handleSavePassword, handleSaveAvatar, handleToggleTheme } from 'server/controllers/profile';
 import * as config from 'config/api';
 import multer from 'multer';
 const profileRouter = Router();
 
 profileRouter.put(config.saveProfile, handleSaveProfile);
 profileRouter.put(config.savePassword, handleSavePassword);
+profileRouter.put(config.toggleTheme, handleToggleTheme);
 
 // Мидлвэр для загрузки файла
 const storage = multer.memoryStorage();

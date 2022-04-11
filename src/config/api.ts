@@ -19,6 +19,7 @@ export const savePassword = '/user/password';
 export const saveAvatar = '/user/profile/avatar';
 export const getUserById = '/user/';
 export const findUser = '/user/search';
+export const toggleTheme = '/user/mode';
 
 // Работа с Leaderboard
 export const addToLeaderboard = '/leaderboard';

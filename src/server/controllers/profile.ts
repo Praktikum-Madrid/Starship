@@ -2,6 +2,7 @@
 import { profile } from 'api/backend';
 import { TPassword, TReq, TRes, TUserInfo } from 'types';
 import FormData from 'form-data';
+import { getUserById } from 'server/database/controllers/user';
 
 export const handleSaveProfile = (req: TReq, res: TRes) => {
   const {
@@ -32,6 +33,7 @@ export const handleSaveProfile = (req: TReq, res: TRes) => {
     requestData.id = id;
   }
 
+  // @ts-ignore
   profile.saveProfile(requestData, req.headers.cookie)
     .then((apiResponse) => {
       res.status(apiResponse.status)
@@ -54,6 +56,7 @@ export const handleSavePassword = (req: TReq, res: TRes) => {
     newPassword,
   };
 
+  // @ts-ignore
   profile.savePassword(requestData, req.headers.cookie)
     .then((apiResponse) => {
       res.status(apiResponse.status)
@@ -71,6 +74,7 @@ export const handleSaveAvatar = (req: TReq, res: TRes) => {
   const formData: FormData = new FormData();
   formData.append('avatar', file!.buffer, file!.originalname);
 
+  // @ts-ignore
   profile.saveAvatar(formData, req.headers.cookie)
     .then((apiResponse) => {
       res.status(apiResponse.status)
@@ -81,4 +85,15 @@ export const handleSaveAvatar = (req: TReq, res: TRes) => {
       res.status(error.response.status)
         .send(error.response.data);
     });
+};
+
+export const handleToggleTheme = async (req: TReq, res: TRes) => {
+  const { userId, theme } = req.body;
+  const user = await getUserById(`${userId}`);
+  if (user) {
+    // @ts-ignore
+    user.mode = theme;
+    await user.save();
+    res.status(200).send(theme);
+  }
 };
