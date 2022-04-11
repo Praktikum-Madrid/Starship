@@ -32,7 +32,7 @@ export type TUserInfo = {
 export type TProfileData = TUserInfo;
 
 export type TPostgresUserInfo = {
-  id: number,
+  id?: number,
   userId: TIdUser,
   uuid?: string,
   authCookie?: string,

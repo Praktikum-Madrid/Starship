@@ -30,10 +30,7 @@ const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
       return;
     }
   } catch (error) {
-    console.log('Ошибка авторизации: кукис недействителен или просрочен.');
-    res.clearCookie('uuid').status(500).send({
-      error: 'Auth check error',
-    });
+    console.log('Ошибка авторизации: кукис недействителен или просрочен!');
   }
 };
 

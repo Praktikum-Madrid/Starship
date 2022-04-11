@@ -60,10 +60,10 @@ Message.belongsTo(Thread);
 export async function dbConnect() {
   try {
     await sequelize.authenticate(); // Проверка аутентификации в БД
-    await sequelize.sync(); // Синхронизация базы данных
+    await sequelize.sync({ force: false }); // Синхронизация базы данных
     await createThemes();
     await createEmotions();
-    console.log('Connection has been established successfully.');
+    console.log('Connection has been established successfully!');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
