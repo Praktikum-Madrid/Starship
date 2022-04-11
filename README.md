@@ -40,6 +40,7 @@ _Примечание: с запуском `npm run init` в среде **window
 ```
   /src
   ../api               -- Интерфейсы для работы с апи
+  ../assets            -- Компоненты (React)
   ../components        -- Компоненты (React)
     ../ComponentName   -- Директория компонентов
       ../index.tsx     -- Код компонента
