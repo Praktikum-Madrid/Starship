@@ -22,6 +22,7 @@ dbConnect().then(async () => {
   app.use('/', ...publicRouter); // Эти роутеры первыми (не нужна авторизация)
   app.use('/', ...ssrRouter);
   app.use('/', checkAuth, ...protectedRouter); // Эти роуты требуют авторизации
+  // app.use('/', ...protectedRouter); // Эти роуты требуют авторизации
 
   app.listen(PORT, () => {
     console.log('Listening on prot', PORT);

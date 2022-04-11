@@ -15,27 +15,28 @@ export const ACTIONS = {
 };
 
 // Проверка авторизации и загрузка данных юзера
-export const isAuth = () => async (dispatch: any) => {
-  try {
-    const res = await auth.getUserData();
-    // Если авторизация успешна
-    if (res.status === 200) {
-      dispatch({
-        type: ACTIONS.LOGIN,
-        payload: {
-          isLogined: true,
-          error: '',
-        },
-      });
-      dispatch({
-        type: ACTIONS.GET_USER,
-        payload: res.data,
-      });
-      return;
-    }
-  } catch (error) {
-    console.log(error);
-  }
+export const isAuth = () => async (dispatch: Dispatch) => {
+  auth.getUserData()
+    .then((response) => {
+      // Если авторизация успешна
+      if (response.status === 200) {
+        dispatch({
+          type: ACTIONS.LOGIN,
+          payload: {
+            isLogined: true,
+            error: '',
+          },
+        });
+        dispatch({
+          type: ACTIONS.GET_USER,
+          payload: response.data,
+        });
+      }
+    }).catch((error) => {
+      // FIXME: Эта проверка вообще не должна происходить пока юзер не авторизован. Как она может сработать на клиенте??
+      console.log('Ошибочка');
+      // console.log(error);
+    });
 };
 
 // Асинхронная авторизация

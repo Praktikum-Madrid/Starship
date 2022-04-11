@@ -101,6 +101,7 @@ export const handleGetUserData = (req: TReq, res: TRes) => {
     })
     .catch((error) => {
       res.status(error.response.status).send(error.response.data);
+      console.log('ОШИБКА');
     });
 };
 
