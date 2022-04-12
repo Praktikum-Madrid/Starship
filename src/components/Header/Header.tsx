@@ -19,6 +19,7 @@ import {
 import { logOut } from 'store/actions/auth';
 import { RootState } from 'store/reducers';
 import { RESOURCES_URL } from 'config/api';
+import { THEMES } from 'config/consts';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { toggleColorTheme } from 'store/actions/mode';
@@ -39,7 +40,7 @@ const settings = [
 const HeaderWithMenu = () => {
   const dispatch = useDispatch();
   const { isLogined } = useSelector((state: RootState) => state.auth);
-  const { login, avatar } = useSelector((state: RootState) => state.settings);
+  const { id, login, avatar } = useSelector((state: RootState) => state.settings);
   const { mode } = useSelector((state: RootState) => state.mode);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -70,7 +71,8 @@ const HeaderWithMenu = () => {
   };
 
   const toggleColorMode = () => {
-    dispatch(toggleColorTheme());
+    const theme = mode === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT;
+    dispatch(toggleColorTheme(id, theme));
   };
 
   return (

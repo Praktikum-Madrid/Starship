@@ -1,22 +1,42 @@
+import axios from 'axios';
 import { TPostgresUserInfo } from 'types';
-import { User } from 'server/init';
 
-// Создание пользователя
 export async function createUser(userData: TPostgresUserInfo) {
-  return User.create(userData);
+  const res = await axios.post('http://localhost:8080/user', userData, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+  });
+  return res;
 }
 
-// Обновление пользователя по ID
-export async function updateUserById(userId: string, data: TPostgresUserInfo) {
-  return User.update(data, { where: { userId } });
-}
-
-// Получение пользователя по ID
 export async function getUserById(userId: string) {
-  return User.findOne({ where: { userId } });
+  const res = await axios.post('http://localhost:8080/user/me', { userId }, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+  });
+  return res;
 }
 
-// Получение пользователя по UUID
-export async function getUuidCookie(uuid: string) {
-  return User.findOne({ where: { uuid } });
+export async function updateUserById(userId: string, data: TPostgresUserInfo) {
+  const res = await axios.post('http://localhost:8080/user/update', data, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+  });
+  return res;
+}
+
+export async function getUuidCookie(uuidCookie: string) {
+  const res = await axios.post('http://localhost:8080/user/update', { uuidCookie }, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+  });
+  return res;
 }

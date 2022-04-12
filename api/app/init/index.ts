@@ -8,7 +8,7 @@ import { userModel } from '../models/user';
 import { createThemes } from '../controllers/theme';
 
 const sequelizeOptions: SequelizeOptions = {
-  host: 'postgres',
+  host: process.env.PGHOST || 'localhost',
   port: 5432,
   username: 'postgres',
   password: 'newPassword',

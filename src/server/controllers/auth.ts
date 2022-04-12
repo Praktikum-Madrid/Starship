@@ -4,6 +4,7 @@ import { auth } from 'api/backend';
 import setCookie from 'set-cookie-parser';
 import { cookiesToString } from 'server/utils';
 import { getUserById, createUser, updateUserById } from 'server/database/controllers/user';
+import { THEMES } from 'config/consts';
 
 export const handleSignIn = (req: TReq, res: TRes) => {
   const {
@@ -26,21 +27,24 @@ export const handleSignIn = (req: TReq, res: TRes) => {
           const { id } = apiResponse.data;
           // Проверяем есть ли юзер в базе данных
           getUserById(`${id}`)
-            .then((data) => {
-              if (!data) {
+            .then((user) => {
+              if (!user) {
                 // если юзера нет
                 const userData: TPostgresUserInfo = {
                   userId: id,
                   authCookie: `${cookies[1].value}`,
                   uuid: `${cookies[2].value}`,
+                  mode: THEMES.LIGHT,
                 };
                 // сохраняем данные юзера и куки в базе данных
                 createUser(userData);
               } else {
+                console.log('saved mode', user.data.mode);
                 const userData: TPostgresUserInfo = {
                   userId: id,
                   authCookie: `${cookies[1].value}`,
                   uuid: `${cookies[2].value}`,
+                  mode: user.data.mode,
                 };
                 // обновляем данные юзера и куки в базе данных
                 updateUserById(`${id}`, userData);

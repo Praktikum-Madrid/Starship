@@ -6,12 +6,14 @@ import { TCredintials } from 'types';
 import { deleteUserSettings, setUserSettings } from 'store/actions/settings';
 import { getUser, redirectURL } from 'config/api';
 import { AxiosResponse } from 'axios';
+import { getUserById } from 'server/database/controllers/user';
 
 export const ACTIONS = {
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
   REGISTER: 'REGISTER',
   GET_USER: 'GET_USER',
+  SET_MODE: 'SET_MODE',
 };
 
 // Проверка авторизации и загрузка данных юзера
@@ -24,6 +26,9 @@ export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: 
         withCredentials: true,
       },
     );
+    console.log(res.data.id); // получили id юзера
+    const theme = await getUserById(`${res.data.id}`);
+    console.log(theme.data.mode); // получили сохраненную тему
     // Если авторизация успешна
     if (res.status === 200) {
       dispatch({
@@ -36,6 +41,10 @@ export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: 
       dispatch({
         type: ACTIONS.GET_USER,
         payload: res.data,
+      });
+      dispatch({
+        type: ACTIONS.SET_MODE,
+        payload: { mode: theme.data.mode },
       });
       return;
     }
@@ -83,8 +92,14 @@ export function logIn(loginData: TCredintials) {
         })
         .then(() => auth
           .getUserData()
-          .then((response: AxiosResponse) => {
+          .then(async (response: AxiosResponse) => {
             if (response.status === 200) {
+              const theme = await getUserById(`${response.data.id}`);
+              console.log(theme.data.mode); // получили сохраненную тему
+              dispatch({
+                type: ACTIONS.SET_MODE,
+                payload: { mode: theme.data.mode },
+              });
               return response.data;
             }
 
