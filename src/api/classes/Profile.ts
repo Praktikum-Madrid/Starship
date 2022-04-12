@@ -30,7 +30,6 @@ class Profile extends Api {
   }
 
   saveAvatar(formData: any, cookie?: string) {
-    console.log(formData);
     return this.putFile(this._saveAvatarURL, formData, cookie);
   }
 }
