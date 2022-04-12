@@ -14,7 +14,6 @@ class Avatar extends Api {
 
   saveAvatarOnServer(formData: FormData, formConfig: any) {
     return axios.put(this._saveAvatarURL, formData, formConfig);
-    // return this.putFile(this._saveAvatarURL, formData, formConfig);
   }
 }
 
