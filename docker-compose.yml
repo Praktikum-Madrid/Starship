@@ -34,6 +34,22 @@ services:
     networks:
       - awesome
 
+  api:
+    build:
+      context: ./api
+    restart: always
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    environment:
+      PGHOST: postgres
+      PGDATABASE: my-db-name
+      PGUSER: postgres
+      PGPASSWORD: newPassword
+    networks:
+      - awesome
+
   # app:
   #   build:
   #     context: .
