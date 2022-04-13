@@ -11,7 +11,12 @@ import checkAuth from './middlewares/checkAuth';
 dbConnect().then(async () => {
   /* Запуск приложения только после старта БД */
   const app = express();
-  app.use(cors());
+
+  app.use(cors({
+    origin: 'https://ya-praktikum.tech',
+    optionsSuccessStatus: 200, // Поддержка старых браузеров (IE11, некоторые SmartTVs) зависают при статусе 204
+  }));
+
   const PORT = process.env.PORT || 3000;
 
   app.use(express.static('public'));
