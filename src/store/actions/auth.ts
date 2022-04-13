@@ -17,6 +17,7 @@ export const ACTIONS = {
 };
 
 // Проверка авторизации и загрузка данных юзера
+// FIXME: как во фронтенд может торчать сторс запросами к базе данных, лол??? Это не будет работать!!!
 export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: any) => {
   try {
     const response = await axiosInstance.get(

@@ -135,6 +135,7 @@ export type TRes = express.Response;
 export type TNext = express.NextFunction;
 export interface TReqWithUserData extends express.Request {
   userData?: any,
+  userAuthorised?: boolean,
 }
 
 export type TUserLeaderboard = {

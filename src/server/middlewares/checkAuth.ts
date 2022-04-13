@@ -4,38 +4,38 @@ import getCookiesFromRequest from 'utils/getCookiesFromRequest';
 
 const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
   const cookie = getCookiesFromRequest(req);
-  const uuidCookie = cookie.uuid || null;
+  const uuidCookie = cookie?.uuid || null;
 
   if (!uuidCookie) {
-    res.status(401)
-      .send({
-        error: 'Unauthorised request',
-      });
-
+    next();
+    // eslint-disable-next-line no-useless-return
     return;
   }
 
+  console.log('Мидлварь');
   try {
     const isAuth = await getUuidCookie(uuidCookie);
-    // @ts-ignore
-    console.log('isAuth', isAuth.statusText);
-    if (isAuth) {
-      next();
-    } else {
-      res.status(401)
-        .send({
-          error: 'Unauthorised request',
-        });
 
-      return;
+    // FIXME: Пишем SSR
+    if (isAuth || true) {
+      console.log('Юзер авторизован');
+      // TODO:
+      //  1) получить из апи данные юзера в случае наличия куки
+      //  2) получить из бд настройки юзера
+      //  3) записать полученные данные в req.userData
+      req.userAuthorised = true;
+    } else {
+      req.userAuthorised = false;
     }
   } catch (error) {
-    console.log('Ошибка авторизации: кукис недействителен или просрочен!');
+    console.log('Ошибка проверки авторизации!');
     res.status(500)
       .send({
-        error: 'Unauthorised request',
+        error: 'Ошибка проверки авторизации',
       });
   }
+
+  next();
 };
 
 export default checkAuth;

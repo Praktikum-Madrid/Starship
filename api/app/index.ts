@@ -3,7 +3,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import apiRouter from './router/apiRouter';
+import apiRouter from '../../src/server/routes/apiRouter';
 import { dbConnect } from './init';
 
 export const startApp = () => {

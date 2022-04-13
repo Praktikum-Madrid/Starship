@@ -47,7 +47,7 @@ export const handleGetUserById = (req: TReq, res: TRes) => {
   return getUserById(userId).then((user) => {
     res.status(200).send(user);
   }).catch((error) => {
-    res.status(error.response.status).send(error.response.data);
+    res.status(500).send(error);
   });
 };
 

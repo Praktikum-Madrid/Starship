@@ -13,9 +13,18 @@ import serialize from 'serialize-javascript';
 import React from 'react';
 
 export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNext) => {
-  const store = createStore(req);
+  // console.log(req);
+  // TODO:
+  //  1) В стор передаём данные, полученные из базы данных
+  const store = createStore({
+    auth: {
+      isLogined: req.userAuthorised ?? '',
+      data: req.userData ?? '',
+    },
+  });
   // @ts-ignore
-  const promises = matchRoutes(routes, req.url)?.map(({ route }) => (route.loadData ? route.loadData(store) : null));
+  const promises = matchRoutes(routes, req.url)
+    ?.map(({ route }) => (route.loadData ? route.loadData(store) : null));
   promises?.push(Layout.loadData(store));
 
   Promise.all(promises!)
@@ -29,8 +38,7 @@ export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNex
       );
 
       // TODO: Если у нас ошибка 404, отдавать соответствующий код (404)
-      res.send(`
-        <!DOCTYPE html>
+      res.send(`<!DOCTYPE html>
         <html lang="ru">
           <head>
             <meta charset="UTF-8" />
