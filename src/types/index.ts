@@ -153,3 +153,7 @@ export type TTeamLeaderboard = {
   cursor: number,
   limit: number
 }
+
+export interface IMusic extends HTMLAudioElement {
+  stop?: () => void;
+}

@@ -10,7 +10,6 @@ profileRouter.put(config.savePassword, handleSavePassword);
 // Мидлвэр для загрузки файла
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
-
 profileRouter.put(config.saveAvatar, upload.single('avatar'), handleSaveAvatar);
 
 export default profileRouter;

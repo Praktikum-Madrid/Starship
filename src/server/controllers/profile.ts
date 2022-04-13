@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { profile } from 'api/backend';
+import { profile, avatar } from 'api/backend';
 import { TPassword, TReq, TRes, TUserInfo } from 'types';
 import FormData from 'form-data';
 
@@ -67,17 +67,24 @@ export const handleSavePassword = (req: TReq, res: TRes) => {
 
 export const handleSaveAvatar = (req: TReq, res: TRes) => {
   const file = req.file;
-
-  const formData: FormData = new FormData();
+  // Передаем файл из запроса в данные формы для отправки
+  const formData: any = new FormData();
   formData.append('avatar', file!.buffer, file!.originalname);
 
-  profile.saveAvatar(formData, req.headers.cookie)
+  const formConfig: any = {
+    headers: {
+      ...formData.getHeaders(),
+      'Cookie': req.headers.cookie,
+    },
+    withCredentials: true,
+  };
+
+  avatar.saveAvatarOnServer(formData, formConfig)
     .then((apiResponse) => {
       res.status(apiResponse.status)
         .send(apiResponse.data);
     })
     .catch((error) => {
-      console.log(error);
       res.status(error.response.status)
         .send(error.response.data);
     });
