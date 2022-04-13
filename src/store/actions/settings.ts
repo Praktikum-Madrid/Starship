@@ -1,6 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-
-import { getUser } from 'config/api';
+import { auth } from 'api/frontend';
 
 export const ACTIONS = {
   GET_USER: 'GET_USER',
@@ -22,9 +21,7 @@ export function deleteUserSettings() {
 }
 
 export const getUserProfile = () => async (dispatch: any, getState: any, axiosInstance: any) => {
-  const res = await axiosInstance.get(getUser, {}, {
-    withCredentials: true,
-  });
+  const res = await auth.getUserData();
 
   dispatch({
     type: ACTIONS.GET_USER,

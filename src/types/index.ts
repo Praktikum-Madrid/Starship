@@ -6,7 +6,7 @@ export type TRequestOptions = {
   [key: string ]: string | TRequestOptions | TRequestData | boolean
 };
 
-export type TRequestData = Record<string, any>;
+export type TRequestData = Record<string, any>| null;
 
 export type TCredintials = Record<string, string>;
 

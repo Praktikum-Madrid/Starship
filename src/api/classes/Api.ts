@@ -69,7 +69,7 @@ class Api {
   }
 
   protected get(url: string, cookie?: any) {
-    const options = Api._createOptions('GET', undefined, cookie);
+    const options = Api._createOptions('GET', null, cookie);
 
     return Api._makeRequest(url, options);
   }
