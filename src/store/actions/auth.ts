@@ -4,7 +4,7 @@ import { auth } from 'api/frontend';
 import { Dispatch } from 'redux';
 import { TCredintials } from 'types';
 import { deleteUserSettings, setUserSettings } from 'store/actions/settings';
-import { getUser, redirectURL } from 'config/api';
+import { redirectURL } from 'config/api';
 import { AxiosResponse } from 'axios';
 import { getUserById } from 'server/database/controllers/user';
 
@@ -17,40 +17,34 @@ export const ACTIONS = {
 };
 
 // Проверка авторизации и загрузка данных юзера
-export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: any) => {
-  try {
-    const res = await axiosInstance.get(
-      getUser,
-      {},
-      {
-        withCredentials: true,
-      },
-    );
-    console.log(res.data.id); // получили id юзера
-    const theme = await getUserById(`${res.data.id}`);
-    console.log(theme.data.mode); // получили сохраненную тему
-    // Если авторизация успешна
-    if (res.status === 200) {
-      dispatch({
-        type: ACTIONS.LOGIN,
-        payload: {
-          isLogined: true,
-          error: '',
-        },
-      });
-      dispatch({
-        type: ACTIONS.GET_USER,
-        payload: res.data,
-      });
-      dispatch({
-        type: ACTIONS.SET_MODE,
-        payload: { mode: theme.data.mode },
-      });
-      return;
-    }
-  } catch (error) {
-    console.log(error);
-  }
+export const isAuth = () => async (dispatch: Dispatch) => {
+  auth.getUserData()
+    .then((response) => {
+      // Если авторизация успешна
+      if (response.status === 200) {
+        dispatch({
+          type: ACTIONS.LOGIN,
+          payload: {
+            isLogined: true,
+            error: '',
+          },
+        });
+        dispatch({
+          type: ACTIONS.GET_USER,
+          payload: response.data,
+        });
+        
+        const theme = await getUserById(`${response.data.id}`);
+        dispatch({
+          type: ACTIONS.SET_MODE,
+          payload: { mode: theme.data.mode },
+        });
+      }
+    }).catch((error) => {
+      // FIXME: Эта проверка вообще не должна происходить пока юзер не авторизован. Как она может сработать на клиенте??
+      console.log('Ошибочка');
+      // console.log(error);
+    });
 };
 
 // Асинхронная авторизация
@@ -60,6 +54,7 @@ export function logIn(loginData: TCredintials) {
       await auth
         .signIn(loginData)
         .then((response: AxiosResponse) => {
+          console.log('Получен ответ');
           // Если авторизация успешна
           if (response.status === 200) {
             dispatch({
@@ -69,25 +64,6 @@ export function logIn(loginData: TCredintials) {
                 error: '',
               },
             });
-            return;
-          }
-
-          if (response.status === 400) {
-            dispatch(logOut() as any);
-            throw new Error(
-              'Юзер уже авторизован, и не должен попадать на эту страницу',
-            );
-          }
-
-          if (response.status === 401) {
-            dispatch({
-              type: ACTIONS.LOGIN,
-              payload: {
-                isLogined: false,
-                error: 'Неверные имя пользователя или пароль',
-              },
-            });
-            throw new Error('Неверные имя пользователя или пароль');
           }
         })
         .then(() => auth
@@ -108,8 +84,31 @@ export function logIn(loginData: TCredintials) {
           .then((userData: AxiosResponse) => {
             dispatch(setUserSettings(userData));
           }));
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      const { response } = error;
+
+      if (response.status === 400) {
+        dispatch(logOut() as any);
+        throw new Error(
+          'Юзер уже авторизован, и не должен попадать на эту страницу',
+        );
+      } else if (response.status === 401) {
+        dispatch({
+          type: ACTIONS.LOGIN,
+          payload: {
+            isLogined: false,
+            error: 'Неверные имя пользователя или пароль',
+          },
+        });
+      } else {
+        dispatch({
+          type: ACTIONS.LOGIN,
+          payload: {
+            isLogined: false,
+            error: 'Ошибка при соединении с свервисом авторизации',
+          },
+        });
+      }
     }
   };
 }
@@ -205,45 +204,48 @@ export function logOut() {
 // Асинхронная регистрация
 export function registerUser(userData: TCredintials) {
   return async (dispatch: Dispatch) => {
-    try {
-      await auth
-        .signUp(userData)
-        .then((response: AxiosResponse) => {
-          if (response.status === 200) {
-            // Успешная регистрация
-            dispatch({
-              type: ACTIONS.REGISTER,
+    auth.signUp(userData)
+      .then((response: AxiosResponse) => {
+        if (response.status === 200) {
+          // Успешная регистрация
+          dispatch({
+            type: ACTIONS.REGISTER,
+            payload: {
               isRegistered: true,
               signUpError: '',
-            });
-          }
+            },
+          });
+        }
 
-          if (response.status === 400) {
-            // FIXME: Авторизованый юзер не должен попадать в этот роут
-            dispatch(logOut() as any);
-            // Успешная регистрация
-            dispatch({
-              type: ACTIONS.REGISTER,
+        return response.data;
+      })
+      .then((parsedResponse: any) => {
+        console.log(parsedResponse);
+      }).catch((error: any) => {
+        const { response } = error;
+
+        if (response.status === 400) {
+          // FIXME: Авторизованый юзер не должен попадать в этот роут
+          dispatch(logOut() as any);
+          // Успешная регистрация
+          dispatch({
+            type: ACTIONS.REGISTER,
+            payload: {
               isRegistered: false,
               signUpError: 'Ошибка при создании пользователя (уже авторизован)',
-            });
-          }
+            },
+          });
+        }
 
-          if (response.status === 409) {
-            dispatch({
-              type: ACTIONS.REGISTER,
+        if (response.status === 409) {
+          dispatch({
+            type: ACTIONS.REGISTER,
+            payload: {
               isRegistered: false,
-              signUpError: 'Пользователь с таким имейлом уже существует',
-            });
-          }
-
-          return response.data;
-        })
-        .then((parsedResponse: any) => {
-          console.log(parsedResponse);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+              signUpError: 'Такой пользователь или имейл уже зарегистрирован',
+            },
+          });
+        }
+      });
   };
 }

@@ -9,18 +9,13 @@ class Api {
   }
 
   // Конструкторы опций
-  private static _createOptionsFile(method: string, data: TRequestData, cookie?: string): TRequestOptions {
+  private static _createOptionsFile(cookie?: string): TRequestOptions {
     const options: TRequestOptions = {
-      method,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
       withCredentials: true,
     };
-
-    if (data) {
-      options.data = data;
-    }
 
     if (cookie) {
       // FIXME: Исправить типизацию
@@ -36,7 +31,7 @@ class Api {
 
   private static _createOptions(method: string, data?: TRequestData, cookie?: string): TRequestOptions {
     const options: TRequestOptions = {
-      method,
+      // method,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -65,8 +60,16 @@ class Api {
     });
   }
 
+  // Метод, выполняющий запрос с файлом
+  private static _makePutRequestWithFormData(requestUrl: string, formData: TRequestData, options: TRequestOptions): AxiosPromise<any> {
+    // return axios(requestUrl, formData, {...options});
+    return axios.put(requestUrl, formData, {
+      ...options,
+    });
+  }
+
   protected get(url: string, cookie?: any) {
-    const options = Api._createOptions('GET', undefined, cookie);
+    const options = Api._createOptions('GET', null, cookie);
 
     return Api._makeRequest(url, options);
   }
@@ -84,9 +87,9 @@ class Api {
   }
 
   protected putFile(url: string, data: TRequestData, cookie?: string) {
-    const options = Api._createOptionsFile('PUT', data, cookie);
+    const options = Api._createOptionsFile(cookie);
 
-    return Api._makeRequest(url, options);
+    return Api._makePutRequestWithFormData(url, data, options);
   }
 }
 

@@ -6,7 +6,7 @@ import publicRouter from 'server/router/publicRouter';
 import protectedRouter from 'server/router/protectedRouter';
 import ssrRouter from 'server/router/ssrRouter';
 import { dbConnect } from './init';
-import checkAuth from './middlewares/checkAuth';
+// import checkAuth from './middlewares/checkAuth';
 
 dbConnect().then(async () => {
   /* Запуск приложения только после старта БД */
@@ -21,7 +21,8 @@ dbConnect().then(async () => {
 
   app.use('/', ...publicRouter); // Эти роутеры первыми (не нужна авторизация)
   app.use('/', ...ssrRouter);
-  app.use('/', checkAuth, ...protectedRouter); // Эти роуты требуют авторизации
+  app.use('/', ...protectedRouter); // FIXME: Эти роуты требуют авторизации
+  // app.use('/', checkAuth, ...protectedRouter); // Эти роуты требуют авторизации
 
   app.listen(PORT, () => {
     console.log('Listening on prot', PORT);

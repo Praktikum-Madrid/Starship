@@ -37,7 +37,8 @@ export default class Missile extends Unit {
     this.explosion.followItem(this.x, this.y);
   }
 
-  collide(opponent: Opponent) {
+  // FIXME: Придумать как сталкивать ракеты с боссом так, чтобы хитпоинты снимались по одному
+  collide(opponent: Opponent | any) {
     const x = this.x + this.dx;
     const y = this.y + this.dy;
 

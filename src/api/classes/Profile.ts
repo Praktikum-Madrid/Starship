@@ -29,8 +29,8 @@ class Profile extends Api {
     return this.put(this._savePasswordURL, data, cookie);
   }
 
+  // Метод работает только на фронтенде. Может быть разделить класс апи на фронт/бэк?
   saveAvatar(formData: any, cookie?: string) {
-    console.log(formData);
     return this.putFile(this._saveAvatarURL, formData, cookie);
   }
 }

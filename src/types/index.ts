@@ -6,7 +6,7 @@ export type TRequestOptions = {
   [key: string ]: string | TRequestOptions | TRequestData | boolean
 };
 
-export type TRequestData = Record<string, any>;
+export type TRequestData = Record<string, any>| null;
 
 export type TCredintials = Record<string, string>;
 
@@ -152,4 +152,8 @@ export type TTeamLeaderboard = {
   ratingFieldName: string,
   cursor: number,
   limit: number
+}
+
+export interface IMusic extends HTMLAudioElement {
+  stop?: () => void;
 }

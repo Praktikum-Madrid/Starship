@@ -31,6 +31,10 @@ const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
     }
   } catch (error) {
     console.log('Ошибка авторизации: кукис недействителен или просрочен!');
+    res.status(500)
+      .send({
+        error: 'Unauthorised request',
+      });
   }
 };
 

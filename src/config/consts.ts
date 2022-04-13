@@ -54,10 +54,14 @@ export const AUDIOS: string[] = [
   'bump',
   'music',
   'explosion',
+  'boss',
+  'mission-complete',
 ];
 
 // FIXME: Использовать сгенерированный список спрайтов вместо этого ручного списка
 export const SPRITES: string[] = [
+  // 'boss_ball',
+  'boss1',
   'background',
   'background_space',
   'spaceship',

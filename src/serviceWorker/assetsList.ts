@@ -3,6 +3,8 @@ export default [
   '/images/background.png',
   '/images/background_space.png',
   '/images/board.png',
+  '/images/boss1.png',
+  '/images/boss_ball.png',
   '/buttons/play.png',
   '/buttons/quit.png',
   '/digits/0.png',
@@ -86,8 +88,10 @@ export default [
   '/texts/gameOver.png',
   '/texts/go.png',
   '/texts/score.png',
+  '/sounds/boss.mp3',
   '/sounds/bump.mp3',
   '/sounds/explosion.mp3',
+  '/sounds/mission-complete.mp3',
   '/sounds/music.mp3'
 ] ;
 

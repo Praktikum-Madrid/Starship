@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 
-import axios from 'axios';
+
 import { getTeamLeaderboard } from 'config/api';
+import { leaderboard } from 'api/frontend';
 
 export const ACTIONS = {
   TOGGLE_MODE: 'TOGGLE_MODE',
@@ -23,14 +24,16 @@ export function setGeolocation(payload: Record<string, any>) {
   };
 }
 
-export const getLeader = () => async (dispatch: any, getState: any, axiosInstance: any) => {
-  const res = await axiosInstance.post(getTeamLeaderboard, __DATA__, {
-    withCredentials: true,
-  });
+export const getLeader = () => async (dispatch: any) => {
+  // const res = await axiosInstance.post(getTeamLeaderboard, __DATA__, {
+  //   withCredentials: true,
+  // });
 
-  dispatch({
-    type: ACTIONS.GET_LEADER,
-    payload: res.data,
+  leaderboard.getTeamLeaderboard(__DATA__).then((response) => {
+    dispatch({
+      type: ACTIONS.GET_LEADER,
+      payload: response.data,
+    });
   });
 };
 
