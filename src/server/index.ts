@@ -14,7 +14,7 @@ dbConnect().then(async () => {
 
   app.use(cors({
     origin: 'https://ya-praktikum.tech',
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    optionsSuccessStatus: 200, // Поддержка старых браузеров (IE11, некоторые SmartTVs) зависают при статусе 204
   }));
 
   const PORT = process.env.PORT || 3000;
