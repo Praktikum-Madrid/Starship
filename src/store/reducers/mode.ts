@@ -16,6 +16,11 @@ export function modeReducer(state: TModeSettings = defaultState, { type, payload
         ...state,
         mode: state.mode === 'light' ? 'dark' : 'light',
       };
+    case ACTIONS.SET_MODE:
+      return {
+        ...state,
+        mode: payload.mode,
+      };
     case ACTIONS.GEOLOCATION:
       return {
         ...state,

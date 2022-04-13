@@ -18,7 +18,7 @@ const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
   try {
     const isAuth = await getUuidCookie(uuidCookie);
     // @ts-ignore
-    console.log('isAuth', isAuth.dataValues);
+    // console.log('isAuth', isAuth);
     if (isAuth) {
       next();
     } else {
