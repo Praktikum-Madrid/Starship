@@ -105,7 +105,6 @@ export const handleGetUserData = (req: TReq, res: TRes) => {
     })
     .catch((error) => {
       res.status(error.response.status).send(error.response.data);
-      console.log('ОШИБКА');
     });
 };
 
@@ -115,8 +114,6 @@ export const handleLogOut = (req: TReq, res: TRes) => {
       res.clearCookie('authCookie');
       res.clearCookie('uuid');
       res.status(apiResponse.status).send(apiResponse.data);
-
-      // TODO: Здесь удалять куку юзера из базы данных
     })
     .catch((error) => {
       res.status(error.response.status).send(error.response.data);

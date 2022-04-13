@@ -84,10 +84,11 @@ const Profile = () => {
   const saveAvatar = (file: File) => {
     const formData = new FormData();
     formData.append('avatar', file);
-    console.log(formData);
+    console.log(formData); // ok
     profile.saveAvatar(formData)
       .then((response) => {
         if (response.status === 200) {
+          console.log(response.data); // ok
           return response.data;
         }
         setError('Ошибка при обновлении аватара');
