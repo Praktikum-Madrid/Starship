@@ -16,6 +16,8 @@ export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNex
   // console.log(req);
   // TODO:
   //  1) В стор передаём данные, полученные из базы данных
+  //  2) Делаем нормальную проверку роутов, если раут не найден - отдаем 404 страницу
+  //  3) При получении рабочего раута используем бекенд-геттер для получения данных (имея куку юзера)
   const store = createStore({
     auth: {
       isLogined: req.userAuthorised ?? '',
