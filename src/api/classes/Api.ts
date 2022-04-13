@@ -11,11 +11,16 @@ class Api {
   // Конструкторы опций
   private static _createOptionsFile(cookie?: string): TRequestOptions {
     const options: TRequestOptions = {
+      // method,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
       withCredentials: true,
     };
+
+    // if (data) {
+    //   options.data = data;
+    // }
 
     if (cookie) {
       // FIXME: Исправить типизацию
@@ -31,7 +36,7 @@ class Api {
 
   private static _createOptions(method: string, data?: TRequestData, cookie?: string): TRequestOptions {
     const options: TRequestOptions = {
-      // method,
+      method,
       headers: {
         'Content-Type': 'application/json',
       },

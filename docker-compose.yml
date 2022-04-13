@@ -39,7 +39,7 @@ services:
   #     context: ./api
   #   restart: always
   #   ports:
-  #     - '8080:8080'
+  #     - '8081:8081'
   #   depends_on:
   #     - postgres
   #   environment:

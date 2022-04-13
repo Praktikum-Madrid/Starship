@@ -3,7 +3,6 @@ import { TReq, TRequestData } from 'types';
 // Парсит кукисы из реквеста. Возвращает объект кукисов или null
 function ingetCookiesFromRequestdex(req: TReq | TRequestData) {
   const cookies = req.headers.cookie;
-
   if (cookies) {
     const cookiesArray = cookies.split('; ');
 

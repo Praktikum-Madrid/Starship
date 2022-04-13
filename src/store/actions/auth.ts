@@ -4,7 +4,7 @@ import { auth } from 'api/frontend';
 import { Dispatch } from 'redux';
 import { TCredintials } from 'types';
 import { deleteUserSettings, setUserSettings } from 'store/actions/settings';
-import { redirectURL } from 'config/api';
+import { getUser, redirectURL } from 'config/api';
 import { AxiosResponse } from 'axios';
 import { getUserById } from 'server/database/controllers/user';
 
@@ -17,34 +17,38 @@ export const ACTIONS = {
 };
 
 // Проверка авторизации и загрузка данных юзера
-export const isAuth = () => async (dispatch: Dispatch) => {
-  auth.getUserData()
-    .then((response) => {
-      // Если авторизация успешна
-      if (response.status === 200) {
-        dispatch({
-          type: ACTIONS.LOGIN,
-          payload: {
-            isLogined: true,
-            error: '',
-          },
-        });
-        dispatch({
-          type: ACTIONS.GET_USER,
-          payload: response.data,
-        });
-        
-        const theme = await getUserById(`${response.data.id}`);
-        dispatch({
-          type: ACTIONS.SET_MODE,
-          payload: { mode: theme.data.mode },
-        });
-      }
-    }).catch((error) => {
-      // FIXME: Эта проверка вообще не должна происходить пока юзер не авторизован. Как она может сработать на клиенте??
-      console.log('Ошибочка');
-      // console.log(error);
+export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: any) => {
+  try {
+    const response = await axiosInstance.get(
+      getUser,
+      {},
+      {
+        withCredentials: true,
+      },
+    );
+    const theme = await getUserById(`${response.data.id}`);
+    dispatch({
+      type: ACTIONS.SET_MODE,
+      payload: { mode: theme.data.mode },
     });
+    // Если авторизация успешна
+    if (response.status === 200) {
+      dispatch({
+        type: ACTIONS.LOGIN,
+        payload: {
+          isLogined: true,
+          error: '',
+        },
+      });
+      dispatch({
+        type: ACTIONS.GET_USER,
+        payload: response.data,
+      });
+      return;
+    }
+  } catch (error) {
+    console.log('isAuth error');
+  }
 };
 
 // Асинхронная авторизация
