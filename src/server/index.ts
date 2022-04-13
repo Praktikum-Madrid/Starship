@@ -11,7 +11,12 @@ import { dbConnect } from './init';
 dbConnect().then(async () => {
   /* Запуск приложения только после старта БД */
   const app = express();
-  app.use(cors());
+
+  app.use(cors({
+    origin: 'https://ya-praktikum.tech',
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }));
+
   const PORT = process.env.PORT || 3000;
 
   app.use(express.static('public'));
