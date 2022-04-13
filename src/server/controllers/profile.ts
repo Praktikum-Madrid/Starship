@@ -76,6 +76,7 @@ export const handleSaveAvatar = (req: TReq, res: TRes) => {
       ...formData.getHeaders(),
       'Cookie': req.headers.cookie,
     },
+
     withCredentials: true,
   };
 
@@ -87,5 +88,30 @@ export const handleSaveAvatar = (req: TReq, res: TRes) => {
     .catch((error) => {
       res.status(error.response.status)
         .send(error.response.data);
+    });
+};
+
+export const handleGetAvatar = (req: TReq, res: TRes) => {
+  const { id, avatarUrl } = req.params;
+  const url = `/${id}/${avatarUrl}`;
+
+  const formConfig: any = {
+    headers: {
+      'Cookie': req.headers.cookie,
+    },
+    withCredentials: true,
+    responseType: 'arraybuffer',
+    timeout: 30000,
+  };
+
+  avatar.getAvatarFromServer(url, formConfig)
+    .then(({ headers, status, data }) => {
+      res.status(status)
+        .set({ ...headers })
+        .send(data);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(error.response.status).send(error.response.data);
     });
 };
