@@ -46,7 +46,7 @@ export type TPostgresTheme = {
 }
 
 export type TPostgresThread = {
-  id: number,
+  id?: number,
   name: string,
   text: string,
   authorId?: number,
@@ -54,7 +54,7 @@ export type TPostgresThread = {
 }
 
 export type TPostgresMessage = {
-  id: number,
+  id?: number,
   text: string,
   authorId?: number,
   threadId?: number,
@@ -64,7 +64,7 @@ export type TPostgresMessage = {
 }
 
 export type TPostgresEmotion = {
-  id: number,
+  id?: number,
   htmlCode: string,
 }
 

@@ -1,32 +1,7 @@
-import { handleErrorReq } from 'app/utils';
-import { TPostgresMessage, TRes, TReq } from '../config/types';
-import { Message } from '../init';
-
-// Создание сообщения
-export async function createMessage({ text, authorId, threadId, emotionId }: TPostgresMessage) {
-  return Message.create({ text, authorId, threadId, emotionId });
-}
-
-// Создание сообщения к сообщению
-export async function createMessageToMessage({ text, authorId, threadId, emotionId, replyToMessageId }: TPostgresMessage) {
-  return Message.create({ text, authorId, threadId, emotionId, replyToMessageId });
-}
-
-// Получение всех сообщений по id треда
-export async function getMessages(threadId: number) {
-  return Message.findAll({
-    where: { threadId },
-  });
-}
-
-// получение сообщений к сообщению (комментов)
-export async function getMessagesToMessage(replyToMessageId: number) {
-  return Message.findAll({
-    where: {
-      replyToMessageId,
-    },
-  });
-}
+/* eslint-disable camelcase */
+import { TReq, TRes } from 'types';
+import { handleErrorReq } from 'server/utils';
+import { createMessage, getMessages, getMessagesToMessage } from 'server/database/controllers/message';
 
 export const handleGetMessagesByThread = (req: TReq, res: TRes) => {
   const { threadId } = req.params;
@@ -60,6 +35,7 @@ export const handleCreateMessage = (req: TReq, res: TRes) => {
   const {
     text, threadId, emotionId, authorId,
   } = req.body;
+  // TODO authorId не должен приходить?? надо брать id юзера который в системе залогинен
   createMessage({
     text,
     authorId,
@@ -77,6 +53,7 @@ export const handleCreateCommentToMessage = (req: TReq, res: TRes) => {
   const {
     text, threadId, emotionId, replyToMessageId, authorId,
   } = req.body;
+  // TODO authorId не должен приходить?? надо брать id юзера который в системе залогинен
   createMessage({
     text,
     authorId,

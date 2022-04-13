@@ -24,3 +24,14 @@ export const findUser = '/user/search';
 // Работа с Leaderboard
 export const addToLeaderboard = '/leaderboard';
 export const getTeamLeaderboard = '/leaderboard/all';
+
+// Работа с темами
+export const getThreads = '/thread/all';
+export const getThreadById = '/thread/:id';
+export const createThread = '/thread';
+
+// Работа с сообщениями и комментами
+export const getMessagesByThread = '/message/:threadId';
+export const createMessage = '/message';
+export const createMessageToMessage = '/comment';
+export const getMessagesByParentIdMessage = '/comment/:replyToMessageId';

@@ -1,24 +1,39 @@
-import { Thread } from 'server/init';
 import { TPostgresThread } from 'types';
+import axios from 'axios';
+
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Content-Type': 'application/json',
+};
+
+const url = 'http://localhost:8081';
+
+export const getThreadsURL = '/thread/all';
+export const getThreadByIdURL = '/thread/';
+export const createThreadURl = '/thread';
 
 // Создание треда форума
-export async function createThread({ name, text, authorId }: TPostgresThread) {
-  return Thread.create({ name, text, authorId });
+export async function createThread({
+  name,
+  text,
+  authorId,
+}: TPostgresThread) {
+  const res = await axios.post(`${url}${createThreadURl}`, {
+    name,
+    text,
+    authorId,
+  }, { headers });
+  return res;
 }
 
 // Получение треда по ID
-export async function getThreadsById(id: number) {
-  return Thread.findOne({ where: { id } });
+export async function getThreadById(id: number) {
+  const res = await axios.get(`${url}${getThreadByIdURL}${id}`, { headers });
+  return res;
 }
 
 // Получение всех тредов
 export async function getAllThreads() {
-  return Thread.findAll();
-}
-
-// Получение всех тредов по id автора
-export async function getThreadsByAuthor(authorId: number) {
-  return Thread.findAll({
-    where: { authorId },
-  });
+  const res = await axios.get(`${url}${getThreadsURL}`, { headers });
+  return res;
 }
