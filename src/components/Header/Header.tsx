@@ -18,7 +18,7 @@ import {
 } from 'react-redux';
 import { logOut } from 'store/actions/auth';
 import { RootState } from 'store/reducers';
-import { RESOURCES_URL } from 'config/api';
+import { RESOURCES_URL } from 'config/proxy';
 import { THEMES } from 'config/consts';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';

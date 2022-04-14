@@ -1,11 +1,9 @@
 // По идее, мы можем получать location прямо из окна
-// const apiProtocol = 'https://';
-// const apiRoute = 'ya-praktikum.tech/api/v2';
-// export const apiURL = `${apiProtocol}${apiRoute}`;
+// Настройки для фронтенда
 export const apiURL = 'http://localhost:3000'; // TODO то же самое: стоит прописать отдельный конфиг для деплоя
 // export const apiURL = document.location.origin;
 
-export const RESOURCES_URL = 'https://ya-praktikum.tech/api/v2/resources';
+export const RESOURCES_URL = 'http://localhost:3000/resources';
 
 // FIXME: Прийти к единому стилю именования данных переменных
 // Авторизация и работа с пользователем

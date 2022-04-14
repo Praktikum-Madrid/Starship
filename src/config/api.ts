@@ -1,3 +1,4 @@
+// Конфиг для запросов в апи с бекенда
 const apiProtocol = 'https://';
 const apiRoute = 'ya-praktikum.tech/api/v2';
 export const apiURL = `${apiProtocol}${apiRoute}`;

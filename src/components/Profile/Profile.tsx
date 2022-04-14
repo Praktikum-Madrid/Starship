@@ -9,7 +9,7 @@ import { Alert, Avatar, Button, Stack, TextField, Typography, Container } from '
 import { getUserProfile, setUserSettings } from 'store/actions/settings';
 import { RootState } from 'store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
-import { RESOURCES_URL } from 'config/api';
+import { RESOURCES_URL } from 'config/proxy';
 
 const validationSchemaProfileData = yup.object({
   first_name: yup.string()
@@ -84,7 +84,6 @@ const Profile = () => {
   const saveAvatar = (file: File) => {
     const formData = new FormData();
     formData.append('avatar', file);
-    console.log(formData); // ok
     profile.saveAvatar(formData)
       .then((response) => {
         if (response.status === 200) {
