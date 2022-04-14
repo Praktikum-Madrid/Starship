@@ -25,7 +25,7 @@ dbConnect().then(async () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  app.use('/', checkAuth);
+  app.use('/', checkAuth); // Проверяем авторизацию юзера
   app.use('/', ...publicRouter); // Эти роутеры первыми (не нужна авторизация)
   app.use('/', ...ssrRouter); // Эти роуты должны работать только по соответствующим урлам
   app.use('/', protectRoute, ...protectedRouter); // Эти роуты требуют авторизации
