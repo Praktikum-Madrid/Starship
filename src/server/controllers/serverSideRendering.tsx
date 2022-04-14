@@ -25,6 +25,9 @@ export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNex
     },
   });
   // @ts-ignore
+  // TODO: вот тут интересный момент: мы матчим роуты, и в результате должны:
+  //  а) Получить компонент, который рендерим с данными, если совпадения есть
+  //  б) Получить null, и таким образом вернуть страницу с 404 статусом и темплейтом страницы ошибок
   const promises = matchRoutes(routes, req.url)
     ?.map(({ route }) => (route.loadData ? route.loadData(store) : null));
   promises?.push(Layout.loadData(store));
