@@ -1,4 +1,5 @@
 export default [
+  '/.DS_Store',
   '/images/avatar.png',
   '/images/background.png',
   '/images/background_space.png',

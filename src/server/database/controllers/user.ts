@@ -2,7 +2,7 @@ import axios from 'axios';
 import { TPostgresUserInfo } from 'types';
 
 export async function createUser(userData: TPostgresUserInfo) {
-  const res = await axios.post('http://localhost:8081/user', userData, {
+  const res = await axios.post('http://localhost:8081/user', { userData }, {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',

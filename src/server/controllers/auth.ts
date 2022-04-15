@@ -25,29 +25,39 @@ export const handleSignIn = (req: TReq, res: TRes) => {
       auth.getUserData(cookiesToString(cookies))
         .then((apiResponse) => {
           const { id } = apiResponse.data;
+          console.log('auth userId=', id);
           // Проверяем есть ли юзер в базе данных
           getUserById(`${id}`)
             .then((user) => {
-              if (!user) {
+              if (user.data === '') {
                 // если юзера нет
                 const userData: TPostgresUserInfo = {
-                  userId: id,
+                  userId: `${id}`,
                   authCookie: `${cookies[1].value}`,
                   uuid: `${cookies[2].value}`,
                   mode: THEMES.LIGHT,
                 };
                 // сохраняем данные юзера и куки в базе данных
-                createUser(userData);
+                createUser(userData)
+                  .then(() => {
+                    console.log('createUser Ok');
+                  }).catch(() => {
+                    console.log('createUser Err');
+                  });
               } else {
-                console.log('saved mode', user.data.mode);
                 const userData: TPostgresUserInfo = {
-                  userId: id,
+                  userId: `${id}`,
                   authCookie: `${cookies[1].value}`,
                   uuid: `${cookies[2].value}`,
-                  mode: user.data.mode,
+                  mode: user.data.mode || THEMES.LIGHT,
                 };
                 // обновляем данные юзера и куки в базе данных
-                updateUserById(`${id}`, userData);
+                updateUserById(`${id}`, userData)
+                  .then(() => {
+                    console.log('updateUserById Ok');
+                  }).catch(() => {
+                    console.log('updateUserById Err');
+                  });
               }
             })
             .catch((error) => {

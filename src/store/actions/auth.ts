@@ -7,6 +7,7 @@ import { deleteUserSettings, setUserSettings } from 'store/actions/settings';
 import { getUser, redirectURL } from 'config/api';
 import { AxiosResponse } from 'axios';
 import { getUserById } from 'server/database/controllers/user';
+import { THEMES } from 'config/consts';
 
 export const ACTIONS = {
   LOGIN: 'LOGIN',
@@ -29,7 +30,7 @@ export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: 
     const theme = await getUserById(`${response.data.id}`);
     dispatch({
       type: ACTIONS.SET_MODE,
-      payload: { mode: theme.data.mode },
+      payload: { mode: theme.data === '' ? THEMES.LIGHT : theme.data.mode },
     });
     // Если авторизация успешна
     if (response.status === 200) {
@@ -75,10 +76,9 @@ export function logIn(loginData: TCredintials) {
           .then(async (response: AxiosResponse) => {
             if (response.status === 200) {
               const theme = await getUserById(`${response.data.id}`);
-              console.log(theme.data.mode); // получили сохраненную тему
               dispatch({
                 type: ACTIONS.SET_MODE,
-                payload: { mode: theme.data.mode },
+                payload: { mode: theme.data === '' ? THEMES.LIGHT : theme.data.mode },
               });
               return response.data;
             }
