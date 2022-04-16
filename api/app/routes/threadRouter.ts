@@ -1,5 +1,5 @@
-import { handleGetThreads, handleGetThreadById, handleCreateThread } from 'app/controllers/thread';
 import { Router } from 'express';
+import { handleGetThreads, handleGetThreadById, handleCreateThread } from '../controllers/thread';
 const threadRouter = Router();
 
 // Работа с темами

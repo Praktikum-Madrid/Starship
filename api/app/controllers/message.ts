@@ -1,4 +1,4 @@
-import { handleErrorReq } from 'app/utils';
+import { handleErrorReq } from '../utils';
 import { TPostgresMessage, TRes, TReq } from '../config/types';
 import { Message } from '../init';
 
