@@ -1,28 +1,7 @@
-import { Thread } from '../init';
-import { TPostgresThread, TRes, TReq } from '../config/types';
-import { handleErrorReq } from '../utils';
-
-// Создание треда форума
-export async function createThread({ name, text, authorId }: TPostgresThread) {
-  return Thread.create({ name, text, authorId });
-}
-
-// Получение треда по ID
-export async function getThreadById(id: number) {
-  return Thread.findOne({ where: { id } });
-}
-
-// Получение всех тредов
-export async function getAllThreads() {
-  return Thread.findAll();
-}
-
-// Получение всех тредов по id автора
-export async function getThreadsByAuthor(authorId: number) {
-  return Thread.findAll({
-    where: { authorId },
-  });
-}
+/* eslint-disable camelcase */
+import { TReq, TRes } from 'types';
+import { createThread, getAllThreads, getThreadById } from 'server/database/controllers/thread';
+import { handleErrorReq } from 'server/utils';
 
 export const handleGetThreads = (req: TReq, res: TRes) => {
   getAllThreads()
@@ -53,6 +32,7 @@ export const handleCreateThread = (req: TReq, res: TRes) => {
     text,
     authorId,
   } = req.body;
+  // TODO authorId не должен приходить?? надо брать id юзера который в системе залогинен
   createThread({
     name,
     text,

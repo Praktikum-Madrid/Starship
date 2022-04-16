@@ -1,0 +1,14 @@
+import { Router } from 'express';
+import { handleGetThreads, handleGetThreadById, handleCreateThread } from '../controllers/thread';
+const threadRouter = Router();
+
+// Работа с темами
+export const getThreads = '/thread/all';
+export const getThreadById = '/thread/:id';
+export const createThread = '/thread';
+
+threadRouter.get(getThreads, handleGetThreads);
+threadRouter.get(getThreadById, handleGetThreadById);
+threadRouter.post(createThread, handleCreateThread);
+
+export default threadRouter;
