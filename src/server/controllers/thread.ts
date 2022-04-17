@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
 import { TReq, TRes } from 'types';
-import { createThread, getAllThreads, getThreadById } from 'server/database/controllers/thread';
+import { createThread, getAllThreads, getEmotions, getThreadById } from 'server/database/controllers/thread';
 import { handleErrorReq } from 'server/utils';
 
 export const handleGetThreads = (req: TReq, res: TRes) => {
   getAllThreads()
     .then((threads) => {
-      res.status(200)
-        .json(threads);
+      res.status(threads.status)
+        .send(threads.data);
     })
     .catch(handleErrorReq(res));
 };
@@ -20,8 +20,8 @@ export const handleGetThreadById = (req: TReq, res: TRes) => {
   }
   getThreadById(parsedId)
     .then((thread) => {
-      res.status(200)
-        .json(thread);
+      res.status(thread.status)
+        .send(thread.data);
     })
     .catch(handleErrorReq(res));
 };
@@ -32,15 +32,23 @@ export const handleCreateThread = (req: TReq, res: TRes) => {
     text,
     authorId,
   } = req.body;
-  // TODO authorId не должен приходить?? надо брать id юзера который в системе залогинен
   createThread({
     name,
     text,
     authorId,
   })
     .then((newThread) => {
-      res.status(200)
-        .json(newThread);
+      res.status(newThread.status)
+        .send(newThread.data);
+    })
+    .catch(handleErrorReq(res));
+};
+
+export const handleGetEmotions = (req: TReq, res: TRes) => {
+  getEmotions()
+    .then((emotions) => {
+      res.status(emotions.status)
+        .send(emotions.data);
     })
     .catch(handleErrorReq(res));
 };

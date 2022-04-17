@@ -18,32 +18,15 @@ import {
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-
-// Данные для рендера
-const themesExampleData = [
-  {
-    id: 1,
-    title: 'Можно грабить корованы',
-    message: 'Здраствуйте. Я, Кирилл. Хотел бы чтобы вы сделали игру, 3Д-экшон суть такова... Пользователь может играть лесными эльфами, охраной дворца и злодеем. И если пользователь играет эльфами то эльфы в лесу, домики деревяные набигают солдаты дворца и злодеи. Можно грабить корованы... И эльфу раз лесные то сделать так что там густой лес... А движок можно поставить так что вдали деревья картинкой,',
-    repliesCount: 12,
-  },
-  {
-    id: 2,
-    title: 'Ещё какой-то заголовок темы',
-    message: 'Текст сообщения внутри темы, немного другой',
-    repliesCount: 12,
-  },
-  {
-    id: 3,
-    title: 'Пачиму такие дорогие патроны???',
-    message: 'Очин дорого, зделойте дешевле!',
-    repliesCount: 12,
-  },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { createThread, getThreads } from 'store/actions/forum';
+import { useEffect } from 'react';
+import { TPostgresThread } from 'types';
+import { getUserIdDB } from 'store/actions/settings';
 
 const validationSchema = yup.object({
-  title: yup.string().required('Пожалуйста, введите название темы'),
-  message: yup
+  name: yup.string().required('Пожалуйста, введите название темы'),
+  text: yup
     .string()
     .min(15, 'Минимальная длина - 15 символов')
     .required('Пожалуйста, введите текст сообщения'),
@@ -51,6 +34,16 @@ const validationSchema = yup.object({
 
 export default function Forum() {
   const [open, setOpen] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getThreads());
+    dispatch(getUserIdDB());
+  }, []);
+
+  // @ts-ignore
+  const { threads } = useSelector((state) => state.forum);
 
   const navigate = useNavigate();
 
@@ -64,15 +57,24 @@ export default function Forum() {
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      message: '',
+      name: '',
+      text: '',
     },
     validationSchema,
-    onSubmit: ({ title, message }, { resetForm }) => {
-      // TODO: После создания темы редиректить юзера на её страницу
-      themesExampleData.push({ title, message, repliesCount: 0, id: Date.now() });
+    onSubmit: async ({
+      name,
+      text,
+    }, { resetForm }) => {
+      const thread = await dispatch(createThread({
+        name,
+        text,
+      }));
       resetForm();
       setOpen(false);
+      if (thread) {
+        // @ts-ignore
+        navigate(`/forum/${thread.id}`);
+      }
     },
   });
 
@@ -107,28 +109,31 @@ export default function Forum() {
         </Button>
       </Box>
 
-      <Box component='div' sx={{ m: 2, p: 2, border: '1px solid #ddd', borderRadius: '5px' }}>
-        <Stack sx={{ gap: 2 }}>
-          {themesExampleData.map(({ title, message, id }) => (
-            <Card key={id}>
-              <CardActionArea onClick={() => navigate('/forum/thread')}>
-                <CardContent>
-                  <Typography gutterBottom variant='h5' component='div'>
-                    { title }
-                  </Typography>
-                  <Typography variant='body2' color='text.secondary' sx={{ fontFamily: 'Roboto', fontSize: '18px' }}>
-                    { message }
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
-        </Stack>
-      </Box>
-
-      <Box component='div' sx={{ m: 2, p: 0, display: 'flex', alignItems: 'center' }}>
-        <Pagination variant='outlined' shape='rounded' count={10} page={page} onChange={handlePageChange} />
-      </Box>
+      {threads && threads.length ? (
+        <Box component='div' sx={{ m: 2, p: 2, border: '1px solid #ddd', borderRadius: '5px' }}>
+          <Stack sx={{ gap: 2 }}>
+            {threads.map(({ name, text, id }: TPostgresThread) => (
+              <Card key={id}>
+                <CardActionArea onClick={() => navigate(`/forum/${id}`)}>
+                  <CardContent>
+                    <Typography gutterBottom variant='h5' component='div'>
+                      { name }
+                    </Typography>
+                    <Typography variant='body2' color='text.secondary' sx={{ fontFamily: 'Roboto', fontSize: '18px' }}>
+                      { text }
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            ))}
+          </Stack>
+        </Box>
+      ) : null}
+      {threads && threads.length ? (
+        <Box component='div' sx={{ m: 2, p: 0, display: 'flex', alignItems: 'center' }}>
+          <Pagination variant='outlined' shape='rounded' count={10} page={page} onChange={handlePageChange} />
+        </Box>
+      ) : null}
 
       <Dialog fullWidth maxWidth='md' open={open} onClose={handleClose}>
         <form onSubmit={formik.handleSubmit}>
@@ -137,32 +142,32 @@ export default function Forum() {
             <TextField
               autoFocus
               margin='dense'
-              id='title'
+              id='name'
               label='Заголовок темы'
               type='text'
               fullWidth
               variant='standard'
-              value={formik.values.title}
+              value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.title && Boolean(formik.errors.title)}
-              helperText={formik.touched.title && formik.errors.title}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
               sx={{ fontFamily: 'Roboto', fontSize: '18px' }}
             />
             <TextField
               margin='dense'
-              id='message'
+              id='text'
               multiline
               label='Текст сообщения'
               type='text'
               fullWidth
               variant='standard'
               maxRows={6}
-              value={formik.values.message}
+              value={formik.values.text}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.message && Boolean(formik.errors.message)}
-              helperText={formik.touched.message && formik.errors.message}
+              error={formik.touched.text && Boolean(formik.errors.text)}
+              helperText={formik.touched.text && formik.errors.text}
               sx={{ fontFamily: 'Roboto', fontSize: '18px' }}
             />
           </DialogContent>

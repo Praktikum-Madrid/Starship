@@ -30,27 +30,37 @@ export const Emotion = sequelize.define('Emotion', emotionsModel, {});
 Theme.hasMany(User, {
   foreignKey: 'themeId',
 });
-User.belongsTo(Theme);
+User.belongsTo(Theme, {
+  foreignKey: 'themeId',
+});
 
 Emotion.hasMany(Message, {
   foreignKey: 'emotionId',
 });
-Message.belongsTo(Emotion);
+Message.belongsTo(Emotion, {
+  foreignKey: 'emotionId',
+});
 
 User.hasMany(Message, {
   foreignKey: 'authorId',
 });
-Message.belongsTo(User);
+Message.belongsTo(User, {
+  foreignKey: 'authorId',
+});
 
 User.hasMany(Thread, {
   foreignKey: 'authorId',
 });
-Thread.belongsTo(User);
+Thread.belongsTo(User, {
+  foreignKey: 'authorId',
+});
 
 Thread.hasMany(Message, {
   foreignKey: 'threadId',
 });
-Message.belongsTo(Thread);
+Message.belongsTo(Thread, {
+  foreignKey: 'threadId',
+});
 
 export async function dbConnect() {
   try {

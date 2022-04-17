@@ -1,4 +1,4 @@
-import { Thread } from '../init';
+import { Thread, Emotion } from '../init';
 import { TPostgresThread, TRes, TReq } from '../config/types';
 import { handleErrorReq } from '../utils';
 
@@ -15,6 +15,11 @@ export async function getThreadById(id: number) {
 // Получение всех тредов
 export async function getAllThreads() {
   return Thread.findAll();
+}
+
+// получение эмоций
+export async function getAllEmotions() {
+  return Emotion.findAll();
 }
 
 // Получение всех тредов по id автора
@@ -43,6 +48,15 @@ export const handleGetThreadById = (req: TReq, res: TRes) => {
     .then((thread) => {
       res.status(200)
         .json(thread);
+    })
+    .catch(handleErrorReq(res));
+};
+
+export const handleGetEmotions = (req: TReq, res: TRes) => {
+  getAllEmotions()
+    .then((emotions) => {
+      res.status(200)
+        .json(emotions);
     })
     .catch(handleErrorReq(res));
 };

@@ -11,6 +11,7 @@ export type TPostgresUserInfo = {
   authCookie?: string,
   mode?: string,
   themeId?: number,
+  login?: string, // нужен для отображения на форуме, чтобы не запрашивать автора для каждого сообщения по userId с апи яндекса
 }
 
 export type TPostgresThread = {

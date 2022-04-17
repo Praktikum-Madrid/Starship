@@ -14,6 +14,9 @@ export const userModel: ModelAttributes<Model, TPostgresUserInfo> = {
     type: DataType.STRING,
     allowNull: false,
   },
+  login: {
+    type: DataType.STRING,
+  },
   uuid: {
     type: DataType.STRING,
   },
