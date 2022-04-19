@@ -82,8 +82,9 @@ const HeaderWithMenu = () => {
           <Typography
             variant='h6'
             noWrap
-            component='div'
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            component={Link}
+            to='/'
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, textDecoration: 'none', color: 'text.secondary', fontWeight: '900' }}
           >
             STARSHIP
           </Typography>
