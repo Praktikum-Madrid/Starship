@@ -2,6 +2,8 @@
 import { profile, avatar } from 'api/backend';
 import { TPassword, TReq, TRes, TUserInfo } from 'types';
 import FormData from 'form-data';
+import { handleErrorReq } from 'server/utils';
+import { getUserById } from 'server/database/controllers/user';
 
 export const handleSaveProfile = (req: TReq, res: TRes) => {
   const {
@@ -119,4 +121,14 @@ export const handleGetAvatar = (req: TReq, res: TRes) => {
   } else {
     res.status(403).send({ reason: 'Cookies is not valid' });
   }
+};
+
+export const handleGetUserDB = (req: TReq, res: TRes) => {
+  const { id } = req.params;
+  getUserById(id)
+    .then((apiResponse) => {
+      res.status(apiResponse.status)
+        .send(apiResponse.data);
+    })
+    .catch(handleErrorReq(res));
 };

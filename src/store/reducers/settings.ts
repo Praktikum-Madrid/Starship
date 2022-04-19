@@ -10,6 +10,7 @@ const defaultState: TProfileData = {
   avatar: '',
   display_name: '',
   id: '',
+  userIdDB: undefined,
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -28,6 +29,11 @@ export function settingsReducer(state: TProfileData = defaultState, { type, payl
     case ACTIONS.RESET:
       return {
         state: defaultState,
+      };
+    case ACTIONS.GET_USER_ID_DB:
+      return {
+        ...state,
+        ...payload,
       };
     default:
       return state;

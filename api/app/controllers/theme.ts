@@ -3,8 +3,8 @@ import { Theme } from '../init';
 
 // Создание тем
 export async function createThemes() {
-  await Theme.create({ name: THEMES.LIGHT });
-  await Theme.create({ name: THEMES.DARK });
+  await Theme.findOrCreate({ where: { name: THEMES.LIGHT } });
+  await Theme.findOrCreate({ where: { name: THEMES.DARK } });
 }
 
 // Получение темы по ID

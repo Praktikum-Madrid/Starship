@@ -1,6 +1,6 @@
 import { handleErrorReq } from '../utils';
 import { TPostgresMessage, TRes, TReq } from '../config/types';
-import { Message } from '../init';
+import { Message, User } from '../init';
 
 // Создание сообщения
 export async function createMessage({ text, authorId, threadId, emotionId }: TPostgresMessage) {
@@ -16,6 +16,9 @@ export async function createMessageToMessage({ text, authorId, threadId, emotion
 export async function getMessages(threadId: number) {
   return Message.findAll({
     where: { threadId },
+    include: [{
+      model: User,
+    }],
   });
 }
 
@@ -77,7 +80,7 @@ export const handleCreateCommentToMessage = (req: TReq, res: TRes) => {
   const {
     text, threadId, emotionId, replyToMessageId, authorId,
   } = req.body;
-  createMessage({
+  createMessageToMessage({
     text,
     authorId,
     threadId,

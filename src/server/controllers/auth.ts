@@ -24,7 +24,7 @@ export const handleSignIn = (req: TReq, res: TRes) => {
       // Запрашиваем данные пользователя и сохраняем их в базу данных
       auth.getUserData(cookiesToString(cookies))
         .then((apiResponse) => {
-          const { id } = apiResponse.data;
+          const { id, login } = apiResponse.data;
           console.log('auth userId=', id);
           // Проверяем есть ли юзер в базе данных
           getUserById(`${id}`)
@@ -36,6 +36,7 @@ export const handleSignIn = (req: TReq, res: TRes) => {
                   authCookie: `${cookies[1].value}`,
                   uuid: `${cookies[2].value}`,
                   mode: THEMES.LIGHT,
+                  login,
                 };
                 // сохраняем данные юзера и куки в базе данных
                 createUser(userData)
@@ -50,6 +51,7 @@ export const handleSignIn = (req: TReq, res: TRes) => {
                   authCookie: `${cookies[1].value}`,
                   uuid: `${cookies[2].value}`,
                   mode: user.data.mode || THEMES.LIGHT,
+                  login,
                 };
                 // обновляем данные юзера и куки в базе данных
                 updateUserById(`${id}`, userData)

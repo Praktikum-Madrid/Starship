@@ -13,10 +13,11 @@ export const THEMES = {
 };
 
 export const EMOTIONS = {
-  SMILE: '&#128512',
-  SAD: '&#128577',
-  LIKE: '&#128077',
-  HEART: '&#129505',
+  SMILE: '😊',
+  SAD: '😭',
+  LIKE: '👍',
+  HEART: '🧡',
+  SHIT: '💩',
 };
 
 export const enum PATH {

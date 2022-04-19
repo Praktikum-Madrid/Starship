@@ -11,6 +11,7 @@ const url = 'http://localhost:8081';
 export const getThreadsURL = '/thread/all';
 export const getThreadByIdURL = '/thread/';
 export const createThreadURl = '/thread';
+export const getEmotionsURL = '/emotion/all';
 
 // Создание треда форума
 export async function createThread({
@@ -35,5 +36,11 @@ export async function getThreadById(id: number) {
 // Получение всех тредов
 export async function getAllThreads() {
   const res = await axios.get(`${url}${getThreadsURL}`, { headers });
+  return res;
+}
+
+// Получение эмоций
+export async function getEmotions() {
+  const res = await axios.get(`${url}${getEmotionsURL}`, { headers });
   return res;
 }

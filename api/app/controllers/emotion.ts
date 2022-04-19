@@ -3,10 +3,27 @@ import { Emotion } from '../init';
 
 // Создание смайлов
 export async function createEmotions() {
-  await Emotion.create({ htmlCode: EMOTIONS.SMILE });
-  await Emotion.create({ htmlCode: EMOTIONS.SAD });
-  await Emotion.create({ htmlCode: EMOTIONS.LIKE });
-  await Emotion.create({ htmlCode: EMOTIONS.HEART });
+  await Emotion.findOrCreate({ where: { htmlCode: EMOTIONS.SMILE } });
+  await Emotion.findOrCreate({
+    where: {
+      htmlCode: EMOTIONS.SAD,
+    },
+  });
+  await Emotion.findOrCreate({
+    where: {
+      htmlCode: EMOTIONS.LIKE,
+    },
+  });
+  await Emotion.findOrCreate({
+    where: {
+      htmlCode: EMOTIONS.HEART,
+    },
+  });
+  await Emotion.findOrCreate({
+    where: {
+      htmlCode: EMOTIONS.SHIT,
+    },
+  });
 }
 
 // Получение смайла по id

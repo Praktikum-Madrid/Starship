@@ -1,7 +1,12 @@
 /* eslint-disable camelcase */
 import { TReq, TRes } from 'types';
 import { handleErrorReq } from 'server/utils';
-import { createMessage, getMessages, getMessagesToMessage } from 'server/database/controllers/message';
+import {
+  createMessage,
+  createMessageToMessage,
+  getMessages,
+  getMessagesToMessage,
+} from 'server/database/controllers/message';
 
 export const handleGetMessagesByThread = (req: TReq, res: TRes) => {
   const { threadId } = req.params;
@@ -11,8 +16,8 @@ export const handleGetMessagesByThread = (req: TReq, res: TRes) => {
   }
   getMessages(parsedThreadId)
     .then((messages) => {
-      res.status(200)
-        .json(messages);
+      res.status(messages.status)
+        .send(messages.data);
     })
     .catch(handleErrorReq(res));
 };
@@ -25,8 +30,8 @@ export const handleGetCommentsByParentIdMessage = (req: TReq, res: TRes) => {
   }
   getMessagesToMessage(parsedReplyToMessageId)
     .then((messages) => {
-      res.status(200)
-        .json(messages);
+      res.status(messages.status)
+        .send(messages.data);
     })
     .catch(handleErrorReq(res));
 };
@@ -35,7 +40,6 @@ export const handleCreateMessage = (req: TReq, res: TRes) => {
   const {
     text, threadId, emotionId, authorId,
   } = req.body;
-  // TODO authorId не должен приходить?? надо брать id юзера который в системе залогинен
   createMessage({
     text,
     authorId,
@@ -43,8 +47,8 @@ export const handleCreateMessage = (req: TReq, res: TRes) => {
     emotionId,
   })
     .then((newMsg) => {
-      res.status(200)
-        .json(newMsg);
+      res.status(newMsg.status)
+        .send(newMsg.data);
     })
     .catch(handleErrorReq(res));
 };
@@ -53,8 +57,7 @@ export const handleCreateCommentToMessage = (req: TReq, res: TRes) => {
   const {
     text, threadId, emotionId, replyToMessageId, authorId,
   } = req.body;
-  // TODO authorId не должен приходить?? надо брать id юзера который в системе залогинен
-  createMessage({
+  createMessageToMessage({
     text,
     authorId,
     threadId,
@@ -62,8 +65,8 @@ export const handleCreateCommentToMessage = (req: TReq, res: TRes) => {
     replyToMessageId,
   })
     .then((newMsg) => {
-      res.status(200)
-        .json(newMsg);
+      res.status(newMsg.status)
+        .send(newMsg.data);
     })
     .catch(handleErrorReq(res));
 };

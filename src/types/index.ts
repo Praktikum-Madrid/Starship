@@ -27,6 +27,7 @@ export type TUserInfo = {
   avatar?: string,
   display_name?: string,
   id?: TIdUser,
+  userIdDB?: TIdUser,
 }
 
 export type TProfileData = TUserInfo;
@@ -38,6 +39,14 @@ export type TPostgresUserInfo = {
   authCookie?: string,
   mode?: string,
   themeId?: number,
+  login?: string, // нужен для отображения на форуме, чтобы не запрашивать автора для каждого сообщения по userId с апи яндекса
+}
+
+export type TForumData = {
+  threads: TPostgresThread[],
+  messages: TPostgresMessage[],
+  emotions: TPostgresEmotion[],
+  thread?: any,
 }
 
 export type TPostgresTheme = {
@@ -61,6 +70,7 @@ export type TPostgresMessage = {
   emotionId?: number,
   replyToMessageId?: number,
   createdAt?: string,
+  User?: TPostgresUserInfo
 }
 
 export type TPostgresEmotion = {

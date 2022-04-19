@@ -38,11 +38,11 @@ const routes: RouteObject[] = [
   },
   {
     path: `${PATH.FORUM}`,
-    element: Forum,
+    ...Forum,
   },
   {
     path: `${PATH.FORUM_TOPIC_ID}`,
-    element: Topic,
+    ...Topic,
   },
   {
     path: `${PATH.SERVER_ERROR}`,

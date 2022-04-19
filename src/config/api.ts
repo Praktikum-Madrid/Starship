@@ -21,6 +21,7 @@ export const savePassword = '/user/password';
 export const saveAvatar = '/user/profile/avatar';
 export const getUserById = '/user/';
 export const findUser = '/user/search';
+export const userDB = '/user/db/:id';
 
 // Работа с Leaderboard
 export const addToLeaderboard = '/leaderboard';
@@ -30,6 +31,7 @@ export const getTeamLeaderboard = '/leaderboard/all';
 export const getThreads = '/thread/all';
 export const getThreadById = '/thread/:id';
 export const createThread = '/thread';
+export const getEmotions = '/emotion/all';
 
 // Работа с сообщениями и комментами
 export const getMessagesByThread = '/message/:threadId';
