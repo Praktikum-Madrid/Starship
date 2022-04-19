@@ -32,7 +32,7 @@ const validationSchema = yup.object({
     .required('Пожалуйста, введите текст сообщения'),
 });
 
-export default function Forum() {
+function Forum() {
   const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -180,3 +180,13 @@ export default function Forum() {
     </Container>
   );
 }
+
+function loadData(store: any) {
+  store.dispatch(getThreads());
+  store.dispatch(getUserIdDB());
+}
+
+export default {
+  element: Forum,
+  loadData,
+};

@@ -15,7 +15,7 @@ import React from 'react';
 export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNext) => {
   const store = createStore(req);
   // @ts-ignore
-  const promises = matchRoutes(routes, req.url)?.map(({ route }) => (route.loadData ? route.loadData(store) : null));
+  const promises = matchRoutes(routes, req.url)?.map(({ route }) => (route.loadData ? route.loadData(store, req.url) : null));
   promises?.push(Layout.loadData(store));
 
   Promise.all(promises!)

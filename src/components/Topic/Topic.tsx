@@ -40,7 +40,7 @@ const validationSchema = yup.object({
     .required('Пожалуйста, введите текст сообщения'),
 });
 
-export default function Topic() {
+function Topic() {
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [quote, setQuote] = React.useState('');
@@ -56,7 +56,6 @@ export default function Topic() {
   const params = useParams();
 
   useEffect(() => {
-    // TODO почему-то этот useEffect не срабатывает при обновлении страницы, починить
     const topicId = params.topicId;
     if (topicId) {
       const threadId = Number(topicId);
@@ -365,3 +364,20 @@ export default function Topic() {
     </Container>
   );
 }
+
+function loadData(store: any, reqUrl = '') {
+
+  const partsUrl = reqUrl.split('/');
+  if (partsUrl.length > 2) {
+    const threadId = Number(partsUrl[partsUrl.length - 1]);
+    if (!Number.isNaN(threadId)) {
+      store.dispatch(getThreadWithMessages(threadId));
+    }
+  }
+  store.dispatch(getEmotions());
+}
+
+export default {
+  element: Topic,
+  loadData,
+};
