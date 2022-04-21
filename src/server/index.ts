@@ -5,11 +5,9 @@ import bodyParser from 'body-parser';
 import publicRouter from 'server/router/publicRouter';
 import protectedRouter from 'server/router/protectedRouter';
 import ssrRouter from 'server/router/ssrRouter';
-// import { dbConnect } from './init';
-// import checkAuth from './middlewares/checkAuth';
+import checkAuth from './middlewares/checkAuth';
+import protectRoute from './middlewares/protectRoute';
 
-// dbConnect().then(async () => {
-/* Запуск приложения только после старта БД */
 const app = express();
 
 app.use(cors({
@@ -24,11 +22,11 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(checkAuth); // Проверяем авторизацию юзера
 app.use('/', ...publicRouter); // Эти роутеры первыми (не нужна авторизация)
-app.use('/', ...protectedRouter); // TODO: Эти роуты требуют авторизации
-app.use('/', ...ssrRouter);
+app.use('/', ...ssrRouter); // FIXME: Эти роуты должны работать только по соответствующим урлам
+app.use('/', protectRoute, ...protectedRouter); // Эти роуты требуют авторизации
 
 app.listen(PORT, () => {
   console.log('Listening on prot', PORT);
 });
-// });

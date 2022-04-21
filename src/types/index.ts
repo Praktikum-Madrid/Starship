@@ -143,8 +143,10 @@ export interface FsDocumentElement extends HTMLElement {
 export type TReq = express.Request;
 export type TRes = express.Response;
 export type TNext = express.NextFunction;
+
 export interface TReqWithUserData extends express.Request {
   userData?: any,
+  isUserLogined?: boolean,
 }
 
 export type TUserLeaderboard = {
