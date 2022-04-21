@@ -28,6 +28,10 @@ export const getUserProfile = () => async (dispatch: any, getState: any, axiosIn
     withCredentials: true,
   });
 
+  if (!res.data.display_name) {
+    res.data.display_name = '';
+  }
+
   dispatch({
     type: ACTIONS.GET_USER,
     payload: res.data,
