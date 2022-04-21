@@ -2,6 +2,8 @@ import { PaletteMode } from '@mui/material';
 
 import express from 'express';
 
+import { RouteObject } from 'react-router-dom';
+
 export type TRequestOptions = {
   [key: string ]: string | TRequestOptions | TRequestData | boolean
 };
@@ -168,4 +170,8 @@ export type TTeamLeaderboard = {
 
 export interface IMusic extends HTMLAudioElement {
   stop?: () => void;
+}
+
+export interface ISSRRouteObject extends RouteObject {
+  loadData?: (...args: any) => any;
 }

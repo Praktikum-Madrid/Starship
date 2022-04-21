@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable import/prefer-default-export */
-import { TNext, TReqWithUserData, TRes } from 'types';
+import { ISSRRouteObject, TNext, TReqWithUserData, TRes } from 'types';
 import createStore from 'store/createStore';
 import { matchRoutes } from 'react-router-dom';
 import routes from 'routes';
@@ -15,22 +15,24 @@ import React from 'react';
 export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNext) => {
   const store = createStore(req);
   // @ts-ignore
-  const promises = matchRoutes(routes, req.url)?.map(({ route }) => (route.loadData ? route.loadData(store, req.url) : null));
-  promises?.push(Layout.loadData(store));
+  // Проверяем роуты.
+  const matchedRoutes = matchRoutes(routes, req.url);
+  // Если совпадения есть, делаем SSR
+  if (matchedRoutes?.length) {
+    const routeDataLoaded = matchedRoutes.map(({ route }: { route: ISSRRouteObject }) => (route.loadData ? route.loadData(store, req.url) : null));
+    const layoutDataLoaded = Layout.loadData(store);
 
-  Promise.all(promises!)
-    .then(() => {
-      const content = renderToString(
-        <Provider store={store}>
-          <StaticRouter location={req.url}>
-            <App />
-          </StaticRouter>
-        </Provider>,
-      );
+    Promise.all([routeDataLoaded, layoutDataLoaded])
+      .then(() => {
+        const content = renderToString(
+          <Provider store={store}>
+            <StaticRouter location={req.url}>
+              <App />
+            </StaticRouter>
+          </Provider>,
+        );
 
-      // TODO: Если у нас ошибка 404, отдавать соответствующий код (404)
-      res.send(`
-        <!DOCTYPE html>
+        res.send(`<!DOCTYPE html>
         <html lang="ru">
           <head>
             <meta charset="UTF-8" />
@@ -49,6 +51,14 @@ export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNex
           </body>
         </html>
       `);
-    })
-    .catch(next);
+      })
+      .catch((error) => {
+        console.log('SSR Controller error:');
+        console.log(error);
+      });
+  } else {
+    // Если совпадений нет - отправляем юзера дальше по роутеру
+    console.log('В контроллер после SSR');
+    next();
+  }
 };
