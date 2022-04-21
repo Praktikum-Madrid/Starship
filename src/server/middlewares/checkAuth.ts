@@ -4,12 +4,16 @@ import { auth } from 'api/backend';
 
 const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
   const cookie = getCookiesFromRequest(req);
-  const { authCookie } = cookie || null;
+  // FIXME: Для нужд дебага
+  console.log(req.headers.cookie);
+  console.log(req.path);
+  const authCookie = cookie?.authCookie || null;
 
   console.log(authCookie);
   // Если кукиса нет, просто возвращаем ошибку
   if (!authCookie) {
     console.log('Auth cookie not found');
+    next();
     return;
   }
 
@@ -22,6 +26,7 @@ const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
         req.isUserLogined = true;
         req.userData = response.data;
       }
+      // console.log(req.userData);
       next();
     }).catch((error: any) => {
       // FIXME: Для нужд дебага
