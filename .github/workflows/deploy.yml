@@ -1,4 +1,4 @@
-name: 'code checks'
+name: 'deploy'
 on:
   push:
     branches: [main]
