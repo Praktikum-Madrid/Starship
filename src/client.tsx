@@ -11,7 +11,7 @@ import App from './components/App';
 
 declare global {
   interface Window {
-    INITIAL_STATE?: { auth: any; settings: any; game: any; mode: any };
+    INITIAL_STATE?: { auth: any; settings: any; game: any; mode: any; forum: any };
   }
 }
 

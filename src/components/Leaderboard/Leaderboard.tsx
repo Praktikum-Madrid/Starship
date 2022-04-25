@@ -29,7 +29,7 @@ const columns: GridColDef[] = [
 
 const Leaderboard = () => {
   const dispatch = useDispatch();
-  const { leader } = useSelector((state) => state.mode);
+  const { leader } = useSelector((state: { auth: any; settings: any; game: any; mode: any; forum: any }) => state.mode);
   const rows = formatLeaderboardData(leader);
   const errorLeaderboard = '';
 

@@ -54,7 +54,7 @@ function Topic() {
     thread = {},
     emotions,
     messages,
-  } = useSelector((state) => state.forum);
+  } = useSelector((state: { auth: any; settings: any; game: any; mode: any; forum: any }) => state.forum);
   const params = useParams();
 
   useEffect(() => {
