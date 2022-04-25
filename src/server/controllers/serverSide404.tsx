@@ -7,19 +7,11 @@ import App from 'components/App';
 import serialize from 'serialize-javascript';
 import React from 'react';
 import { TReqWithUserData, TRes } from 'types';
-import { matchRoutes } from 'react-router-dom';
-import Page404 from 'components/Page404';
 
+/* eslint-disable import/prefer-default-export */
 export const renderErrorPage = (req: TReqWithUserData, res: TRes) => {
   console.log('В контроллере 404 ошибки');
   const store = createStore(req);
-
-  const matchedRoutes = matchRoutes([
-    {
-      path: '*',
-      element: Page404,
-    },
-  ], req.url);
 
   Layout.loadData(store).then(() => {
     const content = renderToString(
