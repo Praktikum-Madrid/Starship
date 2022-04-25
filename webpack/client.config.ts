@@ -28,6 +28,7 @@ const serverConfig = {
     alias,
     plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
   },
+  // TODO: копировать favicon и robots.txt в public
 };
 
 export default serverConfig;
