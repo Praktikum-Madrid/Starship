@@ -18,6 +18,7 @@ export const ACTIONS = {
 };
 
 // Проверка авторизации и загрузка данных юзера
+// FIXME: Эти данные надо получать иным способом, сейчас выдают ошибку
 export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: any) => {
   try {
     const response = await axiosInstance.get(
@@ -48,7 +49,7 @@ export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: 
       return;
     }
   } catch (error) {
-    console.log('isAuth error');
+    console.log('isAuth error:');
   }
 };
 

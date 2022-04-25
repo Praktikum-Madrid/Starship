@@ -5,6 +5,7 @@ import { RootState } from 'store/reducers';
 import { useSelector } from 'react-redux';
 import routes from '../../routes';
 import Layout from '../Layout';
+import Page404 from '../Page404';
 
 export default function App() {
   const { mode } = useSelector((state: RootState) => state.mode);
@@ -24,6 +25,7 @@ export default function App() {
             // @ts-ignore
             <Route key={path} path={path} element={<Component />} />
           ))}
+          <Route path='*' element={<Page404 />} />
         </Route>
       </Routes>
     </ThemeProvider>

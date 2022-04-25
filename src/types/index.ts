@@ -2,6 +2,8 @@ import { PaletteMode } from '@mui/material';
 
 import express from 'express';
 
+import { RouteObject } from 'react-router-dom';
+
 export type TRequestOptions = {
   [key: string ]: string | TRequestOptions | TRequestData | boolean
 };
@@ -143,8 +145,10 @@ export interface FsDocumentElement extends HTMLElement {
 export type TReq = express.Request;
 export type TRes = express.Response;
 export type TNext = express.NextFunction;
+
 export interface TReqWithUserData extends express.Request {
   userData?: any,
+  isUserLogined?: boolean,
 }
 
 export type TUserLeaderboard = {
@@ -166,4 +170,8 @@ export type TTeamLeaderboard = {
 
 export interface IMusic extends HTMLAudioElement {
   stop?: () => void;
+}
+
+export interface ISSRRouteObject extends RouteObject {
+  loadData?: (...args: any) => any;
 }
