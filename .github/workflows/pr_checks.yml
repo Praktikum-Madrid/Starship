@@ -3,6 +3,7 @@ on:
   [pull_request]
 
 jobs:
+  # джоба для запуска тестов
   test_job:
     runs-on: ubuntu-latest
     steps:
@@ -18,8 +19,43 @@ jobs:
     - name: 'test'
       run: npm run test
 
-  build_job:
+  # джоба для запуска линтера
+  eslint_job:
     needs: [test_job]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      name: 'setup node'
+      with:
+        node-version: '12.x'
+
+    - name: 'install'
+      run: npm i
+
+    - name: 'eslint'
+      run: npm run eslint
+
+  # джоба для проверки компизации ts
+  tsc_job:
+    needs: [eslint_job]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      name: 'setup node'
+      with:
+        node-version: '12.x'
+
+    - name: 'install'
+      run: npm i
+
+    - name: 'compile ts'
+      run: npm run compile
+
+  # джоба для проверки билда
+  build_job:
+    needs: [tsc_job]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

@@ -61,12 +61,12 @@ export default function Game() {
       };
 
       Leaderboard.addUserToLeaderboard(leaderboardRequest)
-        .then((response) => {
+        .then((response: Response) => {
           if (response.status === 200) {
             console.log('ok');
           }
         })
-        .catch((error) => {
+        .catch((error: Error) => {
           console.log(error);
         });
     },

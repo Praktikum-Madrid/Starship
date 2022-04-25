@@ -67,8 +67,8 @@ self.addEventListener('activate', (event: any) => {
 //   );
 // });
 
-const updateCache = (req: any, res: any) => {
-  caches.open(CACHE_NAME).then((cache) => {
-    cache.put(req, res);
-  });
-};
+// const updateCache = (req: any, res: any) => {
+//   caches.open(CACHE_NAME).then((cache) => {
+//     cache.put(req, res);
+//   });
+// };

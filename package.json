@@ -20,7 +20,9 @@
     "prod:build-client": "webpack --mode=production --config webpack/client.config.ts",
     "prod:build-server": "webpack --mode=production --config webpack/server.config.ts",
     "build": "set NODE_ENV=production && npm-run-all --print-label --parallel prod:*",
-    "test": "jest"
+    "test": "jest",
+    "compile": "tsc",
+    "eslint": "eslint ./ --ext .ts,.tsx"
   },
   "repository": {
     "type": "git",

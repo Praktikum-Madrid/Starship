@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import {
   Avatar,
@@ -348,6 +350,7 @@ function Topic() {
                     fontSize: '30px',
                   }}
                   key={id}
+                  // @ts-ignore
                   onClick={() => setEmotionId(id)}
                 >
                   {htmlCode}
@@ -366,7 +369,6 @@ function Topic() {
 }
 
 function loadData(store: any, reqUrl = '') {
-
   const partsUrl = reqUrl.split('/');
   if (partsUrl.length > 2) {
     const threadId = Number(partsUrl[partsUrl.length - 1]);
