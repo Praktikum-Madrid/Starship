@@ -34,36 +34,32 @@ services:
     networks:
       - awesome
 
-  # api:
-  #   build:
-  #     context: ./api
-  #   restart: always
-  #   ports:
-  #     - '8081:8081'
-  #   depends_on:
-  #     - postgres
-  #   environment:
-  #     PGHOST: postgres
-  #     PGDATABASE: my-db-name
-  #     PGUSER: postgres
-  #     PGPASSWORD: newPassword
-  #   networks:
-  #     - awesome
+  api:
+    build:
+      context: ./api
+    restart: always
+    ports:
+      - '8081:8081'
+    depends_on:
+      - postgres
+    environment:
+      PGHOST: postgres
+      PGDATABASE: my-db-name
+      PGUSER: postgres
+      PGPASSWORD: newPassword
+    networks:
+      - awesome
 
-  # app:
-  #   build:
-  #     context: .
-  #   environment:
-  #     DATABASE_URL: postgres://postgres:newPassword@postgres:5432/my-db-name
-  #     NODE_ENV: development
-  #     PORT: 3000
-  #   ports:
-  #     - '3000:3000'
-  #   depends_on:
-  #     - postgres
-  #   restart: always
-  #   networks:
-  #     - awesome
+  app:
+    build:
+      context: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - awesome
 
 networks:
   awesome:
