@@ -23,7 +23,7 @@ jobs:
           SSH_KNOWN_HOSTS: ${{ secrets.STARSHIP_KNOWN_HOSTS }}
       - name: Copy files to server
         run: |
-          sudo rsync -a --progress --human-readable --delete \
+          rsync -a --progress --human-readable --delete \
           --exclude-from '.gitignore' \
           --exclude .gitignore \
           --exclude .git \
