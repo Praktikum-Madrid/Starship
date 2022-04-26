@@ -35,7 +35,7 @@ jobs:
           --exclude spec \
           --exclude LICENCSE \
           --exclude *.md \
-          ./ stovba@51.250.107.53:/home/game
+          ./ stovba@51.250.107.53:/home/stovba/game
       - name: Restart the application
         run: |
-          ssh stovba@51.250.107.53: "pushd /home/game && docker-compose stop && docker-compose build && docker-compose up"
+          ssh stovba@51.250.107.53: "pushd /home/stovba/game && docker-compose stop && docker-compose build && docker-compose up"
