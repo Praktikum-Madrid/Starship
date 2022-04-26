@@ -38,4 +38,4 @@ jobs:
           ./ stovba@51.250.107.53:/home/stovba/game
       - name: Restart the application
         run: |
-          ssh -p 22 stovba@51.250.107.53: "pushd /home/stovba/game && docker-compose stop && docker-compose build && docker-compose up"
+          ssh stovba@51.250.107.53 "pushd /home/stovba/game && docker-compose stop && docker-compose build && docker-compose up"
