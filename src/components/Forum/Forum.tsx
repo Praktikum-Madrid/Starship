@@ -100,7 +100,7 @@ function Forum() {
         <Typography color='text.primary'>Форум</Typography>
       </Breadcrumbs>
 
-      <Box component='div' sx={{ m: 2, mt: 2, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box component='div' sx={{ m: 0, mt: 2, mb: 1, p: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant='h4' gutterBottom component='h1' sx={{ color: 'text.primary' }}>
           Форум
         </Typography>
