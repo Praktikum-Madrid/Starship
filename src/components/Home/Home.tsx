@@ -48,7 +48,7 @@ const Home = () => {
             height: '150px',
             marginTop: '150px',
           }}
-          src='../images/spaceship.png'
+          src='/images/spaceship.png'
         />
         <Typography
           variant='h3'

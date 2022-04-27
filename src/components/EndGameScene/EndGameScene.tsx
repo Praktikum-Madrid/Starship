@@ -22,7 +22,7 @@ const getScoreImage = (score: number) => {
         <div key={Number(new Date()) * Math.random()}>
           <img
             alt='score-digit'
-            src={`../images/digits/${dig}.png`}
+            src={`/images/digits/${dig}.png`}
             height='30px'
           />
         </div>
@@ -52,7 +52,7 @@ const EndGameScene: FC<IProps> = ({ score, handleReplay }) => {
       }}
     >
       <div>
-        <img alt='gameOver' src='../images/texts/gameOver.png' width='300px' />
+        <img alt='gameOver' src='/images/texts/gameOver.png' width='300px' />
       </div>
       <div
         style={{
@@ -62,7 +62,7 @@ const EndGameScene: FC<IProps> = ({ score, handleReplay }) => {
       >
         <img
           alt='score'
-          src='../images/texts/score.png'
+          src='/images/texts/score.png'
           width='130px'
           height='34px'
         />
