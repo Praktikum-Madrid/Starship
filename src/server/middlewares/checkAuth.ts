@@ -30,9 +30,7 @@ const checkAuth = async (req: TReqWithUserData, res: TRes, next: TNext) => {
       next();
     }).catch((error: any) => {
       // FIXME: Для нужд дебага
-      console.log('Check auth error');
-      console.log(error.response.status);
-      console.log(error.response.data);
+      console.log('Check auth error: user not authorised');
       next();
     });
 };
