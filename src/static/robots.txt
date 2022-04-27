@@ -1,0 +1,6 @@
+User-Agent: *
+Disallow:
+Allow: /
+Host: https://madrid-starship-11.ya-praktikum.tech
+Sitemap: https://madrid-starship-11.ya-praktikum.tech/sitemap.xml
+Crawl-delay: 10

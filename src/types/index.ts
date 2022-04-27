@@ -175,3 +175,7 @@ export interface IMusic extends HTMLAudioElement {
 export interface ISSRRouteObject extends RouteObject {
   loadData?: (...args: any) => any;
 }
+
+export interface IRouteObjectWithPrivacy extends RouteObject {
+  isPrivate?: boolean
+}
