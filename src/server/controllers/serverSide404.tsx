@@ -16,7 +16,7 @@ export const renderErrorPage = (req: TReqWithUserData, res: TRes) => {
   Layout.loadData(store).then(() => {
     const content = renderToString(
       <Provider store={store}>
-        <StaticRouter location={req.url}>
+        <StaticRouter location='/404'>
           <App />
         </StaticRouter>
       </Provider>,

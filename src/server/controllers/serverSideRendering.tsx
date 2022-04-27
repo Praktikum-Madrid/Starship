@@ -14,9 +14,14 @@ import React from 'react';
 
 export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNext) => {
   const store = createStore(req);
-  // @ts-ignore
-  // Проверяем роуты.
-  const matchedRoutes = matchRoutes(routes, req.url);
+  // Фильтруем доступные роуты
+  let routesList = routes;
+  if (!req.isUserLogined) {
+    routesList = routes.filter((route) => !route.isPrivate);
+  }
+
+  // Сравниваем урлы
+  const matchedRoutes = matchRoutes(routesList, req.url);
   // Если совпадения есть, делаем SSR
   if (matchedRoutes?.length) {
     const routeDataLoaded = matchedRoutes.map(({ route }: { route: ISSRRouteObject }) => (route.loadData ? route.loadData(store, req.url) : null));

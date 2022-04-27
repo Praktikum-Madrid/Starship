@@ -25,6 +25,7 @@ export default function App() {
             // @ts-ignore
             <Route key={path} path={path} element={<Component />} />
           ))}
+          <Route path='404' element={<Page404 />} />
           <Route path='*' element={<Page404 />} />
         </Route>
       </Routes>
