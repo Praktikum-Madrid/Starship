@@ -61,12 +61,12 @@ export default function Game() {
       };
 
       Leaderboard.addUserToLeaderboard(leaderboardRequest)
-        .then((response) => {
+        .then((response: Response) => {
           if (response.status === 200) {
             console.log('ok');
           }
         })
-        .catch((error) => {
+        .catch((error: Error) => {
           console.log(error);
         });
     },
@@ -107,7 +107,7 @@ export default function Game() {
   return (
     <Container
       sx={{
-        width: '900px',
+        maxWidth: '900px',
         height: `${isFullscreen ? '100vh' : 'calc(100vh - 88px)'}`,
         position: 'relative',
         display: 'flex',

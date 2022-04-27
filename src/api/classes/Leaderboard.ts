@@ -6,6 +6,8 @@ class Leaderboard extends Api {
 
   private readonly _saveTeamLeaderboardURL: string;
 
+  static addUserToLeaderboard: any;
+
   constructor({
     apiURL,
     addToLeaderboard,

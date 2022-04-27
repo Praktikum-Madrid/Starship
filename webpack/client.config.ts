@@ -1,5 +1,6 @@
 import path from 'path';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import CopyWebpacPlugin from 'copy-webpack-plugin';
 
 import fileLoader from './loaders/file';
 import cssLoader from './loaders/css';
@@ -28,7 +29,13 @@ const serverConfig = {
     alias,
     plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
   },
-  // TODO: копировать favicon и robots.txt в public
+  plugins: [
+    new CopyWebpacPlugin({
+      patterns: [
+        { from: 'src/static', to: path.resolve(__dirname, '../public') },
+      ],
+    }),
+  ],
 };
 
 export default serverConfig;

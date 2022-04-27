@@ -1,6 +1,8 @@
 # Starship / Звездолёт ™
 Учебный проект в рамках Яндекс-Практикума по направлению **Middle фронтенд разработчик**.
 
+[![code checks](https://github.com/Praktikum-Madrid/Starship/actions/workflows/pr_checks.yml/badge.svg)](https://github.com/Praktikum-Madrid/Starship/actions/workflows/pr_checks.yml)
+
 ## Установка
 - `npm run init` - установка зависимостей в проекте,
 - `npm run start` — запуск версии для разработчика,

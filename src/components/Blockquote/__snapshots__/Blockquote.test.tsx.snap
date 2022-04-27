@@ -2,7 +2,17 @@
 
 exports[`Снэпшот соответствует ожидаемому 1`] = `
 <blockquote
-  className="blockquote"
+  style={
+    Object {
+      "borderLeft": "1px solid #ddd",
+      "fontFamily": "Roboto, sans-serif",
+      "fontSize": "13px",
+      "fontStyle": "oblique",
+      "lineHeight": "150%",
+      "margin": "15px 0",
+      "padding": "0 25px",
+    }
+  }
 >
   Test
 </blockquote>
