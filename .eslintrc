@@ -3,12 +3,13 @@
     "browser": true,
     "es6": true
   },
-  "extends": "airbnb-base",
+  "extends": "airbnb",
   "parser": "@typescript-eslint/parser", // Для TS
   "plugins": ["@typescript-eslint"], // Для TS
   "rules": {
+    "react/function-component-definition" : "off",
     "max-len": "off",
-    "indent": ["error", 2],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
     "object-curly-newline": "off",
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
@@ -25,6 +26,13 @@
     "prefer-destructuring": "off",
     "no-shadow": "off",
     "eol-last": "error",
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+    "quote-props": "off",
+    "no-restricted-exports": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "react/jsx-filename-extension": [
+      2,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "jsx-quotes": [2, "prefer-single"],
   }
 }

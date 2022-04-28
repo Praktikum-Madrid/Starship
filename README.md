@@ -1,10 +1,22 @@
 # Starship / Звездолёт ™
 Учебный проект в рамках Яндекс-Практикума по направлению **Middle фронтенд разработчик**.
 
+[![code checks](https://github.com/Praktikum-Madrid/Starship/actions/workflows/pr_checks.yml/badge.svg)](https://github.com/Praktikum-Madrid/Starship/actions/workflows/pr_checks.yml)
+
 ## Установка
-- `npm install` - установка зависимостей,
+- `npm run init` - установка зависимостей в проекте,
 - `npm run start` — запуск версии для разработчика,
-- `npm run build` — сборка,
+- `npm run build` — production сборка приложения,
+- `npm run test` — запуск тестов
+
+## Docker установка
+- `docker-compose build` — билд docker-контейнера
+- `docker-compose up` — запуск docker-контейнера
+- `docker-compose stop` — остановка docker-контейнера
+- `docker-compose rm` — удаление docker-контейнера
+
+_Примечание: с запуском `npm run init` в среде **windows** может возникнуть проблема: не распознается команда `cp -r` для скрипта `assets:copy`. 
+При возникновении указанной проблемы, стоит поменять в **package.json** строку  `"cp -r ./src/assets/ public",`, на  `"robocopy ./src/assets/ public"`._
 
 ## Ссылки
 [Проект в интернете](FIXME: Добавить ссылку на загруженный на хостинг проект)
@@ -15,6 +27,9 @@
 [Доска в Trello](https://trello.com/b/NZxdMp0x/%D0%B8%D0%B3%D1%80%D0%B0)
 
 [Доска в Miro](https://miro.com/app/board/uXjVOOg1bsg=/)
+
+[Ссылка на демо в хероку](https://my-game1222.herokuapp.com/)
+
 
 ## Code style
 В проекте используем [Руководство по стилю кода от Airbnb](https://leonidlebedev.github.io/javascript-airbnb/) при написании JS/TS.
@@ -27,6 +42,7 @@
 ```
   /src
   ../api               -- Интерфейсы для работы с апи
+  ../assets            -- Компоненты (React)
   ../components        -- Компоненты (React)
     ../ComponentName   -- Директория компонентов
       ../index.tsx     -- Код компонента
@@ -56,3 +72,4 @@
 Функционал, который необходимо реализовать в дальнейшем записываем в проекте как `TODO: Сделать что-то...`
 
 Ошибки, недоработки, "костыли", и прочие штуки, требующие исправления в будущем обозначаем как `FIXME: Что надо исправить...`
+

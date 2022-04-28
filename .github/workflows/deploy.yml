@@ -1,0 +1,44 @@
+name: 'deploy'
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/id_rsa
+          echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.STARSHIP_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.STARSHIP_KNOWN_HOSTS }}
+      - name: Remove old files from server
+        run: |
+          ssh stovba@51.250.107.53 "pushd /home/stovba/starship && sudo docker-compose stop && sudo rm -rf ~/starship && exit"
+      - name: Copy files to server
+        run: |
+          rsync -a --progress --human-readable --delete \
+          --exclude-from '.gitignore' \
+          --exclude .gitignore \
+          --exclude .git \
+          --exclude .github \
+          --exclude .env.example \
+          --exclude .eslintignore \
+          --exclude .eslintrc.json \
+          --exclude jest.config.js \
+          --exclude spec \
+          --exclude LICENCSE \
+          --exclude *.md \
+          ./ stovba@51.250.107.53:/home/stovba/starship
+      - name: Restart the application
+        run: |
+          ssh stovba@51.250.107.53 "pushd /home/stovba/starship && sudo docker-compose stop && sudo docker-compose build && sudo docker-compose up -d"
