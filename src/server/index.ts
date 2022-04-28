@@ -9,6 +9,7 @@ import errorRouter from 'server/router/errorRouter';
 import sitemapRouter from 'server/router/sitemapRouter';
 import helmet from 'helmet';
 import { expressCspHeader, INLINE, SELF, EVAL } from 'express-csp-header';
+// @ts-ignore
 import xssClean from 'xss-clean';
 import checkAuth from './middlewares/checkAuth';
 import protectRoute from './middlewares/protectRoute';
