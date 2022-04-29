@@ -7,10 +7,13 @@ class SoundEngine {
 
   private _currentLoaded: number;
 
+  private _volume: number;
+
   constructor(soundsList: string[]) {
     this._soundsList = soundsList;
     this._sounds = {};
     this._currentLoaded = 0;
+    this._volume = 1;
 
     // Запускаем загрузку звуков
     this._preloadSounds();
@@ -39,15 +42,14 @@ class SoundEngine {
   };
 
   // Может проигрывать несколько звуков одновременно
-  public play(name: string, volume: number = 1) {
+  public play(name: string, volume: number = this._volume) {
     const playedSound = this._sounds[name].cloneNode(true) as HTMLAudioElement;
     playedSound.volume = volume;
     playedSound.play();
-    // TODO: Удалять экземпляры из DOM после завершения проигрывания
   }
 
   // Возвращает трек, которым можно урпавлять
-  public addMusic(name: string, volume: number = 1): IMusic {
+  public addMusic(name: string, volume: number = this._volume): IMusic {
     const music: IMusic = this._sounds[name].cloneNode(true) as HTMLAudioElement;
     music.volume = volume;
 
@@ -57,6 +59,14 @@ class SoundEngine {
     };
 
     return music;
+  }
+
+  public disableVolume() {
+    this._volume = 0;
+  }
+
+  public enableVolume() {
+    this._volume = 1;
   }
 }
 
