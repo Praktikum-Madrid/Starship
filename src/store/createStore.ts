@@ -16,6 +16,9 @@ export default (req: any) => {
         {
           isLogined: req.isUserLogined,
         },
+      settings: {
+        ...req.userData,
+      },
     },
     applyMiddleware(thunk.withExtraArgument(axiosInstance)),
   );
