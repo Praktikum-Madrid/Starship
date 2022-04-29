@@ -9,20 +9,14 @@ export default (req: any) => {
     headers: { cookie: req.get('cookie') || '' },
   });
 
-  let initialState = {};
-
-  if (req && req.isLogined) {
-    initialState = {
+  const store = createStore(
+    rootReducer,
+    {
       auth:
         {
           isLogined: req.isUserLogined,
         },
-    };
-  }
-
-  const store = createStore(
-    rootReducer,
-    initialState,
+    },
     applyMiddleware(thunk.withExtraArgument(axiosInstance)),
   );
 
