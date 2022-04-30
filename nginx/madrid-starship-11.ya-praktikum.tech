@@ -1,103 +1,60 @@
 server {
-  # Слушаем по 80 порту
-  listen [::]:80 backlog=2048 ipv6only=off;
-
-  root $root;
-  set $root /home/stovba/starship;
-  set $images /home/stovba/starshippublic/images;
-  set $sounds /home/stovba/starshippublic/sounds;
-  set $public /home/stovba/starshippublic;
-
-  charset utf-8;
-
   # Адрес сервера
   server_name madrid-starship-11.ya-praktikum.tech;
 
+  root $root;
+  set $root /home/stovba/starship;
+  set $public /home/stovba/starship/src/assets;
+  set $static /home/stovba/starship/src/static;
+
+  charset utf-8;
+
+
   # Фавикон и роботс
   location = /favicon.ico {
-    root $public;
+    root $static;
     expires max;
   }
 
   location = /robots.txt {
-    root $public;
+    root $static;
     expires max;
-  }
-
-  # Бандл и сервис-воркер
-  location = /bundle.js {
-    root $public;
-
-    add_header Cache-Control no-cache;
-    expires 0;
-  }
-
-  location = /ServiceWorker.js {
-    root $public;
-
-    add_header Cache-Control no-cache;
-    expires 0;
   }
 
   # Картинки и звуки
   location /images {
-    root $images;
+    root $public;
 
     expires max;
   }
 
   location /sounds {
-    root $sounds;
+    root $public;
 
     expires max;
   }
 
-  # Апи юзера
-  location /user {
-    proxy_pass            http://localhost:8081/user;
-    proxy_set_header      Host $host;
-    proxy_set_header      X-Real-IP $http_x_real_ip;
-    proxy_set_header      Upgrade $http_upgrade;
-    proxy_set_header      Connection 'upgrade';
-    proxy_set_header      X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header      X-Forwarded-Proto $scheme;
-    proxy_set_header      Cache-Control no-cache;
-    client_max_body_size  1m;
-    proxy_http_version    1.1;
-    proxy_cache_bypass    $http_upgrade;
-    expires               0;
-  }
 
-  # Само приложение
   location / {
-    proxy_pass            http://localhost:3000;
-    proxy_set_header      Host $host;
-    proxy_set_header      X-Real-IP $http_x_real_ip;
-    proxy_set_header      Upgrade $http_upgrade;
-    proxy_set_header      Connection 'upgrade';
-    proxy_set_header      X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header      X-Forwarded-Proto $scheme;
-    proxy_set_header      Cache-Control no-cache;
-    client_max_body_size  1m;
-    proxy_http_version    1.1;
-    proxy_cache_bypass    $http_upgrade;
-    expires               0;
+    proxy_pass     http://localhost:3000;
   }
 
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/madrid-starship-11.ya-praktikum.tech/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/madrid-starship-11.ya-praktikum.tech/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
 }
-
-
 server {
-        charset utf-8;
+    if ($host = madrid-starship-11.ya-praktikum.tech) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
 
-        # Адрес сервера
-        server_name madrid-starship-11.ya-praktikum.tech;
 
-        root /var/www/html;
+  server_name madrid-starship-11.ya-praktikum.tech;
+    listen 80;
+    return 404; # managed by Certbot
 
-        #server_name _;
 
-        location / {
-                proxy_pass            http://localhost:3000;
-        }
-}
