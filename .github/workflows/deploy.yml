@@ -21,9 +21,9 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.STARSHIP_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.STARSHIP_KNOWN_HOSTS }}
-      - name: Remove old files from server
-        run: |
-          ssh stovba@51.250.107.53 "sudo docker stop $(sudo docker ps -a -q) && sudo rm -rf ~/starship && exit"
+      # - name: Remove old files from server
+        # run: |
+          # ssh stovba@51.250.107.53 "pushd /home/stovba/starship && sudo docker-compose stop && sudo rm -rf ~/starship && exit"
       - name: Copy files to server
         run: |
           rsync -a --progress --human-readable --delete \
