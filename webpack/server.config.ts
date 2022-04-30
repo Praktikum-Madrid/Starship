@@ -10,6 +10,7 @@ import alias from './alias';
 const serverConfig = {
   // Inform webpack that we're building a bundle
   // for nodeJS, rather than for the browser
+  mode: 'production',
   target: 'node',
   externals: [nodeExternals()],
   // Tell webpack the root file of our

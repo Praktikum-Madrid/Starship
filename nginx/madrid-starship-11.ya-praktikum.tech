@@ -3,10 +3,10 @@ server {
   listen [::]:80 backlog=2048 ipv6only=off;
 
   root $root;
-  set $root /home/game;
-  set $images /home/game/public/images;
-  set $sounds /home/game/public/sounds;
-  set $public /home/game/public;
+  set $root /home/stovba/starship;
+  set $images /home/stovba/starshippublic/images;
+  set $sounds /home/stovba/starshippublic/sounds;
+  set $public /home/stovba/starshippublic;
 
   charset utf-8;
 
@@ -87,3 +87,17 @@ server {
 }
 
 
+server {
+        charset utf-8;
+
+        # Адрес сервера
+        server_name madrid-starship-11.ya-praktikum.tech;
+
+        root /var/www/html;
+
+        #server_name _;
+
+        location / {
+                proxy_pass            http://localhost:3000;
+        }
+}
