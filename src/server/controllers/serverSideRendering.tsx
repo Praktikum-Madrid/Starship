@@ -1,4 +1,3 @@
-/* eslint-disable arrow-body-style */
 /* eslint-disable import/prefer-default-export */
 import { ISSRRouteObject, TNext, TReqWithUserData, TRes } from 'types';
 import createStore from 'store/createStore';

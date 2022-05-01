@@ -7,6 +7,10 @@ import protectedRouter from 'server/router/protectedRouter';
 import ssrRouter from 'server/router/ssrRouter';
 import errorRouter from 'server/router/errorRouter';
 import sitemapRouter from 'server/router/sitemapRouter';
+import helmet from 'helmet';
+import { expressCspHeader, INLINE, SELF, EVAL } from 'express-csp-header';
+// @ts-ignore
+import xssClean from 'xss-clean';
 import checkAuth from './middlewares/checkAuth';
 import protectRoute from './middlewares/protectRoute';
 
@@ -16,7 +20,20 @@ app.use(cors({
   origin: 'https://ya-praktikum.tech',
   optionsSuccessStatus: 200, // Поддержка старых браузеров (IE11, некоторые SmartTVs) зависают при статусе 204
 }));
+app.use(helmet());
+app.use(xssClean());
 
+app.use(expressCspHeader({
+  directives: {
+    'default-src': [SELF, 'ya-praktikum.tech', '*.ya-praktikum.tech'],
+    'script-src': [SELF, INLINE, EVAL],
+    'child-src': [SELF],
+    'worker-src': [SELF],
+    'connect-src': [SELF, 'ya-praktikum.tech', '*.ya-praktikum.tech', 'localhost:8081'],
+    'style-src': [SELF, INLINE, 'fonts.googleapis.com', 'cdnjs.cloudflare.com'],
+    'font-src': [SELF, INLINE, 'fonts.googleapis.com', 'fonts.gstatic.com'],
+  },
+}));
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static('public'));
