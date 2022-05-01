@@ -4,9 +4,8 @@ server {
 
   root $root;
   set $root /home/game;
-  set $images /home/game/public/images;
-  set $sounds /home/game/public/sounds;
-  set $public /home/game/public;
+  set $public /home/stovba/starship/src/static;
+  set $assets /home/stovba/starship/src/assets;
 
   charset utf-8;
 
@@ -24,31 +23,18 @@ server {
     expires max;
   }
 
-  # Бандл и сервис-воркер
-  location = /bundle.js {
-    root $public;
-
-    add_header Cache-Control no-cache;
-    expires 0;
-  }
-
-  location = /ServiceWorker.js {
-    root $public;
-
-    add_header Cache-Control no-cache;
-    expires 0;
-  }
-
   # Картинки и звуки
   location /images {
-    root $images;
+    root $assets;
 
+    try_files $uri =404;
     expires max;
   }
 
   location /sounds {
-    root $sounds;
+    root $assets;
 
+    try_files $uri = 404;
     expires max;
   }
 
@@ -84,6 +70,7 @@ server {
     expires               0;
   }
 
+  error_page 404   /404;
 }
 
 
