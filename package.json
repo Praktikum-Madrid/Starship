@@ -134,5 +134,9 @@
     "serialize-javascript": "6.0.0",
     "set-cookie-parser": "2.4.8",
     "yup": "0.32.11"
+  },
+  "resolutions": {
+    "@types/react": "17.0.43",
+    "@types/react-dom": "17.0.14"
   }
 }
