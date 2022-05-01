@@ -70,8 +70,8 @@ export default class StarshipGame {
     this.cols = COLS_OPPONENTS;
     this.sprites = createImg();
     this.sound = new SoundEngine(AUDIOS);
-    this.music = this.sound.addMusic('music', 0.5);
-    this.bossMusic = this.sound.addMusic('boss', 0.5);
+    this.music = this.sound.addMusic('music');
+    this.bossMusic = this.sound.addMusic('boss');
     this.score = 0;
     this.settings = settings;
     this.callback = cb;
@@ -324,6 +324,30 @@ export default class StarshipGame {
       this.create();
       this.run();
     });
+  }
+
+  // Переключает звук игры в зависимости от его состояния в приложении
+  public toggleSound(isGameSoundEnabled: boolean) {
+    if (isGameSoundEnabled) {
+      this.disableSound();
+    } else {
+      this.enableSound();
+    }
+  }
+
+  // Включает/выключает звук игры
+  private enableSound() {
+    console.log('Sound enabled');
+    this.sound.enableVolume();
+    this.music.play();
+    this.bossMusic.play();
+  }
+
+  private disableSound() {
+    console.log('Sound disabled');
+    this.sound.disableVolume();
+    this.music.pause();
+    this.bossMusic.pause();
   }
 
   end(message: string = END_GAME.LOSE, score: number = 0) {

@@ -11,7 +11,15 @@ export default (req: any) => {
 
   const store = createStore(
     rootReducer,
-    {},
+    {
+      auth:
+        {
+          isLogined: req.isUserLogined,
+        },
+      settings: {
+        ...req.userData,
+      },
+    },
     applyMiddleware(thunk.withExtraArgument(axiosInstance)),
   );
 

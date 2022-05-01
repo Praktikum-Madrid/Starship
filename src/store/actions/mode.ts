@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import { getTeamLeaderboard } from 'config/api';
 import axios from 'axios';
 

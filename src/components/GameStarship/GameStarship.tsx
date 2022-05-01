@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setGameScore,
@@ -18,7 +18,7 @@ import EndGameScene from '../EndGameScene';
 
 const styles = {
   buttonQuit: {
-    width: '130px',
+    width: '80px',
     color: 'white',
     border: '5px #406325 solid',
     borderRadius: '15px',
@@ -27,18 +27,34 @@ const styles = {
     right: '0',
     top: '10px',
   },
+  buttonSound: {
+    width: '80px',
+    color: 'white',
+    border: '5px #406325 solid',
+    borderRadius: '15px',
+    marginBottom: '15px',
+    position: 'absolute',
+    right: '90px',
+    top: '10px',
+  },
 };
+
+let game: StarshipGame;
 
 export default function Game() {
   const ref = useRef<HTMLCanvasElement>(null);
+
+  // Состояние звука в приложении
+  const [isGameSoundEnabled, setSound] = useState(true);
+
   // TODO: переписать на отдельный кастомный хук, например useSettings
   const settings = useSelector((state: RootState) => state.settings);
   const { isGameStarted, isGameQuited, score, isFullscreen } = useSelector(
     (state: RootState) => state.game,
   );
   const dispatch = useDispatch();
-  let game: StarshipGame | undefined;
 
+  // Коллбэк, который передается внутрь игры
   const cb = {
     toggleFullscreen: () => {
       toggleFullScreen();
@@ -83,10 +99,16 @@ export default function Game() {
   }
 
   function handleQuitButtonClick() {
-    game?.end();
+    game.end();
     dispatch(setIsGameStarted({ isGameStarted: false }));
     dispatch(setIsGameQuited({ isGameQuited: true }));
   }
+
+  const toggleGameSound = () => {
+    ref.current?.focus();
+    setSound((prevState) => !prevState);
+    game?.toggleSound(isGameSoundEnabled);
+  };
 
   useEffect(() => {
     dispatch(setIsGameStarted({ isGameStarted: false }));
@@ -124,7 +146,15 @@ export default function Game() {
             variant='contained'
             onClick={() => handleQuitButtonClick()}
           >
-            QUIT
+            Выход
+          </Button>
+          <Button
+            sx={styles.buttonSound}
+            color={isGameSoundEnabled ? 'success' : 'error'}
+            variant='contained'
+            onClick={() => toggleGameSound()}
+          >
+            Звук
           </Button>
           <canvas ref={ref} width={900} height={700} />
         </>
