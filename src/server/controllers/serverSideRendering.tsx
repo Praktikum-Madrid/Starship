@@ -16,6 +16,7 @@ export const serverSideRendering = (req: TReqWithUserData, res: TRes, next: TNex
   // Фильтруем доступные роуты
   let routesList = routes;
   if (!req.isUserLogined) {
+    // @ts-ignore
     routesList = routes.filter((route) => !route.isPrivate);
   }
 
