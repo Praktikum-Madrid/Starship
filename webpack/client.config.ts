@@ -19,6 +19,7 @@ const clientConfig = {
     rules: [fileLoader.client, cssLoader.client, jsLoader.client],
   },
   // Tell webpack where to put the output file
+  devtool: 'inline-source-map', // Sourcemaps for development
   // that is generated
   output: {
     filename: '[name].js',

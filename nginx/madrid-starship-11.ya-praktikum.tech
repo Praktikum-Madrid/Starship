@@ -3,9 +3,9 @@ server {
   server_name madrid-starship-11.ya-praktikum.tech;
 
   root $root;
-  set $root /home/stovba/starship;
-  set $public /home/stovba/starship/src/assets;
-  set $static /home/stovba/starship/src/static;
+  set $root /home/game;
+  set $public /home/stovba/starship/src/static;
+  set $assets /home/stovba/starship/src/assets;
 
   charset utf-8;
 
@@ -23,14 +23,16 @@ server {
 
   # Картинки и звуки
   location /images {
-    root $public;
+    root $assets;
 
+    try_files $uri =404;
     expires max;
   }
 
   location /sounds {
-    root $public;
+    root $assets;
 
+    try_files $uri = 404;
     expires max;
   }
 
@@ -39,14 +41,15 @@ server {
     proxy_pass     http://localhost:3000;
   }
 
+  listen 443 http2 ssl; # managed by Certbot
+  ssl_certificate /etc/letsencrypt/live/madrid-starship-11.ya-praktikum.tech/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/madrid-starship-11.ya-praktikum.tech/privkey.pem; # managed by Certbot
+  include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/madrid-starship-11.ya-praktikum.tech/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/madrid-starship-11.ya-praktikum.tech/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
+  error_page 404   /404;
 }
+
 server {
     if ($host = madrid-starship-11.ya-praktikum.tech) {
         return 301 https://$host$request_uri;
@@ -54,7 +57,6 @@ server {
 
 
   server_name madrid-starship-11.ya-praktikum.tech;
-    listen 80;
-    return 404; # managed by Certbot
-
-
+  listen 80;
+  return 404; # managed by Certbot
+}
