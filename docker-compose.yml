@@ -35,6 +35,7 @@ services:
   #     - awesome
 
   api:
+    container_name: api
     build:
       context: ./api
     restart: always
