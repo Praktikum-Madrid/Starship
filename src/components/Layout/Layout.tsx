@@ -62,8 +62,10 @@ const Layout = () => {
 };
 
 function loadData(store: any) {
-  store.dispatch(isAuth());
-  store.dispatch(checkOAuthYandex());
+  return Promise.all([
+    store.dispatch(isAuth()),
+    store.dispatch(checkOAuthYandex()),
+  ]);
 }
 
 export default {
