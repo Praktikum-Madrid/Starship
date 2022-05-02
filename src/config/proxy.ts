@@ -1,11 +1,8 @@
-// По идее, мы можем получать location прямо из окна
 // Настройки для фронтенда
-export const apiURL = 'http://localhost:3000'; // TODO то же самое: стоит прописать отдельный конфиг для деплоя
-// export const apiURL = document.location.origin;
+export const apiURL = 'https://madrid-starship-11.ya-praktikum.tech'; // TODO то же самое: стоит прописать отдельный конфиг для деплоя
 
-export const RESOURCES_URL = 'http://localhost:3000/resources';
+export const RESOURCES_URL = 'https://madrid-starship-11.ya-praktikum.tech/resources';
 
-// FIXME: Прийти к единому стилю именования данных переменных
 // Авторизация и работа с пользователем
 export const signUp = '/auth/signup';
 export const signIn = '/auth/signin';
@@ -13,7 +10,7 @@ export const getUser = '/auth/user';
 export const logOut = '/auth/logout';
 export const oauthYandex = '/oauth/yandex';
 export const getServiceIdYandex = '/oauth/yandex/service-id';
-export const redirectURL = 'http://localhost:3000'; // TODO доставать из переменной окружения, для хероку должен быть https://my-game1222.herokuapp.com/
+export const redirectURL = 'https://madrid-starship-11.ya-praktikum.tech'; // TODO доставать из переменной окружения, для хероку должен быть https://my-game1222.herokuapp.com/
 
 // Настройки пользователей
 export const saveProfile = '/user/profile';

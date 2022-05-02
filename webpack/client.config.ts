@@ -7,9 +7,10 @@ import cssLoader from './loaders/css';
 import jsLoader from './loaders/js';
 import alias from './alias';
 
-const serverConfig = {
+const clientConfig = {
   // Tell webpack the root file of our
   // server application
+  mode: 'production',
   entry: {
     bundle: './src/client.tsx',
     // ServiceWorker: './src/serviceWorker/serviceWorker.ts',
@@ -18,6 +19,7 @@ const serverConfig = {
     rules: [fileLoader.client, cssLoader.client, jsLoader.client],
   },
   // Tell webpack where to put the output file
+  devtool: 'inline-source-map', // Sourcemaps for development
   // that is generated
   output: {
     filename: '[name].js',
@@ -38,4 +40,4 @@ const serverConfig = {
   ],
 };
 
-export default serverConfig;
+export default clientConfig;

@@ -28,6 +28,7 @@ export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: 
         withCredentials: true,
       },
     );
+    // FIXME: Вот здесь фронтенд компонент лезет в базу данных??? Это не будет работать.
     const theme = await getUserById(`${response.data.id}`);
     dispatch({
       type: ACTIONS.SET_MODE,

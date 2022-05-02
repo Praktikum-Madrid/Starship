@@ -6,7 +6,7 @@ const protectRoute = async (req: TReqWithUserData, res: TRes, next: TNext) => {
   if (req.isUserLogined) {
     next();
   } else {
-    console.log('Юзер не авторизован');
+    console.log('Юзер не авторизован. Возвращаем страницу ошибки');
     res.status(401)
       .send({
         error: 'Unauthorised request',
