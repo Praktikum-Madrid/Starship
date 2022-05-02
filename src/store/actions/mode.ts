@@ -34,7 +34,8 @@ export const getLeader = () => async (dispatch: any, getState: any, axiosInstanc
 
 // сохраняет тему на сервере при ее изменении на клиенте
 export const toggleColorTheme = (userId: number, theme: string) => async (dispatch: any, getState: any, axiosInstance: any) => {
-  const url = 'api:8081'; // container_name docker compose
+  // const url = 'api:8081'; // container_name docker compose
+  const url = 'http://api:8081'; // container_name docker compose
   const data = {
     userId: `${userId}`,
     theme,

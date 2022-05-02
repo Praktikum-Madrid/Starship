@@ -2,7 +2,8 @@ import axios from 'axios';
 import { TPostgresUserInfo } from 'types';
 
 // const url = 'http://localhost:8081';
-const url = 'api:8081'; // container_name docker compose
+// const url = 'api:8081'; // container_name docker compose
+const url = 'http://api:8081'; // container_name docker compose
 
 export async function createUser(userData: TPostgresUserInfo) {
   const res = await axios.post(`${url}/user`, { userData }, {
