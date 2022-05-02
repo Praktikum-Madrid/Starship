@@ -8,8 +8,6 @@ import jsLoader from './loaders/js';
 import alias from './alias';
 
 const clientConfig = {
-  // Tell webpack the root file of our
-  // server application
   mode: 'production',
   entry: {
     bundle: './src/client.tsx',
@@ -18,9 +16,7 @@ const clientConfig = {
   module: {
     rules: [fileLoader.client, cssLoader.client, jsLoader.client],
   },
-  // Tell webpack where to put the output file
-  devtool: 'inline-source-map', // Sourcemaps for development
-  // that is generated
+  // devtool: 'inline-source-map', // Sourcemaps for development (remove on production)
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '../public'),
