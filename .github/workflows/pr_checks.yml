@@ -11,7 +11,7 @@ jobs:
     - uses: actions/setup-node@v1
       name: 'setup node'
       with:
-        node-version: '12.x'
+        node-version: '16.x'
 
     - name: 'install'
       run: npm i
@@ -28,7 +28,7 @@ jobs:
     - uses: actions/setup-node@v1
       name: 'setup node'
       with:
-        node-version: '12.x'
+        node-version: '16.x'
 
     - name: 'install'
       run: npm i
@@ -45,7 +45,7 @@ jobs:
     - uses: actions/setup-node@v1
       name: 'setup node'
       with:
-        node-version: '12.x'
+        node-version: '16.x'
 
     - name: 'install'
       run: npm i
@@ -62,7 +62,7 @@ jobs:
     - uses: actions/setup-node@v1
       name: 'setup node'
       with:
-        node-version: '12.x'
+        node-version: '16.x'
 
     - name: 'install'
       run: npm i

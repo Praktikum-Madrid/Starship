@@ -7,9 +7,8 @@ import cssLoader from './loaders/css';
 import jsLoader from './loaders/js';
 import alias from './alias';
 
-const serverConfig = {
-  // Tell webpack the root file of our
-  // server application
+const clientConfig = {
+  mode: 'production',
   entry: {
     bundle: './src/client.tsx',
     // ServiceWorker: './src/serviceWorker/serviceWorker.ts',
@@ -17,8 +16,7 @@ const serverConfig = {
   module: {
     rules: [fileLoader.client, cssLoader.client, jsLoader.client],
   },
-  // Tell webpack where to put the output file
-  // that is generated
+  // devtool: 'inline-source-map', // Sourcemaps for development (remove on production)
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '../public'),
@@ -38,4 +36,4 @@ const serverConfig = {
   ],
 };
 
-export default serverConfig;
+export default clientConfig;
