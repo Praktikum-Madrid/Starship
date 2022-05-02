@@ -29,7 +29,7 @@ app.use(expressCspHeader({
     'script-src': [SELF, INLINE, EVAL],
     'child-src': [SELF],
     'worker-src': [SELF],
-    'connect-src': [SELF, 'ya-praktikum.tech', '*.ya-praktikum.tech', 'localhost:8081', 'api:8081', 'http://api:8081',  'api'],
+    'connect-src': [SELF, 'ya-praktikum.tech', '*.ya-praktikum.tech', 'localhost:8081', 'api:8081', 'http://api:8081', 'api'],
     'style-src': [SELF, INLINE, 'fonts.googleapis.com', 'cdnjs.cloudflare.com'],
     'font-src': [SELF, INLINE, 'fonts.googleapis.com', 'fonts.gstatic.com'],
   },
