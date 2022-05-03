@@ -161,9 +161,6 @@ function Topic() {
           mt: 2,
           mb: 1,
           p: 0,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
         }}
       >
         {thread ? (
