@@ -129,8 +129,7 @@ const dispatchIsLogined = (dispatch: Dispatch) => {
   });
 };
 
-const getUserData = (dispatch: Dispatch) => {
-  return auth
+const getUserData = (dispatch: Dispatch) => auth
     .getUserData()
     .then((response: AxiosResponse) => {
       if (response.status === 200) {
@@ -141,7 +140,6 @@ const getUserData = (dispatch: Dispatch) => {
     .then((userData) => {
       dispatch(setUserSettings(userData));
     });
-};
 
 const setUserIsLogined = (dispatch: Dispatch) => {
   dispatchIsLogined(dispatch);
