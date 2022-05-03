@@ -12,7 +12,8 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Pagination, Breadcrumbs, Link,
+  Breadcrumbs,
+  Link,
   Container,
 } from '@mui/material';
 import { useFormik } from 'formik';
@@ -78,13 +79,6 @@ function Forum() {
     },
   });
 
-  const [page, setPage] = React.useState(1);
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    // TODO: реализовать переключение страниц форума
-    setPage(value);
-    console.log(`Страница ${page}`);
-  };
-
   return (
     <Container
       sx={{
@@ -127,11 +121,6 @@ function Forum() {
               </Card>
             ))}
           </Stack>
-        </Box>
-      ) : null}
-      {threads && threads.length ? (
-        <Box component='div' sx={{ m: 2, p: 0, display: 'flex', alignItems: 'center' }}>
-          <Pagination variant='outlined' shape='rounded' count={10} page={page} onChange={handlePageChange} />
         </Box>
       ) : null}
 

@@ -12,7 +12,6 @@ import {
   TextField,
   Typography,
   Stack,
-  Pagination,
   Breadcrumbs,
   Link,
   Container,
@@ -44,7 +43,6 @@ const validationSchema = yup.object({
 
 function Topic() {
   const [open, setOpen] = React.useState(false);
-  const [page, setPage] = React.useState(1);
   const [quote, setQuote] = React.useState('');
   const [emotionId, setEmotionId] = React.useState();
   const [replyToMessageId, setReplyToMessageId] = React.useState();
@@ -107,12 +105,6 @@ function Topic() {
       setEmotionId(undefined);
     },
   });
-
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    // TODO: реализовать переключение страниц форума
-    setPage(value);
-    console.log(`Страница ${page}`);
-  };
 
   const handleReply = (quoteText: string, replyToMessageId: any) => {
     setQuote(quoteText);
@@ -281,18 +273,6 @@ function Topic() {
             </Box>
           ))}
         </Stack>
-      </Box>
-
-      <Box
-        component='div'
-        sx={{
-          m: 2,
-          p: 0,
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <Pagination variant='outlined' shape='rounded' count={10} page={page} onChange={handlePageChange} />
       </Box>
 
       <Dialog fullWidth maxWidth='md' open={open} onClose={handleClose}>
