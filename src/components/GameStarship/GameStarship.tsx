@@ -113,6 +113,11 @@ export default function Game() {
   useEffect(() => {
     dispatch(setIsGameStarted({ isGameStarted: false }));
     dispatch(setIsGameQuited({ isGameQuited: false }));
+
+    // Выходим из игры если размонтируем компонент
+    return function cleanUp() {
+      game.end();
+    };
   }, []);
 
   useEffect(() => {
