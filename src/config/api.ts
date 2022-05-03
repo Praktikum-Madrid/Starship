@@ -2,8 +2,6 @@
 const apiProtocol = 'https://';
 const apiRoute = 'ya-praktikum.tech/api/v2';
 export const apiURL = `${apiProtocol}${apiRoute}`;
-export const apiForumURL = 'http://localhost:8080';
-
 export const RESOURCES_URL = 'https://ya-praktikum.tech/api/v2/resources';
 
 // Авторизация и работа с пользователем
@@ -11,7 +9,7 @@ export const signUp = '/auth/signup';
 export const signIn = '/auth/signin';
 export const getUser = '/auth/user';
 export const logOut = '/auth/logout';
-export const oauthYandex = 'https://ya-praktikum.tech/api/v2/oauth/yandex';
+export const oauthYandex = '/oauth/yandex';
 export const getServiceIdYandex = 'https://ya-praktikum.tech/api/v2/oauth/yandex/service-id';
 export const redirectURL = 'http://localhost:3000'; // TODO доставать из переменной окружения, для хероку должен быть https://my-game1222.herokuapp.com/
 

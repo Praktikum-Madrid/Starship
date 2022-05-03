@@ -9,7 +9,7 @@ export const signIn = '/auth/signin';
 export const getUser = '/auth/user';
 export const logOut = '/auth/logout';
 export const redirectURL = 'https://madrid-starship-11.ya-praktikum.tech'; // TODO доставать из переменной окружения, для хероку должен быть https://my-game1222.herokuapp.com/
-export const oauthYandex = 'https://ya-praktikum.tech/api/v2/oauth/yandex';
+export const oauthYandex = '/oauth/yandex';
 export const getServiceIdYandex = 'https://ya-praktikum.tech/api/v2/oauth/yandex/service-id';
 
 // Настройки пользователей
