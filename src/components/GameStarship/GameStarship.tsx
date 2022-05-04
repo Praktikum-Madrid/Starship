@@ -39,6 +39,7 @@ const styles = {
   },
 };
 
+// Переменная для хранения экземпляра игры
 let game: StarshipGame;
 
 export default function Game() {
