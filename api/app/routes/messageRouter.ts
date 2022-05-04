@@ -3,10 +3,10 @@ import { handleGetCommentsByParentIdMessage, handleGetMessagesByThread, handleCr
 const messageRouter = Router();
 
 // Работа с сообщениями и комментами
-export const getMessagesByThread = '/message/:threadId';
-export const createMessage = '/message';
-export const createMessageToMessage = '/comment';
-export const getMessagesByParentIdMessage = '/comment/:replyToMessageId';
+export const getMessagesByThread = '/api/message/:threadId';
+export const createMessage = '/api/message';
+export const createMessageToMessage = '/api/comment';
+export const getMessagesByParentIdMessage = '/api/comment/:replyToMessageId';
 
 messageRouter.get(getMessagesByThread, handleGetMessagesByThread);
 messageRouter.get(getMessagesByParentIdMessage, handleGetCommentsByParentIdMessage);
