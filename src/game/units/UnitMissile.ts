@@ -8,6 +8,14 @@ export default class Missile extends Unit {
 
   explosion: Explosion;
 
+  private _frame: number;
+
+  timerId: number | undefined;
+
+  private _isAnimating: boolean;
+
+  private _animationSpeed: number;
+
   constructor() {
     super();
     this.active = true;
@@ -17,11 +25,16 @@ export default class Missile extends Unit {
     this.width = 30;
     this.height = 100;
     this.explosion = new Explosion(this.velocity, this.x, this.y);
+    this._frame = 1;
+    this._isAnimating = false;
+    this._animationSpeed = 50;
   }
 
   start() {
     this.dy = -this.velocity;
     this.explosion.start();
+    this._isAnimating = true;
+    this.animate();
   }
 
   move() {
@@ -58,26 +71,48 @@ export default class Missile extends Unit {
 
   destroy() {
     this.active = false;
+    this._isAnimating = false;
     this.y += this.dy;
     this.dy = 0;
-    setTimeout(() => {
-      this.x = -1000;
-      this.y = -1000;
-    }, 300);
+    // setTimeout(() => {
+    //   this.x = -1000;
+    //   this.y = -1000;
+    // }, 300);
   }
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
+    // Вычисляем текущий спрайт
+    const currentSprite = sprites[`missile_${this._frame}`];
+
     if (this.active) {
       ctx.drawImage(
-        sprites.missile_1,
+        currentSprite,
         this.x,
         this.y,
         this.width,
         this.height,
       );
     }
+
     if (this.explosion.active) {
       this.explosion.render(ctx, sprites);
+    }
+
+    // Если рокета не существует, прекратить анимацию
+    if (!this._isAnimating) {
+      clearInterval(this.timerId);
+    }
+  }
+
+  private animate() {
+    if (this._isAnimating) {
+      this.timerId = window.setInterval(() => {
+        if (this._frame < 4) {
+          this._frame += 1;
+        } else {
+          this._frame = 1;
+        }
+      }, this._animationSpeed);
     }
   }
 }

@@ -143,7 +143,7 @@ export default class StarshipGame {
     });
   }
 
-  private createOpponent(col: number, row: number) {
+  private static createOpponent(col: number, row: number) {
     const type = Math.random() < 0.3 ? TYPES_OPPONENTS.METEOR : TYPES_OPPONENTS.SPACESHIP;
     return new Opponent(100 * col + 50, 200 * -row, Math.random() - 0.3, type);
   }
@@ -157,7 +157,7 @@ export default class StarshipGame {
       for (let col = 0; col < this.cols; col += 1) {
         this.opponents.push(
           Math.random() < 0.125
-            ? this.createOpponent(col, row)
+            ? StarshipGame.createOpponent(col, row)
             : null,
         );
       }
@@ -182,7 +182,7 @@ export default class StarshipGame {
     missiles.forEach((missile) => {
       // Столкновения ракет с врагами
       this.opponents.forEach((opponent) => {
-        if (opponent && opponent.active && missile.collide(opponent)) {
+        if (opponent && opponent.active && missile.active && missile.collide(opponent)) {
           missile.destroy();
           opponent.destroy();
 
@@ -192,7 +192,7 @@ export default class StarshipGame {
       });
 
       // Столкновения ракет с боссом
-      if (this.boss && this.boss.active && missile.collide(this.boss) && !bossDamageTaken) {
+      if (this.boss && this.boss.active && missile.active && missile.collide(this.boss) && !bossDamageTaken) {
         bossDamageTaken = true;
         missile.destroy();
         this.boss.takeDamage();
