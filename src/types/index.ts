@@ -5,14 +5,12 @@ import express from 'express';
 import { RouteObject } from 'react-router-dom';
 
 export type TRequestOptions = {
-  [key: string ]: string | TRequestOptions | TRequestData | boolean
+  [key: string]: string | TRequestOptions | TRequestData | boolean
 };
 
-export type TRequestData = Record<string, any>| null;
+export type TRequestData = Record<string, any> | null;
 
 export type TCredintials = Record<string, string>;
-
-export type TCoordinate = number;
 
 export type TStore = Object;
 
@@ -51,11 +49,6 @@ export type TForumData = {
   thread?: any,
 }
 
-export type TPostgresTheme = {
-  id: number,
-  name: string
-}
-
 export type TPostgresThread = {
   id?: number,
   name: string,
@@ -89,10 +82,6 @@ export interface ISprites {
   [key: string]: HTMLImageElement;
 }
 
-export interface IAudio {
-  [key: string]: HTMLAudioElement | null;
-}
-
 export type TPayload = Record<string, any>;
 
 export type TUserState = {
@@ -100,12 +89,6 @@ export type TUserState = {
   signInError?: string,
   isRegistered?: boolean,
   signUpError?: string,
-}
-
-export type TLocationState = {
-  from: {
-    pathname: string;
-  }
 }
 
 export type TGameSettings = {
@@ -127,7 +110,7 @@ export type TGameCallback = {
   gameEndWithLose: CallableFunction;
 };
 
-export interface FsDocument extends HTMLDocument {
+export interface FsDocument extends Document {
   webkitExitFullscreen: any;
   webkitFullscreenElement: Element | undefined;
   mozFullScreenElement?: Element;
@@ -177,5 +160,5 @@ export interface ISSRRouteObject extends RouteObject {
 }
 
 export interface IRouteObjectWithPrivacy extends RouteObject {
-  isPrivate?: boolean
+  isPrivate?: boolean;
 }

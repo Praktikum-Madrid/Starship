@@ -18,7 +18,6 @@ export const ACTIONS = {
 };
 
 // Проверка авторизации и загрузка данных юзера
-// FIXME: Эти данные надо получать иным способом, сейчас выдают ошибку
 export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: any) => {
   try {
     const response = await axiosInstance.get(
@@ -28,7 +27,6 @@ export const isAuth = () => async (dispatch: any, getState: any, axiosInstance: 
         withCredentials: true,
       },
     );
-    // FIXME: Вот здесь фронтенд компонент лезет в базу данных??? Это не будет работать.
     const theme = await getUserById(`${response.data.id}`);
     dispatch({
       type: ACTIONS.SET_MODE,
@@ -244,7 +242,6 @@ export function registerUser(userData: TCredintials) {
         const { response } = error;
 
         if (response.status === 400) {
-          // FIXME: Авторизованый юзер не должен попадать в этот роут
           dispatch(logOut() as any);
           // Успешная регистрация
           dispatch({
