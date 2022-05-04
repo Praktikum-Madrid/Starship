@@ -36,6 +36,9 @@ server {
     expires max;
   }
 
+  location /api {
+    proxy_pass     http://localhost:8081;
+  }
 
   location / {
     proxy_pass     http://localhost:3000;
