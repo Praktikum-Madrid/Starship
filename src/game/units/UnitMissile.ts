@@ -50,22 +50,25 @@ export default class Missile extends Unit {
     this.explosion.followItem(this.x, this.y);
   }
 
-  // FIXME: Придумать как сталкивать ракеты с боссом так, чтобы хитпоинты снимались по одному
   collide(opponent: Opponent | any) {
-    const x = this.x + this.dx;
-    const y = this.y + this.dy;
+    // Столкновения считаются только для активной ракеты
+    if (this.active) {
+      const x = this.x + this.dx;
+      const y = this.y + this.dy;
 
-    if (
-      x + this.width > opponent.x
-      && x < opponent.x + opponent.width
-      && y + this.height > opponent.y
-      && y < opponent.y + opponent.height
-    ) {
-      this.explosion.active = true;
-      this.explosion.animate();
+      if (
+        x + this.width > opponent.x
+        && x < opponent.x + opponent.width
+        && y + this.height > opponent.y
+        && y < opponent.y + opponent.height
+      ) {
+        this.explosion.active = true;
+        this.explosion.animate();
 
-      return true;
+        return true;
+      }
     }
+
     return false;
   }
 
@@ -74,10 +77,10 @@ export default class Missile extends Unit {
     this._isAnimating = false;
     this.y += this.dy;
     this.dy = 0;
-    // setTimeout(() => {
-    //   this.x = -1000;
-    //   this.y = -1000;
-    // }, 300);
+    setTimeout(() => {
+      this.x = -1000;
+      this.y = -1000;
+    }, 300);
   }
 
   render(ctx: CanvasRenderingContext2D, sprites: ISprites) {
