@@ -7,7 +7,7 @@ const headers = {
 };
 
 // const url = 'http://localhost:8081';
-const url = 'https://api:8081'; // container_name docker compose
+const url = 'http://api:8081'; // container_name docker compose
 
 export const getMessagesByThreadURL = '/message/';
 export const createMessageURL = '/message';
