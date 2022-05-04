@@ -1,4 +1,5 @@
 export default [
+  '/.DS_Store',
   '/images/avatar.png',
   '/images/background.png',
   '/images/background_space.png',
@@ -92,5 +93,6 @@ export default [
   '/sounds/bump.mp3',
   '/sounds/explosion.mp3',
   '/sounds/mission-complete.mp3',
-  '/sounds/music.mp3',
-];
+  '/sounds/music.mp3'
+] ;
+

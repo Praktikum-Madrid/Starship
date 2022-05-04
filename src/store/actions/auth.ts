@@ -130,16 +130,16 @@ const dispatchIsLogined = (dispatch: Dispatch) => {
 };
 
 const getUserData = (dispatch: Dispatch) => auth
-    .getUserData()
-    .then((response: AxiosResponse) => {
-      if (response.status === 200) {
-        return response.data;
-      }
-      throw new Error('Ошибка при получении данных пользователя');
-    })
-    .then((userData) => {
-      dispatch(setUserSettings(userData));
-    });
+  .getUserData()
+  .then((response: AxiosResponse) => {
+    if (response.status === 200) {
+      return response.data;
+    }
+    throw new Error('Ошибка при получении данных пользователя');
+  })
+  .then((userData) => {
+    dispatch(setUserSettings(userData));
+  });
 
 const setUserIsLogined = (dispatch: Dispatch) => {
   dispatchIsLogined(dispatch);
