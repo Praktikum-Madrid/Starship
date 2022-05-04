@@ -9,10 +9,10 @@ import {
 
 const userRouter = Router();
 
-userRouter.post('/user/update', handleUpdateUserById);
-userRouter.post('/user/me', handleGetUserById);
-userRouter.post('/user/uuid', handleGetUuidCookie);
-userRouter.post('/user/theme', handleSetTheme);
-userRouter.post('/user', handleCreateUser);
+userRouter.post('/api/user/update', handleUpdateUserById);
+userRouter.post('/api/user/me', handleGetUserById);
+userRouter.post('/api/user/uuid', handleGetUuidCookie);
+userRouter.post('/api/user/theme', handleSetTheme);
+userRouter.post('/api/user', handleCreateUser);
 
 export default userRouter;
