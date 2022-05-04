@@ -6,13 +6,12 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-// const url = 'http://localhost:8081';
-const url = 'http://api:8081'; // container_name docker compose
+const url = 'https://madrid-starship-11.ya-praktikum.tech';
 
-export const getThreadsURL = '/thread/all';
-export const getThreadByIdURL = '/thread/';
-export const createThreadURl = '/thread';
-export const getEmotionsURL = '/emotion/all';
+export const getThreadsURL = '/api/thread/all';
+export const getThreadByIdURL = '/api/thread/';
+export const createThreadURl = '/api/thread';
+export const getEmotionsURL = '/api/emotion/all';
 
 // Создание треда форума
 export async function createThread({

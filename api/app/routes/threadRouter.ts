@@ -3,10 +3,10 @@ import { handleGetThreads, handleGetThreadById, handleCreateThread, handleGetEmo
 const threadRouter = Router();
 
 // Работа с темами
-export const getThreads = '/thread/all';
-export const getThreadById = '/thread/:id';
-export const createThread = '/thread';
-export const getEmotions = '/emotion/all';
+export const getThreads = '/api/thread/all';
+export const getThreadById = '/api/thread/:id';
+export const createThread = '/api/thread';
+export const getEmotions = '/api/emotion/all';
 
 threadRouter.get(getThreads, handleGetThreads);
 threadRouter.get(getThreadById, handleGetThreadById);

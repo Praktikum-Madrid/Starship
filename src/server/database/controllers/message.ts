@@ -6,13 +6,12 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-// const url = 'http://localhost:8081';
-const url = 'http://api:8081'; // container_name docker compose
+const url = 'https://madrid-starship-11.ya-praktikum.tech';
 
-export const getMessagesByThreadURL = '/message/';
-export const createMessageURL = '/message';
-export const createMessageToMessageURL = '/comment';
-export const getMessagesByParentIdMessageURL = '/comment/';
+export const getMessagesByThreadURL = '/api/message/';
+export const createMessageURL = '/api/message';
+export const createMessageToMessageURL = '/api/comment';
+export const getMessagesByParentIdMessageURL = '/api/comment/';
 
 // Создание сообщения
 export async function createMessage({
