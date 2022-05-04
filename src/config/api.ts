@@ -2,8 +2,6 @@
 const apiProtocol = 'https://';
 const apiRoute = 'ya-praktikum.tech/api/v2';
 export const apiURL = `${apiProtocol}${apiRoute}`;
-export const apiForumURL = 'http://localhost:8080';
-
 export const RESOURCES_URL = 'https://ya-praktikum.tech/api/v2/resources';
 
 // Авторизация и работа с пользователем
