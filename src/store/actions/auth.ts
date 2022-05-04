@@ -119,6 +119,33 @@ export function logIn(loginData: TCredintials) {
   };
 }
 
+const dispatchIsLogined = (dispatch: Dispatch) => {
+  dispatch({
+    type: ACTIONS.LOGIN,
+    payload: {
+      isLogined: true,
+      error: '',
+    },
+  });
+};
+
+const getUserData = (dispatch: Dispatch) => auth
+    .getUserData()
+    .then((response: AxiosResponse) => {
+      if (response.status === 200) {
+        return response.data;
+      }
+      throw new Error('Ошибка при получении данных пользователя');
+    })
+    .then((userData) => {
+      dispatch(setUserSettings(userData));
+    });
+
+const setUserIsLogined = (dispatch: Dispatch) => {
+  dispatchIsLogined(dispatch);
+  getUserData(dispatch);
+};
+
 // проверка авторизован пользователь с помощью OAuthYandex или нет
 export function checkOAuthYandex() {
   return async (dispatch: Dispatch) => {
@@ -135,33 +162,19 @@ export function checkOAuthYandex() {
           .then((response: AxiosResponse) => {
             // Если юзер авторизован
             if (response.status === 200) {
-              dispatch({
-                type: ACTIONS.LOGIN,
-                payload: {
-                  isLogined: true,
-                  error: '',
-                },
-              });
-              return Promise.resolve();
+              setUserIsLogined(dispatch);
             }
           })
-          .then(() => auth
-            .getUserData()
-            .then((response: AxiosResponse) => {
-              if (response.status === 200) {
-                return response.data;
-              }
-
-              throw new Error('Ошибка при получении данных пользователя');
-            })
-            .then((userData) => {
-              dispatch(setUserSettings(userData));
-            }))
           .catch((error) => {
-            console.log(error);
-            throw new Error(
-              'Ошибка при попытке проверить, авторизован ли пользователь с помощью Яндекса',
-            );
+            const { response = {} } = error;
+            if (response.status === 400) {
+              setUserIsLogined(dispatch);
+            } else {
+              console.log(error);
+              throw new Error(
+                'Ошибка при попытке проверить, авторизован ли пользователь с помощью Яндекса',
+              );
+            }
           });
       }
     } catch (error) {

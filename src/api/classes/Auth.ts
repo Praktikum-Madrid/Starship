@@ -34,7 +34,7 @@ class Auth extends Api {
     this._logOutURL = this.apiUrl + logOut;
     this._redirectURL = redirectURL;
     this._oauthYandexURL = this.apiUrl + oauthYandex;
-    this._getServiceIdYandexURL = this.apiUrl + getServiceIdYandex;
+    this._getServiceIdYandexURL = getServiceIdYandex;
   }
 
   signUp(data: TRequestData) {
