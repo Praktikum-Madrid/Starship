@@ -84,6 +84,84 @@ export const handleSignIn = (req: TReq, res: TRes) => {
     });
 };
 
+export const handleSignInOAuthYandex = (req: TReq, res: TRes) => {
+  const {
+    code = '',
+    redirect_uri = '',
+  } = req.body;
+
+  auth
+    .oauthYandex({
+      code,
+      redirect_uri,
+    })
+    .then((apiResponse) => {
+      const cookies = setCookie.parse((apiResponse as any), {
+        decodeValues: true, // default: true
+      });
+      // Запрашиваем данные пользователя и сохраняем их в базу данных
+      auth.getUserData(cookiesToString(cookies))
+        .then((apiResponse) => {
+          const { id, login } = apiResponse.data;
+          console.log('auth userId=', id);
+          // Проверяем есть ли юзер в базе данных
+          getUserById(`${id}`)
+            .then((user) => {
+              if (user.data === '') {
+                // если юзера нет
+                const userData: TPostgresUserInfo = {
+                  userId: `${id}`,
+                  authCookie: `${cookies[1].value}`,
+                  uuid: `${cookies[2].value}`,
+                  mode: THEMES.LIGHT,
+                  login,
+                };
+                // сохраняем данные юзера и куки в базе данных
+                createUser(userData)
+                  .then(() => {
+                    console.log('createUser Ok');
+                  }).catch(() => {
+                    console.log('createUser Err');
+                  });
+              } else {
+                const userData: TPostgresUserInfo = {
+                  userId: `${id}`,
+                  authCookie: `${cookies[1].value}`,
+                  uuid: `${cookies[2].value}`,
+                  mode: user.data.mode || THEMES.LIGHT,
+                  login,
+                };
+                // обновляем данные юзера и куки в базе данных
+                updateUserById(`${id}`, userData)
+                  .then(() => {
+                    console.log('updateUserById Ok');
+                  }).catch(() => {
+                    console.log('updateUserById Err');
+                  });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      cookies.forEach((cookieObject) => res.cookie(cookieObject.name, cookieObject.value, {
+        httpOnly: true,
+        secure: true,
+        expires: cookieObject.expires,
+      }));
+      res.status(apiResponse.status).send(apiResponse.data);
+    })
+    .catch((error) => {
+      res.status(error.response.status).send(error.response.data);
+      // TODO: Сделать здесь свои ответы сервера на каждый вариант
+      // TODO: Предусмотреть ответ на случай, когда апи отвечает 502 ошибкой
+    });
+};
+
 export const handleSignUp = (req: TReq, res: TRes) => {
   const {
     first_name = '',
