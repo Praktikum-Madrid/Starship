@@ -3,7 +3,7 @@ import { ISprites } from 'types';
 import createShadowForImage from 'game/utils/createShadow';
 
 const BALLPARAMS = {
-  hp: 50,
+  hp: 5,
   damage: 1,
   velocity: 1,
   x: 350,
@@ -62,7 +62,7 @@ class UnitBossBall extends Unit {
 
     if (this.direction === 'left-to-bottom') {
       if (this.y < this.tableHeight) {
-        this.dy = this.velocity * 1;
+        this.dy = this.velocity;
         this.dx = this.velocity * 2;
       } else {
         this.direction = 'bottom-to-right';
