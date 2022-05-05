@@ -7,12 +7,13 @@ import {
   toggleGameFullscreen,
 } from 'store/actions/game';
 import { toggleFullScreen } from 'game/utils/fullscreen';
-import Leaderboard from 'api/classes/Leaderboard';
+import { leaderboard } from 'api/frontend';
 import { LEADERBOARD_REQUEST } from 'config/consts';
 import { RootState } from 'store/reducers';
 import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
 import StarshipGame from 'game';
+import { AxiosResponse } from 'axios';
 import StartGameScene from '../StartGameScene';
 import EndGameScene from '../EndGameScene';
 
@@ -77,8 +78,8 @@ export default function Game() {
         teamName: LEADERBOARD_REQUEST.TEAM_NAME,
       };
 
-      Leaderboard.addUserToLeaderboard(leaderboardRequest)
-        .then((response: Response) => {
+      leaderboard.addUserToLeaderboard(leaderboardRequest)
+        .then((response: AxiosResponse) => {
           if (response.status === 200) {
             console.log('ok');
           }
