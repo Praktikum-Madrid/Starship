@@ -1,5 +1,5 @@
 // Ограничивает вызов функции частотой раз в Х (миллисекунд), переданной в аргументе
-function throttleInput(wait: number) {
+function throttleEvent(wait: number) {
   // Стоит ли функция на паузе
   let isPaused: boolean = false;
 
@@ -31,4 +31,4 @@ function throttleInput(wait: number) {
   };
 }
 
-export default throttleInput;
+export default throttleEvent;
