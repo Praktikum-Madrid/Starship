@@ -53,7 +53,6 @@ class Auth extends Api {
     return this.post(this._logOutURL, {}, cookie);
   }
 
-  // FIXME: вынести функционал Oauth в отдельный класс???
   oauthYandex(data: TRequestData) {
     return this.post(this._oauthYandexURL, data);
   }

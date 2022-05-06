@@ -74,9 +74,6 @@ const SignUp = () => {
     },
   });
 
-  // FIXME: Перенести в компонент регистрации
-  // Стейт о состоянии регистрации (успех/провал?)
-  // const [signUpState, setSignUpState] = useState({});
   const dispatch = useDispatch();
 
   const signUpState = useSelector((state: RootState) => state.auth);

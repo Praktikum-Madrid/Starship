@@ -11,7 +11,7 @@ import {
 } from 'config/consts';
 import SoundEngine from 'game/soundEngine';
 import Unit from 'game/units/Unit';
-import throttleInput from 'utils/throttleInput';
+import throttleEvent from 'utils/throttleEvent';
 import Background from 'game/units/UnitBackground';
 import Missile from 'game/units/UnitMissile';
 import Opponent, { TYPES_OPPONENTS } from 'game/units/UnitOpponent';
@@ -54,6 +54,10 @@ export default class StarshipGame {
 
   private boss: UnitBossBall | undefined;
 
+  private _limitInput: (callback: Function, arg?: any) => void;
+
+  private _limitBounce: (callback: Function, arg?: any) => void;
+
   constructor(
     ctx: CanvasRenderingContext2D,
     settings: TUserInfo,
@@ -75,6 +79,8 @@ export default class StarshipGame {
     this.score = 0;
     this.settings = settings;
     this.callback = cb;
+    this._limitInput = throttleEvent(200);
+    this._limitBounce = throttleEvent(300);
   }
 
   private init() {
@@ -90,16 +96,13 @@ export default class StarshipGame {
   }
 
   private setEvents() {
-    // Ограничиваем частоту срабатывания ввода
-    const limitInput = throttleInput(200);
-
     window.addEventListener('keydown', (e) => {
       if (e.keyCode === KEYS.ENTER) {
         this.callback.toggleFullscreen();
       }
       if (e.keyCode === KEYS.SPACE) {
         // Ограничиваем частоту стрельбы
-        limitInput(this.spaceship.fire);
+        this._limitInput(this.spaceship.fire);
       }
       if (
         e.keyCode === KEYS.LEFT
@@ -171,9 +174,6 @@ export default class StarshipGame {
     });
 
     this.music.play(); // Включаем музыку
-
-    // FIXME: dev only
-    // this.startBossFight();
   }
 
   private collideMissileToOpponents(missiles: Missile[]) {
@@ -206,17 +206,19 @@ export default class StarshipGame {
   }
 
   private collideStarshipToOpponents() {
-    this.opponents.forEach((opponent) => {
-      if (
-        (opponent
-        && opponent.active
-        && this.spaceship.collideOpponent(opponent))
-        || (this.boss
-          && this.boss.active
-          && this.spaceship.collideOpponent(this.boss))
-      ) {
-        this.sound.play('bump');
-      }
+    this._limitBounce(() => {
+      this.opponents.forEach((opponent) => {
+        if (
+          (opponent
+            && opponent.active
+            && this.spaceship.collideOpponent(opponent))
+          || (this.boss
+            && this.boss.active
+            && this.spaceship.collideOpponent(this.boss))
+        ) {
+          this.sound.play('bump');
+        }
+      });
     });
   }
 
