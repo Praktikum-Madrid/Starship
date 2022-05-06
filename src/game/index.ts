@@ -143,7 +143,7 @@ export default class StarshipGame {
     });
   }
 
-  private createOpponent(col: number, row: number) {
+  private static createOpponent(col: number, row: number) {
     const type = Math.random() < 0.3 ? TYPES_OPPONENTS.METEOR : TYPES_OPPONENTS.SPACESHIP;
     return new Opponent(100 * col + 50, 200 * -row, Math.random() - 0.3, type);
   }
@@ -157,7 +157,7 @@ export default class StarshipGame {
       for (let col = 0; col < this.cols; col += 1) {
         this.opponents.push(
           Math.random() < 0.125
-            ? this.createOpponent(col, row)
+            ? StarshipGame.createOpponent(col, row)
             : null,
         );
       }
@@ -171,9 +171,6 @@ export default class StarshipGame {
     });
 
     this.music.play(); // Включаем музыку
-
-    // FIXME: dev only
-    // this.startBossFight();
   }
 
   private collideMissileToOpponents(missiles: Missile[]) {

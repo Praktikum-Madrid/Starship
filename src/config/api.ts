@@ -11,8 +11,6 @@ export const getUser = '/auth/user';
 export const logOut = '/auth/logout';
 export const oauthYandex = '/oauth/yandex';
 export const getServiceIdYandex = 'https://ya-praktikum.tech/api/v2/oauth/yandex/service-id';
-// TODO доставать из переменной окружения, для yandex должен быть https://madrid-starship-11.ya-praktikum.tech
-// export const redirectURL = 'http://localhost:3000';
 export const redirectURL = 'https://madrid-starship-11.ya-praktikum.tech';
 // Настройки пользователей
 export const saveProfile = '/user/profile';

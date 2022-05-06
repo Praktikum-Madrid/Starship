@@ -1,4 +1,3 @@
-// FIXME: Почему название файла с заглавной буквы? Заглавные буквы только для классов.
 import { createTheme } from '@mui/material/styles';
 
 // const arcBlue = '#0B72B9';

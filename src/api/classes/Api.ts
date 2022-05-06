@@ -18,14 +18,7 @@ class Api {
       withCredentials: true,
     };
 
-    // if (data) {
-    //   options.data = data;
-    // }
-
     if (cookie) {
-      // FIXME: Исправить типизацию
-      /* eslint-disable dot-notation */
-      // @ts-ignore
       options.headers = {
         'Cookie': cookie,
       };
@@ -48,7 +41,6 @@ class Api {
     }
 
     if (cookie) {
-      // FIXME: Исправить типизацию
       /* eslint-disable dot-notation */
       // @ts-ignore
       options.headers['Cookie'] = cookie;

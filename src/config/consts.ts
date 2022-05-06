@@ -59,7 +59,6 @@ export const AUDIOS: string[] = [
   'mission-complete',
 ];
 
-// FIXME: Использовать сгенерированный список спрайтов вместо этого ручного списка
 export const SPRITES: string[] = [
   // 'boss_ball',
   'boss1',

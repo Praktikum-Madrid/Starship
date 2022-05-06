@@ -123,7 +123,6 @@ export const handleGetAvatar = (req: TReq, res: TRes) => {
   }
 };
 
-// FIXME: Этот запрос выполняется без авторизации, и идет в базу данных???
 export const handleGetUserDB = (req: TReq, res: TRes) => {
   const { id } = req.params;
   getUserById(id)

@@ -32,7 +32,7 @@ import {
 import { TPostgresEmotion, TPostgresMessage } from 'types';
 import { PATH } from 'config/consts';
 
-const avatar = '../images/avatar.png'; // TODO доставать по authorId сообщения либо доствать как логин из юзера в бд (перед этим его там завести)
+const avatar = '../images/avatar.png';
 
 const validationSchema = yup.object({
   text: yup

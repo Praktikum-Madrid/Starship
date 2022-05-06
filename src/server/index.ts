@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(checkAuth); // Проверяем авторизацию юзера
 app.use('/', ...publicRouter); // Эти роутеры первыми (не нужна авторизация)
 app.use('/', sitemapRouter); // Эти роутеры первыми (не нужна авторизация)
-app.use('/', ...ssrRouter); // FIXME: Эти роуты должны работать только по соответствующим урлам
+app.use('/', ...ssrRouter); // Эти роуты должны работать только по соответствующим урлам
 app.use('/', protectRoute, ...protectedRouter); // Эти роуты требуют авторизации
 app.use('/', errorRouter); // Эти роуты требуют авторизации
 

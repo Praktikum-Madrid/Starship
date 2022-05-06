@@ -49,7 +49,6 @@ export default function Game() {
   // Состояние звука в приложении
   const [isGameSoundEnabled, setSound] = useState(true);
 
-  // TODO: переписать на отдельный кастомный хук, например useSettings
   const settings = useSelector((state: RootState) => state.settings);
   const { isGameStarted, isGameQuited, score, isFullscreen } = useSelector(
     (state: RootState) => state.game,
